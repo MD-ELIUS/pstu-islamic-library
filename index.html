@@ -1,0 +1,851 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>PSTU Islamic Library</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" />
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    .dropdown {
+      position: relative;
+    }
+    .dropdown-content {
+      position: absolute;
+      z-index: 10;
+      background-color: white;
+      border: 1px solid #15803D;
+      border-radius: 0.75rem;
+      width: 100%;
+      max-height: 250px;
+      overflow-y: auto;
+      display: none;
+      margin-top: 0.5rem;
+      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+      scrollbar-width: thin;
+      scrollbar-color: #15803D #E2E8F0;
+    }
+    .dropdown-content::-webkit-scrollbar {
+      width: 8px;
+    }
+    .dropdown-content::-webkit-scrollbar-track {
+      background: #F0FDF4;
+      border-radius: 0.75rem;
+    }
+    .dropdown-content::-webkit-scrollbar-thumb {
+      background-color: #15803D;
+      border-radius: 0.75rem;
+      border: 2px solid #F0FDF4;
+    }
+    .dropdown-content.active {
+      display: block;
+      animation: slideDown 0.2s ease-out;
+    }
+    .dropdown-content div {
+      padding: 10px 16px;
+      cursor: pointer;
+      color: #15803D;
+      font-weight: 600;
+      transition: all 0.2s ease;
+      border-bottom: 1px solid #DCFCE7;
+    }
+    .dropdown-content div:last-child {
+      border-bottom: none;
+    }
+    .dropdown-content div:hover {
+      background-color: #F0FDF4;
+      padding-left: 20px;
+    }
+    @keyframes slideDown {
+      from {
+        opacity: 0;
+        transform: translateY(-10px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+    input:not(:placeholder-shown), input:focus {
+      border-color: #22c55e; /* green-500 */
+      border-width: 2px;
+      --tw-ring-offset-shadow: var(--tw-ring-inset) 0 0 0 var(--tw-ring-offset-width) var(--tw-ring-offset-color);
+      --tw-ring-shadow: var(--tw-ring-inset) 0 0 0 calc(2px + var(--tw-ring-offset-width)) var(--tw-ring-color);
+      box-shadow: var(--tw-ring-offset-shadow), var(--tw-ring-shadow), var(--tw-shadow, 0 0 #0000);
+      --tw-ring-color: rgb(34 197 94 / 0.5);
+      --tw-ring-opacity: 0.5;
+    }
+    /* Ensure consistent text color for all filter inputs */
+    #categoryInput, #authorInput, #publisherInput {
+      color: #15803d !important; /* green-700 */
+    }
+    /* Base styles for all filter inputs */
+    .filter-input {
+      color: #15803d !important;
+      border-color: #86efac;
+    }
+    /* Specific styles for publisher input */
+    #publisherInput {
+      color: #15803d !important;
+    }
+
+    /* Clear button styles */
+    .clear-btn {
+      position: absolute;
+      right: 12px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: #15803d;
+      cursor: pointer;
+      font-size: 18px;
+      display: none;
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      background: #f0fdf4;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.2s;
+    }
+
+    .clear-btn:hover {
+      background: #dcfce7;
+    }
+
+    input:not(:placeholder-shown) + .clear-btn {
+      display: flex;
+    }
+    
+/* Styles for the main floating button container */
+
+
+/* Keyframes for the pulsing animation */
+@keyframes pulsing {
+  to {
+    /* Updated rgba value to match the contact_icon's background color if that's the desired pulse color */
+    box-shadow: 0 0 0 30px rgba(66, 219, 135, 0); /* Changed from 232, 76, 61 (red) to 66, 219, 135 (green) */
+  }
+}
+
+/* Styles for the WhatsApp icon itself (the green circle) */
+.contact_icon {
+  border-radius: 50px; /* Makes it circular */
+  box-shadow: 2px 2px 3px #999; /* Subtle shadow for depth */
+  transform: translatey(0px); /* This might be for a subtle up/down animation; ensure it works with 'pulsing' */
+  animation: pulse 1.5s infinite; /* If you have a separate 'pulse' animation, keep it. Otherwise, remove. */
+  box-shadow: 0 0 0 0 #42db87; /* Initial state for the pulsing animation */
+  /* Vendor prefixes for cross-browser compatibility for the pulsing animation */
+  -webkit-animation: pulsing 1.25s infinite cubic-bezier(0.66, 0, 0, 1);
+  -moz-animation: pulsing 1.25s infinite cubic-bezier(0.66, 0, 0, 1);
+  -ms-animation: pulsing 1.25s infinite cubic-bezier(0.66, 0, 0, 1);
+  animation: pulsing 1.25s infinite cubic-bezier(0.66, 0, 0, 1); /* Main pulsing animation */
+  font-weight: normal;
+  font-family: sans-serif;
+  text-decoration: none !important; /* Ensures no underline on the link */
+  transition: all 300ms ease-in-out; /* Smooth transitions for other properties */
+}
+
+/* Styles for the text below the icon */
+.text_icon {
+  margin-top: 8px;
+  color: #707070; /* Gray color for the text */
+  font-size: 13px;
+}
+
+/* NEW: Styles for the cross button */
+.close_btn {
+  border-radius: 50%; /* Makes it circular */
+ 
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); /* Subtle shadow */
+  z-index: 1001; /* Ensure it's above the WhatsApp icon */
+  transition: background-color 0.2s ease; /* Smooth hover effect */
+}
+
+.close_btn:hover {
+  background-color: #d32f2f; /* Darker red on hover */
+}
+
+  </style>
+</head>
+<body class="bg-white">
+  
+  <!-- Navbar -->
+  <!--
+  <nav class="bg-white shadow px-6 py-4 flex justify-between items-center">
+    
+    
+    <div class="flex items-center gap-2 text-xl font-bold text-green-700">
+      <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 6v6l4 2"></path></svg>
+      PSTU Islamic Library
+    </div>
+    <div class="flex gap-4">
+      <a href="https://facebook.com" target="_blank" class="text-blue-600 text-2xl"><i class="fa-brands fa-facebook"></i></a>
+      <a href="https://t.me" target="_blank" class="text-sky-500 text-2xl"><i class="fa-brands fa-telegram"></i></a>
+    </div>
+  </nav>
+  
+  -->
+<nav class="sticky top-0 z-50 shadow-md bg-white px-2  md:px-10  flex items-center justify-between relative z-20 ">
+  <div class="flex items-center gap-3 font-extrabold text-green-800 tracking-tight">
+    <img class="w-[60px] h-[60px]
+    md:w-[100px] md:h-[100px] text-green-600 " src="/images/logo.jpg" />
+      
+    
+  </div>
+
+    <div class=" text-[12px] md:text-[20px] font-bold text-green-800 tracking-tight mr-1"> জ্ঞানের আলোয় আলোকিত জীবন </div>
+
+
+  <div class="flex gap-4 sm:gap-5">
+    <a href="https://facebook.com" target="_blank" class="text-blue-600 text-xl  md:text-4xl hover:text-blue-700 transform hover:scale-110 active:scale-95 transition-all duration-200 ease-in-out" aria-label="Facebook Page">
+      <i class="fa-brands fa-facebook"></i>
+    </a>
+    <a href="https://t.me" target="_blank" class="text-sky-500 text-xl md:text-4xl hover:text-sky-600 transform hover:scale-110 active:scale-95 transition-all duration-200 ease-in-out" aria-label="Telegram Channel">
+      <i class="fa-brands fa-telegram"></i>
+    </a>
+  </div>
+</nav>
+
+
+<section class="flex justify-center">
+  <img src="/images/banner1.jpg" alt="" />
+</section>
+  
+ <div class="bg-white pb-[60px] flex justify-center">
+   <button onclick="openRulesModal()" class="bg-white border border-green-600 text-green-700 hover:bg-green-50 font-medium px-6 py-3 rounded-full shadow transition">📘 বই নেওয়ার নিয়ম</button>
+
+ </div> 
+  
+  
+  <!-- Hero Section -->
+  <section class="bg-white py-12 px-4 md:px-10 flex justify-center ">
+      
+      <!-- Text Content -->
+      <div class=" text-center space-y-5">
+        <h1 class="text-xl md:text-2xl font-bold text-green-600">আমাদের ওয়েবসাইটে আপনাকে স্বাগতম</h1>
+        <p class="text-lg text-gray-700 max-w-xl mx-auto md:mx-0">ইসলামিক বই পড়ুন, শিখুন এবং ছড়িয়ে দিন। এখানে রয়েছে আকীদা, ফিকহ, হাদীস, তাফসীরসহ শতাধিক মূল্যবান বই।</p>
+        <div class="flex flex-col sm:flex-row gap-4 justify-center md:justify-start">
+        </div>
+      </div>
+      
+  </section>
+
+  <!-- Filters Section -->
+  <div class="p-6">
+    <div class="max-w-7xl mx-auto">
+      <!-- Search Row -->
+      <div class="mb-6">
+        <label for="bookSearch" class="block text-green-700 font-semibold mb-2 text-center text-lg">
+          <i class="fas fa-search text-green-600 mr-2"></i>বই খুঁজুন
+        </label>
+        <div class="dropdown relative">
+          <input
+            type="text"
+            id="bookSearch"
+            placeholder="📘 বইয়ের নাম লিখুন..."
+            class="filter-input w-full px-4 py-3 border-2 border-green-300 rounded-xl outline-none shadow-sm placeholder:text-green-700 font-semibold placeholder:font-normal text-green-700 transition-all duration-200"
+          />
+          <div class="clear-btn" onclick="clearBookSearch()">×</div>
+          <div id="bookSuggestions" class="dropdown-content"></div>
+        </div>
+      </div>
+
+      <!-- Filters Row -->
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+        <div class="dropdown relative">
+          <input id="categoryInput" type="text" placeholder="ক্যাটাগরি..." 
+            class="filter-input w-full px-4 py-2 border-2 border-green-300 rounded-xl outline-none shadow-sm placeholder:text-green-700 font-semibold placeholder:font-normal text-green-700 transition-all duration-200"
+          />
+          <div class="clear-btn" onclick="clearFilter('categoryInput')">×</div>
+          <div id="categoryDropdown" class="dropdown-content"></div>
+        </div>
+        <div class="dropdown relative">
+          <input id="authorInput" type="text" placeholder="লেখক..." 
+            class="filter-input w-full px-4 py-2 border-2 border-green-300 rounded-xl outline-none shadow-sm placeholder:text-green-700 font-semibold placeholder:font-normal text-green-700 transition-all duration-200"
+          />
+          <div class="clear-btn" onclick="clearFilter('authorInput')">×</div>
+          <div id="authorDropdown" class="dropdown-content"></div>
+        </div>
+        <div class="dropdown relative">
+          <input id="publisherInput" type="text" placeholder="প্রকাশনী..." 
+            class="filter-input w-full px-4 py-2 border-2 border-green-300 rounded-xl outline-none shadow-sm placeholder:text-green-700 font-semibold placeholder:font-normal text-green-700 transition-all duration-200"
+          />
+          <div class="clear-btn" onclick="clearFilter('publisherInput')">×</div>
+          <div id="publisherDropdown" class="dropdown-content"></div>
+        </div>
+      </div>
+
+      <div class="flex justify-center mb-6">
+        <button id="toggleAllBtn" class="px-6 py-2 bg-green-600 text-white rounded-xl text-center hover:bg-green-700 transition duration-200 shadow-md">
+          সবগুলো বই দেখুন
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Book Grid -->
+  <div id="bookGrid" class="p-6 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+    <!-- Book cards will be injected here -->
+  </div>
+
+<section class="bg-white py-12 px-4 md:px-10">
+    <div class="max-w-3xl mx-auto bg-white p-8 rounded-2xl shadow-lg border border-gray-200">
+        <h2 class="text-3xl font-bold text-green-700 text-center mb-6">
+            <i class="fas fa-comment-dots text-green-600 mr-3"></i>প্রতিক্রিয়া ও পরামর্শ
+        </h2>
+        <p class="text-gray-700 text-center mb-8">আমাদের লাইব্রেরি সম্পর্কে আপনার মূল্যবান মতামত, পরামর্শ বা নতুন বইয়ের অনুরোধ জানাতে নিচের ফর্মটি পূরণ করুন।</p>
+
+        <form id="feedbackForm" class="space-y-6" action="https://script.google.com/macros/s/AKfycbyM_XsBiH_AXtW5NtjbnuGJxOLA7YLfmpIuWxBJ4v-b38cfC_HWgc1IdowX3AEBU9oUpA/exec" method="POST">
+            <div>
+                <label for="feedbackName" class="block text-gray-700 text-sm font-semibold mb-2">আপনার নাম (আবশ্যিক):</label>
+                <input type="text" id="feedbackName" name="name" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500" placeholder="আপনার নাম লিখুন" required>
+            </div>
+            <div>
+                <label for="feedbackEmail" class="block text-gray-700 text-sm font-semibold mb-2">আপনার ইমেল (আবশ্যিক):</label>
+                <input type="email" id="feedbackEmail" name="email" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500" placeholder="আপনার ইমেল দিন (যোগাযোগের জন্য)" required>
+            </div>
+            <div>
+                <label for="feedbackType" class="block text-gray-700 text-sm font-semibold mb-2">আপনি কী বিষয়ে জানাতে চান?</label>
+                <select id="feedbackType" name="type" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500">
+                    <option value="suggestion">পরামর্শ</option>
+                    <option value="book_request">বইয়ের অনুরোধ</option>
+                    <option value="service_feedback">পরিষেবা সম্পর্কে মতামত</option>
+                    <option value="other">অন্যান্য</option>
+                </select>
+            </div>
+            <div id="bookRequestField" class="hidden">
+                <label for="bookTitle" class="block text-gray-700 text-sm font-semibold mb-2">বইয়ের নাম (যদি বই অনুরোধ হয়):</label>
+                <input type="text" id="bookTitle" name="book_title" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500" placeholder="অনুরোধকৃত বইয়ের নাম">
+            </div>
+            <div>
+                <label for="feedbackMessage" class="block text-gray-700 text-sm font-semibold mb-2">আপনার বার্তা (আবশ্যিক):</label>
+                <textarea id="feedbackMessage" name="message" rows="5" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500" placeholder="আপনার বার্তা এখানে লিখুন..." required></textarea>
+            </div>
+            <button type="submit" class="w-full bg-green-600 text-white font-semibold py-3 rounded-lg hover:bg-green-700 transition duration-300 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2">
+                জমা দিন
+            </button>
+            <div id="formMessage" class="mt-4 text-center text-sm font-semibold"></div>
+        </form>
+    </div>
+</section>
+
+    
+
+<div class="floating_btn fixed bottom-[0px] md:bottom-[100px] right-[30px] md:right-[100px] w-[100px] h-[100px] flex flex-col items-center justify-center z-[1000]" id="whatsappFloatingButton">
+  <a target="_blank" href="https://chat.whatsapp.com/HahucMqVbYY3LSpcOzpXxq?mode=ac_t">
+    <div class="contact_icon bg-[#42db87] text-white  w-[40px] md:w-[100px] h-[40px] md:h-[100px] text-2xl md:text-6xl flex items-center justify-center">
+      <i class="fa fa-whatsapp my-float"></i>
+    </div>
+  </a>
+  <p class="text_icon">Join with us</p>
+  <span class="close_btn absolute top-[-20px] md:top-[-50px] right-[-20px] md:right-[-50px] bg-[#f44336] text-white  w-[15px] h-[15px] flex justify-center items-center text-[8px] md:text-sm md:font-bold cursor-pointer" onclick="hideWhatsAppButton()">X</span>
+</div>
+
+
+
+
+  <!-- Rules Modal -->
+  <div id="rulesModal" class="fixed inset-0 z-50 bg-black bg-opacity-50 hidden items-center justify-center">
+    <div class="bg-white max-w-md w-full rounded-lg shadow-lg p-6 relative">
+      <button onclick="closeRulesModal()" class="absolute top-2 right-2 text-gray-500 hover:text-black text-lg">&times;</button>
+      <h2 class="text-xl font-bold mb-4 text-green-700">📘 বই নেওয়ার নিয়ম</h2>
+      <ul class="list-disc pl-6 space-y-2 text-gray-700">
+        <li>শুধুমাত্র পটুয়াখালী বিজ্ঞান ও প্রযুক্তি বিশ্ববিদ্যালয় এর শিক্ষার্থীরা এই লাইব্রেরি থেকে বই নিতে পারবেন।</li>
+        <li>প্রতিবারে সর্বোচ্চ ৭ দিনের জন্য বই নেওয়া যাবে (প্রয়োজনে সময় বাড়ানো যাবে 
+        ইন-শা-আল্লাহ)।</li>
+        <li>দায়িত্বশীল ব্যক্তির অনুমতি ব্যতীত বই অন্য কাউকে পড়তে দেওয়া যাবে না।</li>
+        <li>বইয়ে দাগ দেওয়া, লেখালেখি করা সম্পূর্ণ
+ নিষিদ্ধ। বইয়ের পৃষ্ঠা ভাঁজ করা যাবে না, বুকমার্ক ব্যবহার করুন।</li>
+        <li>বই একটি আমানত—তাই এটি ছেঁড়াফাটা, পানি পড়ে নষ্ট হওয়া বা অন্য কোনোভাবে ক্ষতিগ্রস্ত করা খেয়ানত হিসেবে গণ্য হবে। </li>
+        <li>বই হারিয়ে গেলে বা নষ্ট হয়ে গেলে নতুন বই প্রদান করতে হবে।</li>
+             </ul>
+    </div>
+  </div>
+
+
+
+  <!-- Script -->
+  <script>
+    let books = [];
+    let selected = { title: '', category: '', author: '', publisher: '' };
+    let isShowingAll = false;
+
+ let currentPage = 1;
+const booksPerPage = 12;
+
+
+
+    // Store unique values for filtering
+    const uniqueValues = {
+      categories: new Set(),
+      authors: new Set(),
+      publishers: new Set(),
+      titles: new Set()
+    };
+
+    function processUniqueValues(data) {
+      data.forEach(book => {
+        uniqueValues.titles.add(book.title);
+        uniqueValues.categories.add(book.category);
+        uniqueValues.authors.add(book.author);
+        uniqueValues.publishers.add(book.publisher);
+      });
+    }
+
+    async function loadBooks() {
+      try {
+        const response = await fetch('books.json');
+        books = await response.json();
+        
+        // Process the data for filtering
+        processUniqueValues(books);
+        
+        // Set up event listeners for filters
+        attachInputEvents('categoryInput', 'categoryDropdown', 'categories');
+        attachInputEvents('authorInput', 'authorDropdown', 'authors');
+        attachInputEvents('publisherInput', 'publisherDropdown', 'publishers');
+        
+        // Set up search functionality
+        setupSearch();
+        
+        // Initially show no books
+        displayBooks([]);
+        
+      } catch (error) {
+        console.error('Error loading books:', error);
+        document.getElementById('bookGrid').innerHTML = `
+          <div class="col-span-full text-center text-red-600 p-4">
+            <p>দুঃখিত, বইয়ের তথ্য লোড করতে সমস্যা হয়েছে। অনুগ্রহ করে পেজটি রিফ্রেশ করুন।</p>
+          </div>
+        `;
+      }
+      
+    }
+
+    function setupSearch() {
+      const searchInput = document.getElementById("bookSearch");
+      const suggestionsBox = document.getElementById("bookSuggestions");
+      
+      searchInput.addEventListener("input", () => {
+        const searchQuery = searchInput.value.trim().toLowerCase();
+        suggestionsBox.classList.add("active");
+        
+        // Filter books based on search query
+        let filteredBooks = books;
+        if (searchQuery) {
+          filteredBooks = books.filter(book => 
+            book.title.toLowerCase().includes(searchQuery) ||
+            book.author.toLowerCase().includes(searchQuery) ||
+            book.category.toLowerCase().includes(searchQuery) ||
+            book.publisher.toLowerCase().includes(searchQuery)
+          );
+        }
+        
+        updateBookDropdown(filteredBooks);
+      });
+      
+      searchInput.addEventListener("focus", () => {
+        suggestionsBox.classList.add("active");
+        updateBookDropdown(books);
+      });
+      
+      searchInput.addEventListener("blur", () => {
+        setTimeout(() => suggestionsBox.classList.remove("active"), 200);
+      });
+
+      // Add keyboard navigation
+      searchInput.addEventListener('keydown', (e) => {
+        const items = suggestionsBox.querySelectorAll('div.cursor-pointer');
+        const currentIndex = Array.from(items).findIndex(item => item.classList.contains('bg-gray-100'));
+        
+        switch(e.key) {
+          case 'ArrowDown':
+            e.preventDefault();
+            if (currentIndex < items.length - 1) {
+              items[currentIndex]?.classList.remove('bg-gray-100');
+              items[currentIndex + 1]?.classList.add('bg-gray-100');
+              items[currentIndex + 1]?.scrollIntoView({ block: 'nearest' });
+            }
+            break;
+          case 'ArrowUp':
+            e.preventDefault();
+            if (currentIndex > 0) {
+              items[currentIndex]?.classList.remove('bg-gray-100');
+              items[currentIndex - 1]?.classList.add('bg-gray-100');
+              items[currentIndex - 1]?.scrollIntoView({ block: 'nearest' });
+            }
+            break;
+          case 'Enter':
+            e.preventDefault();
+            const selectedItem = items[currentIndex];
+            if (selectedItem) {
+              const bookTitle = selectedItem.querySelector('.font-semibold').textContent;
+              searchInput.value = bookTitle;
+              updateFilters();
+              suggestionsBox.classList.remove("active");
+            }
+            break;
+          case 'Escape':
+            suggestionsBox.classList.remove("active");
+            searchInput.blur();
+            break;
+        }
+      });
+    }
+
+    function updateBookDropdown(filteredBooks) {
+      const dropdown = document.getElementById("bookSuggestions");
+      const searchInput = document.getElementById("bookSearch");
+      const searchQuery = searchInput.value.trim().toLowerCase();
+      
+      dropdown.innerHTML = '';
+      
+      if (filteredBooks.length === 0) {
+        const div = document.createElement("div");
+        div.innerHTML = `<div class="px-2 py-1 text-gray-500 text-center">কোন ফলাফল পাওয়া যায়নি</div>`;
+        dropdown.appendChild(div);
+        return;
+      }
+
+      filteredBooks.forEach(book => {
+        const div = document.createElement("div");
+        div.innerHTML = `
+          <div class="flex flex-col">
+            <span class="font-semibold">${book.title}</span>
+            <span class="text-sm text-gray-600">
+              <i class="fa-solid fa-pen-nib text-green-500 mr-1"></i>${book.author}
+              <span class="mx-1">•</span>
+              <i class="fas fa-folder-open text-green-500 mr-1"></i>${book.category}
+            </span>
+          </div>`;
+        div.classList.add('cursor-pointer', 'px-2', 'py-1', 'hover:bg-gray-100');
+        
+        div.addEventListener('mousedown', () => {
+          searchInput.value = book.title;
+          updateFilters();
+          dropdown.classList.remove("active");
+        });
+        dropdown.appendChild(div);
+      });
+    }
+
+    function updateFilters() {
+      if (!isShowingAll && !selected.category && !selected.author && !selected.publisher && !document.getElementById("bookSearch").value.trim()) {
+        displayBooks([]);
+        return;
+      }
+
+      let filteredBooks = [...books];
+
+      // Apply search filter
+      const searchQuery = document.getElementById("bookSearch").value.trim().toLowerCase();
+      if (searchQuery) {
+        filteredBooks = filteredBooks.filter(book => {
+          const searchLower = searchQuery.toLowerCase();
+          return book.title.toLowerCase() === searchLower || // Exact match for full title
+                 book.title.toLowerCase().includes(searchLower) ||
+                 book.author.toLowerCase().includes(searchLower) ||
+                 book.category.toLowerCase().includes(searchLower) ||
+                 book.publisher.toLowerCase().includes(searchLower);
+        });
+      }
+
+      // Apply other filters
+      if (selected.category) {
+        filteredBooks = filteredBooks.filter(book => book.category === selected.category);
+      }
+      if (selected.author) {
+        filteredBooks = filteredBooks.filter(book => book.author === selected.author);
+      }
+      if (selected.publisher) {
+        filteredBooks = filteredBooks.filter(book => book.publisher === selected.publisher);
+      }
+
+      displayBooks(filteredBooks);
+    }
+
+    function updateDropdown(inputId, dropdownId, items) {
+      const dropdown = document.getElementById(dropdownId);
+      const input = document.getElementById(inputId);
+      const inputValue = input.value.toLowerCase();
+      
+      dropdown.innerHTML = '';
+      
+      if (items.length === 0) {
+        const div = document.createElement('div');
+        div.textContent = 'কোন ফলাফল পাওয়া যায়নি';
+        div.classList.add('px-2', 'py-1', 'text-gray-500', 'text-center');
+        dropdown.appendChild(div);
+        return;
+      }
+
+      const filteredItems = inputValue ? 
+        items.filter(item => item.toLowerCase().includes(inputValue)) : 
+        items;
+
+      filteredItems.sort((a, b) => a.localeCompare(b, 'bn'));
+
+      filteredItems.forEach(item => {
+        const div = document.createElement('div');
+        div.textContent = item;
+        div.classList.add('cursor-pointer', 'px-2', 'py-1', 'hover:bg-gray-100');
+        
+        if (selected[inputId.replace('Input', '')] === item) {
+          div.classList.add('bg-green-50');
+        }
+        
+        div.addEventListener('mousedown', () => {
+          input.value = item;
+          selected[inputId.replace('Input', '')] = item;
+          updateFilters();
+          dropdown.classList.remove('active');
+        });
+        dropdown.appendChild(div);
+      });
+    }
+
+    function attachInputEvents(inputId, dropdownId, type) {
+      const input = document.getElementById(inputId);
+      const dropdown = document.getElementById(dropdownId);
+      
+      input.addEventListener('input', () => {
+        // Get currently filtered books based on other selections
+        let availableItems = [...books];
+        
+        if (selected.category && type !== 'categories') {
+          availableItems = availableItems.filter(book => book.category === selected.category);
+        }
+        if (selected.author && type !== 'authors') {
+          availableItems = availableItems.filter(book => book.author === selected.author);
+        }
+        if (selected.publisher && type !== 'publishers') {
+          availableItems = availableItems.filter(book => book.publisher === selected.publisher);
+        }
+
+        // Extract unique values for this filter type
+        const items = new Set(availableItems.map(book => {
+          switch(type) {
+            case 'categories': return book.category;
+            case 'authors': return book.author;
+            case 'publishers': return book.publisher;
+            default: return '';
+          }
+        }));
+
+        updateDropdown(inputId, dropdownId, Array.from(items));
+        dropdown.classList.add('active');
+      });
+      
+      input.addEventListener('focus', () => {
+        // Same logic as input event
+        let availableItems = [...books];
+        
+        if (selected.category && type !== 'categories') {
+          availableItems = availableItems.filter(book => book.category === selected.category);
+        }
+        if (selected.author && type !== 'authors') {
+          availableItems = availableItems.filter(book => book.author === selected.author);
+        }
+        if (selected.publisher && type !== 'publishers') {
+          availableItems = availableItems.filter(book => book.publisher === selected.publisher);
+        }
+
+        const items = new Set(availableItems.map(book => {
+          switch(type) {
+            case 'categories': return book.category;
+            case 'authors': return book.author;
+            case 'publishers': return book.publisher;
+            default: return '';
+          }
+        }));
+
+        updateDropdown(inputId, dropdownId, Array.from(items));
+        dropdown.classList.add('active');
+      });
+      
+      input.addEventListener('blur', () => {
+        setTimeout(() => dropdown.classList.remove('active'), 200);
+      });
+    }
+
+    function clearBookSearch() {
+      const searchInput = document.getElementById("bookSearch");
+      searchInput.value = '';
+      updateFilters();
+    }
+
+    function clearFilter(inputId) {
+      const input = document.getElementById(inputId);
+      input.value = '';
+      selected[inputId.replace('Input', '')] = '';
+      updateFilters();
+    }
+
+    // Toggle all books button
+    document.getElementById("toggleAllBtn").addEventListener("click", () => {
+      const btn = document.getElementById("toggleAllBtn");
+      if (!isShowingAll) {
+        isShowingAll = true;
+        selected = { title: '', category: '', author: '', publisher: '' };
+        document.getElementById("categoryInput").value = '';
+        document.getElementById("authorInput").value = '';
+        document.getElementById("publisherInput").value = '';
+        document.getElementById("bookSearch").value = '';
+        btn.textContent = "সবগুলো বই হাইড করুন";
+        displayBooks(books);
+      } else {
+        isShowingAll = false;
+        btn.textContent = "সবগুলো বই দেখুন";
+        displayBooks([]);
+      }
+    });
+    
+    
+    function displayBooks(filtered) {
+  const container = document.getElementById('bookGrid');
+  container.innerHTML = '';
+  filtered.forEach(book => {
+    container.innerHTML += `
+      <div class="bg-white rounded-2xl shadow-md p-5 border border-gray-200 transition hover:shadow-lg text-center flex flex-col justify-between">
+        <img src="${book.cover}" alt="cover" class="w-48 mx-auto h-72 object-cover rounded-lg mb-5">
+        <h2 class="text-xl font-semibold mb-1 text-green-700">${book.title}</h2>
+        <p><i class="text-green-500 fa-solid fa-square-pen"></i> লেখক: ${book.author}</p>
+        <p><i class="fas fa-folder-open text-green-500"></i> ক্যাটাগরি: ${book.category}</p>
+        <p><i class="fas fa-building text-green-600"></i> প্রকাশনী: ${book.publisher}</p>
+        <p><i class="fa-solid fa-user text-green-600"></i> বইটির মালিক: ${book.owner_name}</p>
+        <div class="mt-3 justify-center flex gap-2 flex-wrap">
+          <a href="https://wa.me/${book.owner_whatsapp}?text=${encodeURIComponent('আমি "' + book.title + '" বইটি নিতে চাচ্ছি।')}" 
+            target="_blank"
+            class="flex items-center gap-2 bg-green-500 text-white text-sm px-3 py-1.5 rounded hover:bg-green-600 transition">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg" class="w-5 h-5" alt="WhatsApp"/>
+            বইটি নিতে যোগাযোগ করুন
+          </a>
+          <button  
+            class="bg-green-600 text-white text-sm px-3 py-1.5 rounded hover:bg-yellow-600 transition">
+                      <a href="${book.review}" 
+            target="_blank"
+            >
+           <i class="fa-solid fa-book-open"></i>
+           বইটির শর্ট পিডিএফ পড়ুন
+            </a>
+            </button>
+
+        </div>
+      </div>
+    `;
+  });
+}
+    
+    
+
+
+
+
+
+    function openRulesModal() {
+      document.getElementById('rulesModal').classList.remove('hidden');
+      document.getElementById('rulesModal').classList.add('flex');
+    }
+
+    function closeRulesModal() {
+      document.getElementById('rulesModal').classList.add('hidden');
+      document.getElementById('rulesModal').classList.remove('flex');
+    }
+
+    // Initialize on page load
+    loadBooks();
+    
+   
+   
+
+   
+    
+
+  </script>
+
+
+
+<script>
+  function hideWhatsAppButton() {
+    const whatsappButton = document.getElementById('whatsappFloatingButton');
+    if (whatsappButton) {
+      whatsappButton.style.display = 'none'; // This hides the entire floating button
+    }
+  }
+</script>
+
+
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const feedbackForm = document.getElementById('feedbackForm');
+    const feedbackType = document.getElementById('feedbackType');
+    const bookRequestField = document.getElementById('bookRequestField');
+    const bookTitleInput = document.getElementById('bookTitle');
+    const formMessage = document.getElementById('formMessage');
+    
+    // টাইপ পরিবর্তনে বইয়ের নাম ফিল্ড দেখানো/লুকানো
+    feedbackType.addEventListener('change', () => {
+      if (feedbackType.value === 'book_request') {
+        bookRequestField.classList.remove('hidden');
+        bookTitleInput.setAttribute('required', 'true');
+      } else {
+        bookRequestField.classList.add('hidden');
+        bookTitleInput.removeAttribute('required');
+        bookTitleInput.value = '';
+      }
+    });
+    
+    // ফর্ম সাবমিট হ্যান্ডলার
+    feedbackForm.addEventListener('submit', (e) => {
+      e.preventDefault();
+      
+      formMessage.textContent = '';
+      formMessage.classList.remove('text-green-600', 'text-red-600');
+      
+      const name = document.getElementById('feedbackName').value.trim();
+      const email = document.getElementById('feedbackEmail').value.trim();
+      const type = feedbackType.value;
+      const bookTitle = bookTitleInput.value.trim();
+      const message = document.getElementById('feedbackMessage').value.trim();
+      
+      // আবশ্যিক চেক
+      if (!name || !email || !message) {
+        formMessage.textContent = '⚠️ নাম, ইমেল ও বার্তা আবশ্যিক।';
+        formMessage.classList.add('text-red-600');
+        return;
+      }
+      
+      if (type === 'book_request' && !bookTitle) {
+        formMessage.textContent = '⚠️ বইয়ের অনুরোধের জন্য বইয়ের নাম দিন।';
+        formMessage.classList.add('text-red-600');
+        return;
+      }
+      
+      const form = e.target;
+      const data = new FormData(form);
+      
+      fetch(form.action, {
+        method: 'POST',
+        body: data
+      }).then(response => {
+        if (response.ok) {
+          formMessage.textContent = '✅ ধন্যবাদ! আপনার প্রতিক্রিয়া সফলভাবে জমা হয়েছে।';
+          formMessage.classList.add('text-green-600');
+          form.reset();
+          bookRequestField.classList.add('hidden');
+          bookTitleInput.removeAttribute('required');
+        } else {
+          formMessage.textContent = '❌ একটি সমস্যা হয়েছে। আবার চেষ্টা করুন।';
+          formMessage.classList.add('text-red-600');
+        }
+      }).catch(error => {
+        console.error('Error:', error);
+        formMessage.textContent = '❌ নেটওয়ার্ক সমস্যা হয়েছে।';
+        formMessage.classList.add('text-red-600');
+      });
+    });
+  });
+</script>
+</body>
+</html>
