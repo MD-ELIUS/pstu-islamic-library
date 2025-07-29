@@ -827,7 +827,8 @@ const booksPerPage = 12;
       
       fetch(form.action, {
         method: 'POST',
-        body: data
+        body: data,
+        mode: 'no-cors'
       }).then(response => {
         if (response.ok) {
           formMessage.textContent = '✅ ধন্যবাদ! আপনার প্রতিক্রিয়া সফলভাবে জমা হয়েছে।';
