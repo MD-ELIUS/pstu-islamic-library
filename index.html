@@ -777,58 +777,82 @@ const booksPerPage = 12;
 
 
 <script>
-  document.addEventListener('DOMContentLoaded', () => {
-    const feedbackForm = document.getElementById('feedbackForm');
-    const feedbackType = document.getElementById('feedbackType');
-    const bookRequestField = document.getElementById('bookRequestField');
-    const bookTitleInput = document.getElementById('bookTitle');
-    const formMessage = document.getElementById('formMessage');
-    
-    // টাইপ পরিবর্তনে বইয়ের নাম ফিল্ড দেখানো/লুকানো
-    feedbackType.addEventListener('change', () => {
-      if (feedbackType.value === 'book_request') {
-        bookRequestField.classList.remove('hidden');
-        bookTitleInput.setAttribute('required', 'true');
-      } else {
-        bookRequestField.classList.add('hidden');
-        bookTitleInput.removeAttribute('required');
-        bookTitleInput.value = '';
-      }
-    });
-    
-    // ফর্ম সাবমিট হ্যান্ডলার
-   // পুরাতন fetch() ব্লকটি মুছে দিন এবং নিচেরটা বসান
+document.addEventListener('DOMContentLoaded', () => {
+  const feedbackForm = document.getElementById('feedbackForm');
+  const feedbackType = document.getElementById('feedbackType');
+  const bookRequestField = document.getElementById('bookRequestField');
+  const bookTitleInput = document.getElementById('bookTitle');
+  const formMessage = document.getElementById('formMessage');
 
-const formData = new URLSearchParams();
-formData.append('name', name);
-formData.append('email', email);
-formData.append('type', type);
-formData.append('book_title', bookTitle);
-formData.append('message', message);
+  // টাইপ পরিবর্তনে বইয়ের নাম ফিল্ড দেখানো/লুকানো
+  feedbackType.addEventListener('change', () => {
+    if (feedbackType.value === 'book_request') {
+      bookRequestField.classList.remove('hidden');
+      bookTitleInput.setAttribute('required', 'true');
+    } else {
+      bookRequestField.classList.add('hidden');
+      bookTitleInput.removeAttribute('required');
+      bookTitleInput.value = '';
+    }
+  });
 
-fetch(form.action, {
-  method: 'POST',
-  headers: {
-    'Content-Type': 'application/x-www-form-urlencoded'
-  },
-  body: formData
-})
-.then(response => response.text())
-.then(text => {
-  formMessage.textContent = '✅ ধন্যবাদ! আপনার প্রতিক্রিয়া সফলভাবে জমা হয়েছে।';
-  formMessage.classList.add('text-green-600');
-  feedbackForm.reset();
-  bookRequestField.classList.add('hidden');
-  bookTitleInput.removeAttribute('required');
-})
-.catch(error => {
-  console.error('Error:', error);
-  formMessage.textContent = '❌ নেটওয়ার্ক সমস্যা হয়েছে।';
-  formMessage.classList.add('text-red-600');
-});
+  // ফর্ম সাবমিট হ্যান্ডলার
+  feedbackForm.addEventListener('submit', (e) => {
+    e.preventDefault();
 
+    formMessage.textContent = '';
+    formMessage.classList.remove('text-green-600', 'text-red-600');
+
+    const name = document.getElementById('feedbackName').value.trim();
+    const email = document.getElementById('feedbackEmail').value.trim();
+    const type = feedbackType.value;
+    const bookTitle = bookTitleInput.value.trim();
+    const message = document.getElementById('feedbackMessage').value.trim();
+
+    // আবশ্যিক চেক
+    if (!name || !email || !message) {
+      formMessage.textContent = '⚠️ নাম, ইমেল ও বার্তা আবশ্যিক।';
+      formMessage.classList.add('text-red-600');
+      return;
+    }
+
+    if (type === 'book_request' && !bookTitle) {
+      formMessage.textContent = '⚠️ বইয়ের অনুরোধের জন্য বইয়ের নাম দিন।';
+      formMessage.classList.add('text-red-600');
+      return;
+    }
+
+    // ✅ URLSearchParams দিয়ে Data পাঠানো
+    const formData = new URLSearchParams();
+    formData.append('name', name);
+    formData.append('email', email);
+    formData.append('type', type);
+    formData.append('book_title', bookTitle);
+    formData.append('message', message);
+
+    fetch(feedbackForm.action, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded'
+      },
+      body: formData
+    })
+    .then(response => response.text())
+    .then(text => {
+      formMessage.textContent = '✅ ধন্যবাদ! আপনার প্রতিক্রিয়া সফলভাবে জমা হয়েছে।';
+      formMessage.classList.add('text-green-600');
+      feedbackForm.reset();
+      bookRequestField.classList.add('hidden');
+      bookTitleInput.removeAttribute('required');
+    })
+    .catch(error => {
+      console.error('Error:', error);
+      formMessage.textContent = '❌ নেটওয়ার্ক সমস্যা হয়েছে।';
+      formMessage.classList.add('text-red-600');
     });
   });
+});
 </script>
+
 </body>
 </html>
