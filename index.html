@@ -826,25 +826,22 @@ const booksPerPage = 12;
       const data = new FormData(form);
       
       fetch(form.action, {
-        method: 'POST',
-        body: data,
-        mode: 'no-cors'
-      }).then(response => {
-        if (response.ok) {
-          formMessage.textContent = '✅ ধন্যবাদ! আপনার প্রতিক্রিয়া সফলভাবে জমা হয়েছে।';
-          formMessage.classList.add('text-green-600');
-          form.reset();
-          bookRequestField.classList.add('hidden');
-          bookTitleInput.removeAttribute('required');
-        } else {
-          formMessage.textContent = '❌ একটি সমস্যা হয়েছে। আবার চেষ্টা করুন।';
-          formMessage.classList.add('text-red-600');
-        }
-      }).catch(error => {
-        console.error('Error:', error);
-        formMessage.textContent = '❌ নেটওয়ার্ক সমস্যা হয়েছে।';
-        formMessage.classList.add('text-red-600');
-      });
+  method: 'POST',
+  body: data,
+  mode: 'no-cors'
+})
+.then(() => {
+  formMessage.textContent = '✅ ধন্যবাদ! আপনার প্রতিক্রিয়া সফলভাবে জমা হয়েছে।';
+  formMessage.classList.add('text-green-600');
+  form.reset();
+  bookRequestField.classList.add('hidden');
+  bookTitleInput.removeAttribute('required');
+})
+.catch(error => {
+  console.error('Error:', error);
+  formMessage.textContent = '❌ নেটওয়ার্ক সমস্যা হয়েছে।';
+  formMessage.classList.add('text-red-600');
+});
     });
   });
 </script>
