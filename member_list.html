@@ -75,7 +75,8 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', async () => {
-            const appScriptURL = 'YOUR_MEMBER_REGISTRATION_APPS_SCRIPT_WEB_APP_URL_HERE'; // <<< এটি আপনার Apps Script Web App URL দিয়ে পরিবর্তন করুন
+            // *** আপনার Apps Script Web App URL এখানে দিন (এটি আপনার ফর্ম সাবমিশন URL এর মতোই হবে) ***
+            const appScriptURL = 'YOUR_APPS_SCRIPT_WEB_APP_URL_HERE'; 
             
             const membersContainer = document.getElementById('membersContainer');
             const loadingDiv = document.getElementById('loading');
@@ -83,14 +84,15 @@
             const noMembersFoundDiv = document.getElementById('noMembersFound');
 
             try {
-                const response = await fetch(`${appScriptURL}?action=getMembersData`);
+                // 'action=getApprovedMembersData' প্যারামিটার যোগ করে Apps Script এর doGet ফাংশন কল করা হচ্ছে
+                const response = await fetch(`${'https://script.google.com/macros/s/AKfycbx8BVLP4SQjfysd_AsZIqKsFHQpRNcY946phJloWURz_J74NoBAugn9NbG3A2gl_T7y0Q/exec'}?action=getApprovedMembersData`);
                 if (!response.ok) {
                     throw new Error(`HTTP error! status: ${response.status}`);
                 }
                 const data = await response.json();
-                console.log(data); // For debugging
+                console.log(data); // ডিবাগিং এর জন্য কনসোলে ডেটা দেখাবে
 
-                loadingDiv.classList.add('hidden'); // Hide loading spinner
+                loadingDiv.classList.add('hidden'); // লোডিং স্পিনার লুকান
 
                 if (data.error) {
                     errorMessageDiv.textContent = `Error: ${data.error}`;
@@ -99,26 +101,32 @@
                 }
 
                 if (data.members && data.members.length > 0) {
+                    // সদস্যদের নাম অনুযায়ী বর্ণানুক্রমিকভাবে সাজানো
+                    data.members.sort((a, b) => a.memberName.localeCompare(b.memberName, 'bn', { sensitivity: 'base' }));
+
                     data.members.forEach(member => {
-                        const memberCard = `
+                        const memberCardHtml = `
                             <div class="member-card">
-                                <h3><i class="fas fa-user-circle mr-2 text-green-500"></i>${member['Member Name']}</h3>
-                                <p><span>পিতা:</span> ${member["Father's Name"] || 'N/A'}</p>
-                                <p><span>মাতা:</span> ${member["Mother's Name"] || 'N/A'}</p>
-                                <p><span>রক্তের গ্রুপ:</span> ${member['Blood Group'] || 'N/A'}</p>
-                                <p><span>ফোন:</span> ${member.Phone || 'N/A'}</p>
-                                <p><span>ইমেইল:</span> ${member.Email || 'N/A'}</p>
-                                <p><span>ঠিকানা:</span> ${member.Address || 'N/A'}</p>
-                                <p><span>শিক্ষার্থী আইডি:</span> ${member['Student ID'] || 'N/A'}</p>
-                                <p><span>ডিপার্টমেন্ট:</span> ${member.Department || 'N/A'}</p>
-                                <p><span>সেশন:</span> ${member.Session || 'N/A'}</p>
-                                <p><span>যোগদানের তারিখ:</span> ${member['Joining Date'] || 'N/A'}</p>
+                                <h3><i class="fas fa-user-circle mr-2 text-green-500"></i>${member.memberName}</h3>
+                                <p><span>ফ্যাকাল্টি:</span> ${member.memberFaculty || 'N/A'}</p>
+                                <p><span>সেশন:</span> ${member.memberSession || 'N/A'}</p>
+                                <p><span>হল:</span> ${member.memberHall || 'N/A'}</p>
+                                <p><span>ইমেইল:</span> ${member.memberEmail || 'N/A'}</p>
+                                <p><span>ফোন:</span> ${member.memberPhone || 'N/A'}</p>
+                                <!-- আপনার Google Sheet এ বর্তমানে এই কলামগুলো নেই, তাই এগুলো বাদ দেওয়া হয়েছে -->
+                                <!-- <p><span>পিতা:</span> ${member["Father's Name"] || 'N/A'}</p> -->
+                                <!-- <p><span>মাতা:</span> ${member["Mother's Name"] || 'N/A'}</p> -->
+                                <!-- <p><span>রক্তের গ্রুপ:</span> ${member['Blood Group'] || 'N/A'}</p> -->
+                                <!-- <p><span>ঠিকানা:</span> ${member.Address || 'N/A'}</p> -->
+                                <!-- <p><span>শিক্ষার্থী আইডি:</span> ${member['Student ID'] || 'N/A'}</p> -->
+                                <!-- <p><span>ডিপার্টমেন্ট:</span> ${member.Department || 'N/A'}</p> -->
+                                <!-- <p><span>যোগদানের তারিখ:</span> ${member['Joining Date'] || 'N/A'}</p> -->
                             </div>
                         `;
-                        membersContainer.insertAdjacentHTML('beforeend', memberCard);
+                        membersContainer.insertAdjacentHTML('beforeend', memberCardHtml);
                     });
                 } else {
-                    noMembersFoundDiv.classList.remove('hidden'); // Show no members message
+                    noMembersFoundDiv.classList.remove('hidden'); // কোনো সদস্য না থাকলে বার্তা দেখান
                 }
 
             } catch (error) {
