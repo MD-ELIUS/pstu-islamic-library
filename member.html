@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>সদস্য নিবন্ধন ফর্ম - PSTU Islamic Library</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Bengali:wght@400;700&family=Amiri:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        body {
+            font-family: 'Noto Sans Bengali', sans-serif;
+        }
+        .amiri-font {
+            font-family: 'Amiri', serif;
+        }
+    </style>
+</head>
+<body class="bg-gray-100 flex items-center justify-center min-h-screen p-4">
+    <div class="bg-white p-8 rounded-lg shadow-xl w-full max-w-lg">
+        <h2 class="text-3xl font-extrabold text-center text-blue-800 mb-4 amiri-font">PSTU Islamic Library</h2>
+        <h3 class="text-2xl font-bold text-center text-gray-800 mb-6">সদস্য নিবন্ধন ফর্ম</h3>
+
+        <form id="memberRegistrationForm" class="space-y-6">
+            <div>
+                <label for="memberName" class="block text-gray-700 font-semibold mb-2 text-md">
+                    <i class="fas fa-user-circle text-blue-600 mr-2"></i>আপনার নাম:
+                </label>
+                <input type="text" id="memberName" name="memberName" required
+                       class="w-full px-4 py-3 border-2 border-blue-300 rounded-xl outline-none shadow-sm placeholder:text-gray-500 font-semibold placeholder:font-normal text-gray-800 transition-all duration-200 focus:border-blue-500">
+            </div>
+
+            <div>
+                <label for="memberFaculty" class="block text-gray-700 font-semibold mb-2 text-md">
+                    <i class="fas fa-university text-blue-600 mr-2"></i>ফ্যাকাল্টি:
+                </label>
+                <input type="text" id="memberFaculty" name="memberFaculty" required
+                       class="w-full px-4 py-3 border-2 border-blue-300 rounded-xl outline-none shadow-sm placeholder:text-gray-500 font-semibold placeholder:font-normal text-gray-800 transition-all duration-200 focus:border-blue-500">
+            </div>
+
+            <div>
+                <label for="memberSession" class="block text-gray-700 font-semibold mb-2 text-md">
+                    <i class="fas fa-calendar-alt text-blue-600 mr-2"></i>সেশন:
+                </label>
+                <input type="text" id="memberSession" name="memberSession" required
+                       class="w-full px-4 py-3 border-2 border-blue-300 rounded-xl outline-none shadow-sm placeholder:text-gray-500 font-semibold placeholder:font-normal text-gray-800 transition-all duration-200 focus:border-blue-500">
+            </div>
+
+            <div>
+                <label for="memberHall" class="block text-gray-700 font-semibold mb-2 text-md">
+                    <i class="fas fa-house-user text-blue-600 mr-2"></i>হল:
+                </label>
+                <input type="text" id="memberHall" name="memberHall" required
+                       class="w-full px-4 py-3 border-2 border-blue-300 rounded-xl outline-none shadow-sm placeholder:text-gray-500 font-semibold placeholder:font-normal text-gray-800 transition-all duration-200 focus:border-blue-500">
+            </div>
+
+            <div>
+                <label for="memberEmail" class="block text-gray-700 font-semibold mb-2 text-md">
+                    <i class="fas fa-envelope text-blue-600 mr-2"></i>ইমেইল:
+                </label>
+                <input type="email" id="memberEmail" name="memberEmail" required
+                       class="w-full px-4 py-3 border-2 border-blue-300 rounded-xl outline-none shadow-sm placeholder:text-gray-500 font-semibold placeholder:font-normal text-gray-800 transition-all duration-200 focus:border-blue-500">
+            </div>
+
+            <div>
+                <label for="memberPhone" class="block text-gray-700 font-semibold mb-2 text-md">
+                    <i class="fas fa-phone-alt text-blue-600 mr-2"></i>ফোন নম্বর:
+                </label>
+                <input type="tel" id="memberPhone" name="memberPhone" pattern="[0-9]{10,11}" placeholder="যেমন: ০১৭০০০০০০০০" required
+                       class="w-full px-4 py-3 border-2 border-blue-300 rounded-xl outline-none shadow-sm placeholder:text-gray-500 font-semibold placeholder:font-normal text-gray-800 transition-all duration-200 focus:border-blue-500">
+                <p class="mt-1 text-sm text-gray-500">১১-সংখ্যার মোবাইল নম্বর দিন।</p>
+            </div>
+
+            <button type="submit" id="submitButton"
+                    class="w-full flex justify-center py-3 px-4 border border-transparent rounded-md shadow-sm text-lg font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition duration-300 ease-in-out">
+                <span id="buttonText">নিবন্ধন করুন</span>
+                <i id="loadingSpinner" class="fas fa-spinner fa-spin ml-2 hidden"></i>
+            </button>
+            <p id="formStatus" class="mt-4 text-center text-sm font-semibold"></p>
+        </form>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const form = document.getElementById('memberRegistrationForm');
+            const submitButton = document.getElementById('submitButton');
+            const buttonText = document.getElementById('buttonText');
+            const loadingSpinner = document.getElementById('loadingSpinner');
+            const formStatus = document.getElementById('formStatus');
+
+            form.addEventListener('submit', async (event) => {
+                event.preventDefault();
+
+                // Disable button and show loading spinner
+                submitButton.disabled = true;
+                buttonText.textContent = 'নিবন্ধন হচ্ছে...';
+                loadingSpinner.classList.remove('hidden');
+                formStatus.textContent = ''; // Clear previous status messages
+                formStatus.classList.remove('text-green-600', 'text-red-600');
+
+                const formData = {
+                    memberName: document.getElementById('memberName').value,
+                    memberFaculty: document.getElementById('memberFaculty').value,
+                    memberSession: document.getElementById('memberSession').value,
+                    memberHall: document.getElementById('memberHall').value,
+                    memberEmail: document.getElementById('memberEmail').value,
+                    memberPhone: document.getElementById('memberPhone').value,
+                    registrationDate: new Date().toISOString().slice(0, 10) // YYYY-MM-DD
+                };
+
+                // REPLACE WITH YOUR DEPLOYED GOOGLE APPS SCRIPT WEB APP URL
+                const appScriptURL = 'https://script.google.com/macros/s/AKfycbyY2nQpKukZNImUGgor5sp3Fi1GMXfu9ViGbe_Rbxf5t-J8_0-eeW5NnIHIkt9XhvcfNg/exec'; // *** এটি পরিবর্তন করতে হবে ***
+
+                try {
+                    const response = await fetch(appScriptURL, {
+                        method: 'POST',
+                        mode: 'no-cors', // Use 'no-cors' for simple POST requests to Apps Script
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify(formData),
+                    });
+
+                    // For 'no-cors', response.ok will always be false, and status will be 0.
+                    // You'll need to rely on the Apps Script to confirm success (e.g., by checking the Google Sheet).
+                    // Display a success message immediately as we assume success for no-cors.
+                    formStatus.textContent = 'আপনার নিবন্ধন সফলভাবে সম্পন্ন হয়েছে! ইমেইল চেক করুন।';
+                    formStatus.classList.add('text-green-600');
+                    form.reset(); // Clear the form
+
+                } catch (error) {
+                    console.error('Error submitting form:', error);
+                    formStatus.textContent = 'নিবন্ধন জমা দিতে সমস্যা হয়েছে। অনুগ্রহ করে আবার চেষ্টা করুন।';
+                    formStatus.classList.add('text-red-600');
+                } finally {
+                    // Re-enable button and hide loading spinner
+                    submitButton.disabled = false;
+                    buttonText.textContent = 'নিবন্ধন করুন';
+                    loadingSpinner.classList.add('hidden');
+                }
+            });
+        });
+    </script>
+</body>
+</html>

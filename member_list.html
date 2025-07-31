@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>আমাদের সদস্যগণ - PSTU Islamic Library</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Bengali:wght@400;700&family=Amiri:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        body { font-family: 'Noto Sans Bengali', sans-serif; background-color: #f8fafc; color: #333; line-height: 1.6; }
+        .amiri-font { font-family: 'Amiri', serif; }
+        .container { @apply mx-auto p-4 max-w-6xl; }
+        .member-card {
+            @apply bg-white p-6 rounded-lg shadow-lg hover:shadow-xl transition-shadow duration-300 transform hover:-translate-y-1;
+            border: 1px solid #e2e8f0; /* light gray border */
+        }
+        .member-card h3 {
+            @apply text-xl font-bold text-green-700 mb-2;
+        }
+        .member-card p {
+            @apply text-gray-700 text-base mb-1;
+        }
+        .member-card p span {
+            @apply font-semibold text-gray-800;
+        }
+        .loading-spinner {
+            border: 4px solid #f3f3f3; /* Light grey */
+            border-top: 4px solid #10b981; /* Tailwind green-500 */
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body>
+    <header class="text-center py-10 bg-gradient-to-r from-green-700 to-emerald-800 text-white rounded-b-3xl shadow-lg mb-12">
+        <h1 class="text-5xl md:text-6xl font-extrabold amiri-font mb-3">PSTU Islamic Library</h1>
+        <p class="text-xl md:text-2xl font-medium opacity-90">আমাদের সম্মানিত সদস্যবৃন্দ</p>
+    </header>
+
+    <main class="container">
+        <h2 class="text-4xl md:text-5xl font-extrabold text-center text-gray-800 mb-12 tracking-wide border-b-4 border-green-600 pb-4 inline-block mx-auto leading-tight">
+            সদস্যদের তালিকা
+        </h2>
+
+        <div id="membersContainer" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
+            </div>
+
+        <div id="loading" class="flex justify-center items-center py-10">
+            <div class="loading-spinner"></div>
+            <p class="ml-4 text-xl text-gray-600">সদস্যদের তথ্য লোড হচ্ছে...</p>
+        </div>
+
+        <div id="errorMessage" class="hidden text-center py-10 text-red-600 text-xl font-semibold">
+            সদস্যদের তথ্য লোড করতে সমস্যা হয়েছে। অনুগ্রহ করে পরে আবার চেষ্টা করুন।
+        </div>
+        
+        <div id="noMembersFound" class="hidden text-center py-10 text-gray-600 text-xl font-semibold">
+            বর্তমানে কোনো সদস্যের তথ্য খুঁজে পাওয়া যায়নি।
+        </div>
+    </main>
+
+    <footer class="text-center py-8 mt-16 bg-gray-800 text-gray-300 text-sm">
+        <p>&copy; 2025 PSTU Islamic Library. সর্বস্বত্ব সংরক্ষিত।</p>
+        <p class="mt-2">ডিজাইন ও ডেভেলপমেন্ট: আপনার নাম/টিম</p>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', async () => {
+            const appScriptURL = 'YOUR_MEMBER_REGISTRATION_APPS_SCRIPT_WEB_APP_URL_HERE'; // <<< এটি আপনার Apps Script Web App URL দিয়ে পরিবর্তন করুন
+            
+            const membersContainer = document.getElementById('membersContainer');
+            const loadingDiv = document.getElementById('loading');
+            const errorMessageDiv = document.getElementById('errorMessage');
+            const noMembersFoundDiv = document.getElementById('noMembersFound');
+
+            try {
+                const response = await fetch(`${appScriptURL}?action=getMembersData`);
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                const data = await response.json();
+                console.log(data); // For debugging
+
+                loadingDiv.classList.add('hidden'); // Hide loading spinner
+
+                if (data.error) {
+                    errorMessageDiv.textContent = `Error: ${data.error}`;
+                    errorMessageDiv.classList.remove('hidden');
+                    return;
+                }
+
+                if (data.members && data.members.length > 0) {
+                    data.members.forEach(member => {
+                        const memberCard = `
+                            <div class="member-card">
+                                <h3><i class="fas fa-user-circle mr-2 text-green-500"></i>${member['Member Name']}</h3>
+                                <p><span>পিতা:</span> ${member["Father's Name"] || 'N/A'}</p>
+                                <p><span>মাতা:</span> ${member["Mother's Name"] || 'N/A'}</p>
+                                <p><span>রক্তের গ্রুপ:</span> ${member['Blood Group'] || 'N/A'}</p>
+                                <p><span>ফোন:</span> ${member.Phone || 'N/A'}</p>
+                                <p><span>ইমেইল:</span> ${member.Email || 'N/A'}</p>
+                                <p><span>ঠিকানা:</span> ${member.Address || 'N/A'}</p>
+                                <p><span>শিক্ষার্থী আইডি:</span> ${member['Student ID'] || 'N/A'}</p>
+                                <p><span>ডিপার্টমেন্ট:</span> ${member.Department || 'N/A'}</p>
+                                <p><span>সেশন:</span> ${member.Session || 'N/A'}</p>
+                                <p><span>যোগদানের তারিখ:</span> ${member['Joining Date'] || 'N/A'}</p>
+                            </div>
+                        `;
+                        membersContainer.insertAdjacentHTML('beforeend', memberCard);
+                    });
+                } else {
+                    noMembersFoundDiv.classList.remove('hidden'); // Show no members message
+                }
+
+            } catch (error) {
+                console.error('Error fetching members data:', error);
+                loadingDiv.classList.add('hidden');
+                errorMessageDiv.classList.remove('hidden');
+            }
+        });
+    </script>
+</body>
+</html>

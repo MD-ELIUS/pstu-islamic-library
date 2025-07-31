@@ -7,6 +7,64 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" />
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
   <script src="https://cdn.tailwindcss.com"></script>
+
+  <style>
+    .gradient-text {
+            background: linear-gradient(135deg, #28a745 0%, #218838 100%); /* সবুজ রঙের শেড */
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .glow-effect {
+            text-shadow: 0 0 20px rgba(40, 167, 69, 0.3); /* সবুজ রঙের গ্লো */
+        }
+        
+        .floating {
+            animation: float 3s ease-in-out infinite;
+        }
+        
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+        }
+        
+        .decorative-line {
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .decorative-line::before {
+            content: '';
+            position: absolute;
+            top: 55%;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, #28a745, #218838, transparent); /* সবুজ রঙের লাইন */
+            transform: translateY(-50%);
+            animation: shimmer 2s infinite;
+        }
+        
+        @keyframes shimmer {
+            0% { transform: translateY(-50%) translateX(-100%); }
+            100% { transform: translateY(-50%) translateX(100%); }
+        }
+        
+        .ornament {
+            display: inline-block;
+            color: #28a745; /* সবুজ রঙের অলঙ্কার */
+            margin: 0 15px;
+            font-size: 1.5em;
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { opacity: 0.6; transform: scale(1); }
+            50% { opacity: 1; transform: scale(1.1); }
+        }
+  </style>
+
   <style>
     .dropdown {
       position: relative;
@@ -170,22 +228,7 @@
 </head>
 <body class="bg-white">
   
-  <!-- Navbar -->
-  <!--
-  <nav class="bg-white shadow px-6 py-4 flex justify-between items-center">
-    
-    
-    <div class="flex items-center gap-2 text-xl font-bold text-green-700">
-      <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 6v6l4 2"></path></svg>
-      PSTU Islamic Library
-    </div>
-    <div class="flex gap-4">
-      <a href="https://facebook.com" target="_blank" class="text-blue-600 text-2xl"><i class="fa-brands fa-facebook"></i></a>
-      <a href="https://t.me" target="_blank" class="text-sky-500 text-2xl"><i class="fa-brands fa-telegram"></i></a>
-    </div>
-  </nav>
-  
-  -->
+ <!-- Navbar Section -->
 <nav class="sticky top-0 z-50 shadow-md bg-white px-2  md:px-10  flex items-center justify-between relative z-20 ">
   <div class="flex items-center gap-3 font-extrabold text-green-800 tracking-tight">
     <img class="w-[60px] h-[60px]
@@ -207,32 +250,101 @@
   </div>
 </nav>
 
-
+<!-- Banner Section -->
 <section class="flex justify-center">
   <img src="./images/banner1.jpg" alt="" />
 </section>
   
- <div class="bg-white pb-[60px] flex justify-center">
-   <button onclick="openRulesModal()" class="bg-white border border-green-600 text-green-700 hover:bg-green-50 font-medium px-6 py-3 rounded-full shadow transition">📘 বই নেওয়ার নিয়ম</button>
+ 
+<!-- Welcome Section -->
+ 
+<section class=" py-4  px-4 md:px-10 flex flex-col items-center justify-center  text-center ">
+    <div class="">
+        <div class="floating mb-2 text-center">
+  <h2 class="text-xl md:text-4xl lg:text-6xl font-extrabold gradient-text  ">
+   আমাদের ওয়েবসাইটে আপনাকে স্বাগতম
+  </h2>
+</div>
+   <!-- Decorative Elements -->
+<div class="decorative-line mb-8 h-9 relative text-center">
+  <span class="ornament">❋</span>
+  <span class="ornament">✦</span>
+  <span class="ornament">❋</span>
+</div>   
+
+  <p class="text-lg text-[rgba(0,0,0,0.5)] md:text-2xl max-w-3xl mx-auto fade-in-up delay-200 mt-[80px]"> 
+    ইসলামিক বই পড়ুন, শিখুন এবং ছড়িয়ে দিন। এখানে রয়েছে আকীদা, ফিকহ, হাদীস, তাফসীরসহ শতাধিক মূল্যবান বই।
+  </p>
+        
+         <div class="bg-white flex justify-center my-8 ">
+   <button onclick="openRulesModal()" class="bg-green-600 border border-green-600 text-white hover:bg-green-700  px-6 py-2 rounded-xl shadow transition">
+  বই নেওয়ার নিয়ম <i class="fa-solid fa-file-pen ml-[3px]"></i></button>
 
  </div> 
-  
-  
-  <!-- Hero Section -->
-  <section class="bg-white py-12 px-4 md:px-10 flex justify-center ">
-      
-      <!-- Text Content -->
-      <div class=" text-center space-y-5">
-        <h1 class="text-xl md:text-2xl font-bold text-green-600">আমাদের ওয়েবসাইটে আপনাকে স্বাগতম</h1>
-        <p class="text-lg text-gray-700 max-w-xl mx-auto md:mx-0">ইসলামিক বই পড়ুন, শিখুন এবং ছড়িয়ে দিন। এখানে রয়েছে আকীদা, ফিকহ, হাদীস, তাফসীরসহ শতাধিক মূল্যবান বই।</p>
-        <div class="flex flex-col sm:flex-row gap-4 justify-center md:justify-start">
+
+        
+        <div class=" fade-in-up delay-400">
+            <a href="#filter_section" class="inline-block bg-green-600 border border-green-600 text-white hover:bg-green-700 px-6 py-2 rounded-xl  shadow-xl transition ">
+                বই সংগ্রহ দেখুন <i class="fa-solid fa-arrow-down ml-[3px]"></i>
+            </a>
         </div>
+        
+        
+    </div>
+</section>
+
+
+<!-- Video Section  -->
+<section class="p-6 bg-white rounded-xl mx-auto max-w-7xl  my-[80px]">
+    <div class="relative overflow-hidden rounded-lg shadow-lg" style="padding-top: 56.25%;">
+      <iframe class="absolute top-0 left-0 w-full h-full"
+        src="https://www.youtube.com/embed/3VYrHJyMzn0?si=CZjYIjYNJ3HMFiDA"
+        title="YouTube video player"
+        frameborder="0"
+        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+        allowfullscreen>
+      </iframe>
+    </div>
+    <div class="text-center mt-4 text-gray-700 text-[10px] md:text-[22px]">
+      <p>দ্বীনি ইলম অর্জন ও বই পাঠের গুরুত্ব সম্পর্কে বিস্তারিত জানতে ভিডিওটি দেখুন</p>
+    </div>
+</section>
+
+
+
+<!-- Book quotes Section -->
+  
+ <section id="quote-slider" class="w-full flex justify-center text-center  my-[80px]">
+  <div id="book-quote" class="w-full text-gray-800">
+    লোড হচ্ছে...
+  </div>
+</section>
+
+
+<!-- Article Section -->
+
+<section class="p-6 bg-white rounded-xl mx-auto max-w-7xl  my-[80px] justify-center">
+    <h2 class="text-lg md:text-3xl font-extrabold text-green-800 text-center mb-6 flex flex-col sm:flex-row items-center justify-center gap-3">
+      <span class="bg-gradient-to-r from-green-600 to-green-800 text-white px-4 py-2 rounded-lg shadow-md tracking-wide">
+        ইসলামিক বই পাঠ: গুরুত্বপূর্ণ আর্টিকেল
+      </span>
+    </h2>
+    <div id="articlesContainer" class="space-y-4 text-center">
       </div>
       
-  </section>
+    <div class="text-center mt-6">
+  <button id="loadMoreBtn" onclick="showMoreArticles()" class="px-6 py-2 bg-green-600 text-white rounded-xl hover:bg-green-700 transition">
+    আরও দেখুন
+  </button>
+</div>  
+      
+      
+</section>
 
-  <!-- Filters Section -->
-  <div class="p-6">
+
+
+<!-- Filters Section -->
+  <div class="p-6 scroll-mt-[100px] md:scroll-mt-[120px]" id="filter_section">
     <div class="max-w-7xl mx-auto">
       <!-- Search Row -->
       <div class="mb-6">
@@ -284,11 +396,74 @@
     </div>
   </div>
 
-  <!-- Book Grid -->
+
+<!-- Book Grid -->
   <div id="bookGrid" class="p-6 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
     <!-- Book cards will be injected here -->
   </div>
 
+
+
+
+<main class="container mx-auto px-4 py-2">
+    <section class="mb-20">
+      <div class=" mb-2 text-center">
+        
+        <h2 class="text-lg md:text-3xl font-extrabold text-green-800 text-center mb-6 flex flex-col sm:flex-row items-center justify-center gap-3">
+      <span class="bg-gradient-to-r from-green-600 to-green-800 text-white px-4 py-2 rounded-lg shadow-md tracking-wide">
+        গুরুত্বপূর্ণ লিংক ও ফর্মসমূহ
+      </span>
+    </h2>    
+        
+
+
+
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 justify-center gap-10">
+            <a href="./form.html" class="group block transform transition-transform duration-300 hover:scale-105">
+                <div class="bg-white p-8 rounded-xl shadow-xl flex flex-col items-center h-full justify-center text-center  border border-green-500 group-hover:shadow-2xl">
+                    <div class="text-6xl text-green-600 mb-6 group-hover:text-green-700 transition-colors duration-300">
+                        <i class="fas fa-book-reader"></i>
+                    </div>
+                    <h3 class="text-xl md:text-2xl font-bold mb-3 text-green-600 transition-colors duration-300">বই ধার করার ফর্ম</h3>
+                    <p class="text-sm md:text-lg text-gray-600">আপনার পছন্দের বইটি সহজে ধার নিতে এই ফর্মটি পূরণ করুন এবং আমাদের সংগ্রহ থেকে উপভোগ করুন।</p>
+                </div>
+            </a>
+
+            <a href="/member.html" class="group block transform transition-transform duration-300 hover:scale-105">
+                <div class="bg-white p-8 rounded-2xl shadow-xl flex flex-col items-center h-full justify-center text-center  border border-green-500 group-hover:shadow-2xl">
+                    <div class="text-6xl text-green-600 mb-6 group-hover:text-green-700 transition-colors duration-300">
+                        <i class="fas fa-user-plus"></i>
+                    </div>
+                    <h3 class="text-xl md:text-2xl font-bold  mb-3 text-green-600 transition-colors duration-300">PSTU ISLAMIC LIBRARY <br> এর সদস্য হোন</h3>
+                    <p class="text-sm md:text-lg text-gray-600">আমাদের লাইব্রেরির একজন সম্মানিত সদস্য হয়ে জ্ঞান চর্চার এই মহতি উদ্যোগে শামিল হন।</p>
+                </div>
+            </a>
+
+            <a href="./financial_report.html" class="group md:col-span-full lg:col-span-1 block transform transition-transform duration-300 hover:scale-105">
+                <div class="bg-white p-8 rounded-2xl shadow-xl flex flex-col items-center justify-center text-center h-full border border-green-500 group-hover:shadow-2xl">
+                    <div class="text-6xl text-green-600 mb-6 group-hover:text-green-700 transition-colors duration-300">
+                        <i class="fas fa-chart-bar"></i>
+                    </div>
+                    <h3 class="text-xl md:text-2xl font-bold  mb-3 text-green-600 transition-colors duration-300">আর্থিক প্রতিবেদন</h3>
+                    <p class="text-sm md:text-lg text-gray-600">লাইব্রেরির জমা-খরচের মাসিক ও বাৎসরিক প্রতিবেদন দেখে স্বচ্ছতা যাচাই করুন।</p>
+                </div>
+            </a>
+        </div>
+    </section>
+
+    <section class="text-center py-16 bg-gradient-to-r from-green-50 to-emerald-50 rounded-xl shadow-inner-lg mt-20">
+        <h2 class="text-3xl md:text-4xl font-bold text-gray-700 mb-6">আমাদের সম্পর্কে</h2>
+        <p class="text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">PSTU ইসলামিক লাইব্রেরি জ্ঞান প্রসারে দৃঢ় প্রতিশ্রুতিবদ্ধ। আমরা বিভিন্ন ইসলামিক গ্রন্থ, গবেষণা পত্র এবং শিক্ষামূলক উপকরণ সংগ্রহ ও সরবরাহ করি যা পাঠক ও শিক্ষার্থীদের জ্ঞানার্জনে সর্বদা সহায়তা করে। আমাদের লক্ষ্য একটি আলোকিত সমাজ গঠন।</p>
+        <a href="about_us.html" class="inline-block mt-8 bg-green-600 text-white text-lg font-semibold px-8 py-3 rounded-full shadow-md hover:bg-green-700 transition-colors duration-300 transform hover:scale-105">
+            বিস্তারিত জানুন <i class="fas fa-arrow-right ml-2"></i>
+        </a>
+    </section>
+</main>
+
+
+
+
+<!-- Feedback Section -->
 <section class="bg-white py-12 px-4 md:px-10">
     <div class="max-w-3xl mx-auto bg-white p-8 rounded-2xl shadow-lg border border-gray-200">
         <h2 class="text-3xl font-bold text-green-700 text-center mb-6">
@@ -331,7 +506,7 @@
 </section>
 
     
-
+<!-- Whatsapp float button -->
 <div class="floating_btn fixed bottom-[0px] md:bottom-[100px] right-[30px] md:right-[100px] w-[100px] h-[100px] flex flex-col items-center justify-center z-[1000]" id="whatsappFloatingButton">
   <a target="_blank" href="https://chat.whatsapp.com/HahucMqVbYY3LSpcOzpXxq?mode=ac_t">
     <div class="contact_icon bg-[#42db87] text-white  w-[40px] md:w-[100px] h-[40px] md:h-[100px] text-2xl md:text-6xl flex items-center justify-center">
@@ -852,6 +1027,132 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 });
+</script>
+
+<!-- quotes Js Section start here -->
+
+<script>
+  async function loadQuotes(section, containerId) {
+    try {
+      const res = await fetch('quotes.json');
+      const allQuotes = await res.json();
+      const quotes = allQuotes.filter(q => q.section === section);
+      if (!quotes.length) return;
+
+      const container = document.getElementById(containerId);
+      container.innerHTML = `
+        <div id="${containerId}-slide" class="relative min-h-[120px] flex items-center justify-center overflow-hidden"></div>
+        <div id="${containerId}-dots" class="flex justify-center mt-4 space-x-2"></div>
+      `;
+
+      const slideWrapper = document.getElementById(`${containerId}-slide`);
+      const dotsWrapper = document.getElementById(`${containerId}-dots`);
+
+      let index = 0;
+
+      quotes.forEach((quote, i) => {
+        const slide = document.createElement('div');
+        // Initial class for fade-in effect
+        slide.className = `absolute inset-0 transition-opacity duration-500 ease-in-out text-center p-4 rounded-2xl flex flex-col items-center justify-center gap-4 ${
+          i === 0 ? 'opacity-100 z-10' : 'opacity-0 z-0' // Changed for fade: no translate-x classes
+        } ${quote.bg}`;
+
+        slide.innerHTML = `
+          <q class="text-lg md:text-2xl leading-relaxed font-serif">${quote.text}</q>
+          <div class="text-sm md:text-md text-gray-600 font-semibold">| ${quote.source} | ${quote.ayah} |</div>
+        `;
+        slideWrapper.appendChild(slide);
+
+        const dot = document.createElement('button');
+        dot.className = `w-3 h-3 rounded-full ${i === 0 ? 'bg-green-600' : 'bg-green-300'}`;
+        dot.addEventListener('click', () => {
+          index = i;
+          renderSlides();
+        });
+        dotsWrapper.appendChild(dot);
+      });
+
+      function renderSlides() {
+        const slides = slideWrapper.children;
+        const dots = dotsWrapper.children;
+        for (let i = 0; i < slides.length; i++) {
+          // Updated class for fade-in/fade-out effect
+          slides[i].className = `absolute inset-0 transition-opacity duration-500 ease-in-out text-center p-4 rounded-2xl flex flex-col items-center justify-center gap-4 ${
+            i === index ? 'opacity-100 z-10' : 'opacity-0 z-0' // Changed for fade: no translate-x classes
+          } ${quotes[i].bg}`;
+          dots[i].className = `w-3 h-3 rounded-full ${i === index ? 'bg-green-600' : 'bg-green-300'}`;
+        }
+      }
+
+      setInterval(() => {
+        index = (index + 1) % quotes.length;
+        renderSlides();
+      }, 8000);
+
+    } catch (err) {
+      console.error("❌ Quote loading failed:", err);
+    }
+  }
+
+  // Examples:
+  loadQuotes("quran", "quran-quote");
+  loadQuotes("book", "book-quote");
+  loadQuotes("audio", "audio-quote");
+</script>
+
+<!-- Article Section -->
+
+<script>
+  let articles = [];
+  let visibleCount = 3;
+  
+  async function loadArticles() {
+    try {
+      const response = await fetch('articles.json');
+      articles = await response.json();
+      renderVisibleArticles();
+    } catch (error) {
+      console.error('Error loading articles:', error);
+      document.getElementById('articlesContainer').innerHTML = `
+        <div class="text-red-600 p-4">
+          <p>দুঃখিত, আর্টিকেলের তথ্য লোড করতে সমস্যা হয়েছে।</p>
+        </div>
+      `;
+    }
+  }
+  
+  function renderVisibleArticles() {
+    const articlesContainer = document.getElementById('articlesContainer');
+    const visibleArticles = articles.slice(0, visibleCount);
+    
+    // Clear old content
+    articlesContainer.innerHTML = '';
+    
+    // Render only visible articles
+    visibleArticles.forEach(article => {
+      articlesContainer.innerHTML += `
+        <a href="${article.url}" target="_blank" class="block p-4 bg-white rounded-xl shadow-sm hover:shadow-md transition-shadow duration-200 border border-gray-200">
+          <h3 class="text-[16px] md:text-[24px] font-semibold text-green-600 hover:text-green-700 transition-colors duration-200">${article.title}</h3>
+          <p class="text-[rgba(0,0,0,0.5)] text-sm mt-1">${article.source}</p>
+        </a>
+      `;
+    });
+    
+    // Toggle button
+    const loadMoreBtn = document.getElementById('loadMoreBtn');
+    if (visibleCount >= articles.length) {
+      loadMoreBtn.style.display = 'none';
+    } else {
+      loadMoreBtn.style.display = 'inline-block';
+    }
+  }
+  
+  function showMoreArticles() {
+    visibleCount += 3;
+    renderVisibleArticles();
+  }
+  
+  document.addEventListener('DOMContentLoaded', loadArticles);
 </script>
 
 </body>

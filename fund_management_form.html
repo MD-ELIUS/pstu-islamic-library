@@ -1,0 +1,431 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>তহবিল ব্যবস্থাপনা - PSTU Islamic Library</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Bengali:wght@400;700&family=Amiri:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        body { font-family: 'Noto Sans Bengali', sans-serif; }
+        .amiri-font { font-family: 'Amiri', serif; }
+        .input-style {
+            @apply w-full px-4 py-3 border-2 border-green-300 rounded-xl outline-none shadow-sm placeholder:text-gray-500 font-semibold placeholder:font-normal text-gray-800 transition-all duration-200 focus:border-green-500;
+        }
+        .label-style {
+            @apply block text-gray-700 font-semibold mb-2 text-md;
+        }
+    </style>
+</head>
+<body class="bg-gray-100 flex items-center justify-center min-h-screen p-4">
+    <div class="bg-white p-8 rounded-lg shadow-xl w-full max-w-lg">
+        <h2 class="text-3xl font-extrabold text-center text-green-700 mb-4 amiri-font">PSTU Islamic Library</h2>
+        <h3 class="text-2xl font-bold text-center text-gray-800 mb-6">তহবিল ব্যবস্থাপনা</h3>
+
+        <div class="tabs mb-6 flex justify-center space-x-4">
+            <button id="tabChada" class="px-6 py-2 rounded-lg font-bold text-lg bg-green-500 text-white shadow-md hover:bg-green-600 transition-colors">
+                <i class="fas fa-hand-holding-usd mr-2"></i>চাঁদা
+            </button>
+            <button id="tabJomaOther" class="px-6 py-2 rounded-lg font-bold text-lg bg-gray-200 text-gray-700 shadow-md hover:bg-gray-300 transition-colors">
+                <i class="fas fa-plus-circle mr-2"></i>অন্যান্য জমা
+            </button>
+            <button id="tabKhoroch" class="px-6 py-2 rounded-lg font-bold text-lg bg-gray-200 text-gray-700 shadow-md hover:bg-gray-300 transition-colors">
+                <i class="fas fa-minus-circle mr-2"></i>খরচ
+            </button>
+        </div>
+
+        <form id="chadaForm" class="space-y-6">
+            <h4 class="text-xl font-bold text-gray-800 mb-4">মাসিক চাঁদা জমা করুন</h4>
+            <div>
+                <label for="chadaMemberSelect" class="label-style">
+                    <i class="fas fa-users text-green-600 mr-2"></i>সদস্য নির্বাচন করুন:
+                </label>
+                <select id="chadaMemberSelect" name="memberIdentifier" class="input-style">
+                    <option value="">সদস্য নির্বাচন করুন</option>
+                    <option value="other_member">অন্যান্য সদস্য (ম্যানুয়াল ইনপুট)</option>
+                    </select>
+            </div>
+            <div id="manualMemberInput" class="space-y-6 hidden">
+                 <div>
+                    <label for="chadaMemberNameManual" class="label-style">
+                        <i class="fas fa-user-circle text-green-600 mr-2"></i>নাম:
+                    </label>
+                    <input type="text" id="chadaMemberNameManual" name="memberName" class="input-style" disabled>
+                </div>
+                <div>
+                    <label for="chadaMemberEmailManual" class="label-style">
+                        <i class="fas fa-envelope text-green-600 mr-2"></i>ইমেইল:
+                    </label>
+                    <input type="email" id="chadaMemberEmailManual" name="memberEmail" class="input-style" disabled>
+                </div>
+                <div>
+                    <label for="chadaMemberPhoneManual" class="label-style">
+                        <i class="fas fa-phone-alt text-green-600 mr-2"></i>ফোন নম্বর:
+                    </label>
+                    <input type="tel" id="chadaMemberPhoneManual" name="memberPhone" pattern="[0-9]{10,11}" class="input-style" disabled>
+                </div>
+            </div>
+            
+            <div>
+                <label for="chadaMonth" class="label-style">
+                    <i class="fas fa-calendar-alt text-green-600 mr-2"></i>মাস:
+                </label>
+                <select id="chadaMonth" name="month" required class="input-style">
+                    <option value="">মাস নির্বাচন করুন</option>
+                    <option value="জানুয়ারি">জানুয়ারি</option>
+                    <option value="ফেব্রুয়ারি">ফেব্রুয়ারি</option>
+                    <option value="মার্চ">মার্চ</option>
+                    <option value="এপ্রিল">এপ্রিল</option>
+                    <option value="মে">মে</option>
+                    <option value="জুন">জুন</option>
+                    <option value="জুলাই">জুলাই</option>
+                    <option value="আগস্ট">আগস্ট</option>
+                    <option value="সেপ্টেম্বর">সেপ্টেম্বর</option>
+                    <option value="অক্টোবর">অক্টোবর</option>
+                    <option value="নভেম্বর">নভেম্বর</option>
+                    <option value="ডিসেম্বর">ডিসেম্বর</option>
+                </select>
+            </div>
+            <div>
+                <label for="chadaYear" class="label-style">
+                    <i class="fas fa-calendar-check text-green-600 mr-2"></i>বছর:
+                </label>
+                <input type="number" id="chadaYear" name="year" min="2023" max="2050" value="2025" required class="input-style">
+            </div>
+            <div>
+                <label for="chadaAmount" class="label-style">
+                    <i class="fas fa-money-bill-wave text-green-600 mr-2"></i>জমাকৃত টাকা:
+                </label>
+                <input type="number" id="chadaAmount" name="amount" value="30" required class="input-style">
+            </div>
+            <div>
+                <label for="chadaAcknowledgement" class="label-style">
+                    <i class="fas fa-handshake text-green-600 mr-2"></i>প্রাপ্তি স্বীকার (ঐচ্ছিক):
+                </label>
+                <input type="text" id="chadaAcknowledgement" name="acknowledgement" class="input-style">
+            </div>
+            <button type="submit" id="submitChada"
+                    class="w-full flex justify-center py-3 px-4 border border-transparent rounded-md shadow-sm text-lg font-medium text-white bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 transition duration-300 ease-in-out">
+                <span id="buttonTextChada">চাঁদা জমা করুন</span>
+                <i id="loadingSpinnerChada" class="fas fa-spinner fa-spin ml-2 hidden"></i>
+            </button>
+            <p id="formStatusChada" class="mt-4 text-center text-sm font-semibold"></p>
+        </form>
+
+        <form id="jomaOtherForm" class="space-y-6 hidden">
+            <h4 class="text-xl font-bold text-gray-800 mb-4">অন্যান্য উৎস থেকে আয় জমা করুন</h4>
+            <div>
+                <label for="jomaSource" class="label-style">
+                    <i class="fas fa-hands-helping text-green-600 mr-2"></i>উৎস:
+                </label>
+                <input type="text" id="jomaSource" name="source" required class="input-style">
+            </div>
+            <div>
+                <label for="jomaDescription" class="label-style">
+                    <i class="fas fa-info-circle text-green-600 mr-2"></i>বিবরণ:
+                </label>
+                <textarea id="jomaDescription" name="description" rows="3" class="input-style"></textarea>
+            </div>
+            <div>
+                <label for="jomaAmount" class="label-style">
+                    <i class="fas fa-money-check-alt text-green-600 mr-2"></i>জমাকৃত টাকা:
+                </label>
+                <input type="number" id="jomaAmount" name="amount" min="1" required class="input-style">
+            </div>
+            <div>
+                <label for="jomaAcknowledgement" class="label-style">
+                    <i class="fas fa-handshake text-green-600 mr-2"></i>প্রাপ্তি স্বীকার (ঐচ্ছিক):
+                </label>
+                <input type="text" id="jomaAcknowledgement" name="acknowledgement" class="input-style">
+            </div>
+            <button type="submit" id="submitJomaOther"
+                    class="w-full flex justify-center py-3 px-4 border border-transparent rounded-md shadow-sm text-lg font-medium text-white bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 transition duration-300 ease-in-out">
+                <span id="buttonTextJomaOther">জমা করুন</span>
+                <i id="loadingSpinnerJomaOther" class="fas fa-spinner fa-spin ml-2 hidden"></i>
+            </button>
+            <p id="formStatusJomaOther" class="mt-4 text-center text-sm font-semibold"></p>
+        </form>
+
+        <form id="khorochForm" class="space-y-6 hidden">
+            <h4 class="text-xl font-bold text-gray-800 mb-4">খরচ যোগ করুন</h4>
+            <div>
+                <label for="khorochCategory" class="label-style">
+                    <i class="fas fa-tags text-green-600 mr-2"></i>খাতের নাম:
+                </label>
+                <input type="text" id="khorochCategory" name="category" required class="input-style">
+            </div>
+            <div>
+                <label for="khorochDescription" class="label-style">
+                    <i class="fas fa-info-circle text-green-600 mr-2"></i>বিবরণ:
+                </label>
+                <textarea id="khorochDescription" name="description" rows="3" class="input-style"></textarea>
+            </div>
+            <div>
+                <label for="khorochAmount" class="label-style">
+                    <i class="fas fa-coins text-green-600 mr-2"></i>খরচের পরিমাণ:
+                </label>
+                <input type="number" id="khorochAmount" name="amount" min="1" required class="input-style">
+            </div>
+            <div>
+                <label for="khorochApprover" class="label-style">
+                    <i class="fas fa-user-check text-green-600 mr-2"></i>অনুমোদনকারী (ঐচ্ছিক):
+                </label>
+                <input type="text" id="khorochApprover" name="approver" class="input-style">
+            </div>
+            <button type="submit" id="submitKhoroch"
+                    class="w-full flex justify-center py-3 px-4 border border-transparent rounded-md shadow-sm text-lg font-medium text-white bg-red-600 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 transition duration-300 ease-in-out">
+                <span id="buttonTextKhoroch">খরচ জমা করুন</span>
+                <i id="loadingSpinnerKhoroch" class="fas fa-spinner fa-spin ml-2 hidden"></i>
+            </button>
+            <p id="formStatusKhoroch" class="mt-4 text-center text-sm font-semibold"></p>
+        </form>
+        <button id="logoutButton" class="mt-8 w-full py-2 px-4 border border-transparent rounded-md shadow-sm text-md font-medium text-white bg-gray-500 hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-400">
+            লগআউট
+        </button>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Check if logged in, otherwise redirect to login page
+            if (localStorage.getItem('loggedInPSTULibraryAdmin') !== 'true') {
+                window.location.href = 'login.html'; // Adjust this path if login.html is elsewhere
+                return; // Stop script execution if not logged in
+            }
+
+            // Apps Script URL - if hosted by Apps Script, use ScriptApp.getWebAppUrl()
+            // If hosted locally, manually put the deployed Web App URL here
+            const appScriptURL = 'YOUR_GOOGLE_APPS_SCRIPT_WEB_APP_URL_HERE'; // <<< এটি পরিবর্তন করুন
+
+            const chadaForm = document.getElementById('chadaForm');
+            const jomaOtherForm = document.getElementById('jomaOtherForm');
+            const khorochForm = document.getElementById('khorochForm');
+
+            const tabChada = document.getElementById('tabChada');
+            const tabJomaOther = document.getElementById('tabJomaOther');
+            const tabKhoroch = document.getElementById('tabKhoroch');
+            const logoutButton = document.getElementById('logoutButton');
+
+            // চাঁদা ফর্মের এলিমেন্টস
+            const chadaMemberSelect = document.getElementById('chadaMemberSelect');
+            const manualMemberInputDiv = document.getElementById('manualMemberInput');
+            const chadaMemberNameManual = document.getElementById('chadaMemberNameManual');
+            const chadaMemberEmailManual = document.getElementById('chadaMemberEmailManual');
+            const chadaMemberPhoneManual = document.getElementById('chadaMemberPhoneManual');
+
+            const submitChadaBtn = document.getElementById('submitChada');
+            const buttonTextChada = document.getElementById('buttonTextChada');
+            const loadingSpinnerChada = document.getElementById('loadingSpinnerChada');
+            const formStatusChada = document.getElementById('formStatusChada');
+
+            // অন্যান্য জমা ফর্মের এলিমেন্টস
+            const submitJomaOtherBtn = document.getElementById('submitJomaOther');
+            const buttonTextJomaOther = document.getElementById('buttonTextJomaOther');
+            const loadingSpinnerJomaOther = document.getElementById('loadingSpinnerJomaOther');
+            const formStatusJomaOther = document.getElementById('formStatusJomaOther');
+
+            // খরচ ফর্মের এলিমেন্টস
+            const submitKhorochBtn = document.getElementById('submitKhoroch');
+            const buttonTextKhoroch = document.getElementById('buttonTextKhoroch');
+            const loadingSpinnerKhoroch = document.getElementById('loadingSpinnerKhoroch');
+            const formStatusKhoroch = document.getElementById('formStatusKhoroch');
+
+            let membersData = []; // To store fetched members list
+
+            // Function to load members into the select dropdown
+            const loadMembers = async () => {
+                try {
+                    const response = await fetch(`${appScriptURL}?action=getMembers`);
+                    if (!response.ok) {
+                        throw new Error(`HTTP error! status: ${response.status}`);
+                    }
+                    membersData = await response.json();
+                    
+                    if (membersData && membersData.length > 0) {
+                        membersData.forEach(member => {
+                            const option = document.createElement('option');
+                            option.value = `${member.name}|${member.email}|${member.phone}`; // Store all data in value
+                            option.textContent = member.name;
+                            chadaMemberSelect.appendChild(option);
+                        });
+                    }
+                } catch (error) {
+                    console.error('Error loading members:', error);
+                    // Optionally display an error message
+                }
+            };
+
+            // Event listener for member selection change
+            chadaMemberSelect.addEventListener('change', () => {
+                const selectedValue = chadaMemberSelect.value;
+                if (selectedValue === 'other_member' || selectedValue === '') {
+                    // Enable manual input for 'Other Member' or empty selection
+                    manualMemberInputDiv.classList.remove('hidden');
+                    chadaMemberNameManual.disabled = false;
+                    chadaMemberEmailManual.disabled = false;
+                    chadaMemberPhoneManual.disabled = false;
+                    // Clear fields for manual input
+                    chadaMemberNameManual.value = '';
+                    chadaMemberEmailManual.value = '';
+                    chadaMemberPhoneManual.value = '';
+                    chadaMemberNameManual.setAttribute('required', 'required'); // Make required
+                    chadaMemberEmailManual.setAttribute('required', 'required');
+                    chadaMemberPhoneManual.setAttribute('required', 'required');
+                } else {
+                    // Pre-fill fields for selected member
+                    manualMemberInputDiv.classList.add('hidden');
+                    chadaMemberNameManual.disabled = true;
+                    chadaMemberEmailManual.disabled = true;
+                    chadaMemberPhoneManual.disabled = true;
+                    chadaMemberNameManual.removeAttribute('required'); // No longer required
+                    chadaMemberEmailManual.removeAttribute('required');
+                    chadaMemberPhoneManual.removeAttribute('required');
+
+                    const [name, email, phone] = selectedValue.split('|');
+                    chadaMemberNameManual.value = name;
+                    chadaMemberEmailManual.value = email;
+                    chadaMemberPhoneManual.value = phone;
+                }
+            });
+
+
+            const showForm = (formToShow, activeTab) => {
+                chadaForm.classList.add('hidden');
+                jomaOtherForm.classList.add('hidden');
+                khorochForm.classList.add('hidden');
+                formToShow.classList.remove('hidden');
+
+                // Reset all tab styles
+                [tabChada, tabJomaOther, tabKhoroch].forEach(tab => {
+                    tab.classList.remove('bg-green-500', 'bg-red-500', 'text-white');
+                    tab.classList.add('bg-gray-200', 'text-gray-700');
+                });
+                // Set active tab style
+                if (activeTab === 'chada') {
+                    tabChada.classList.remove('bg-gray-200', 'text-gray-700');
+                    tabChada.classList.add('bg-green-500', 'text-white');
+                } else if (activeTab === 'jomaOther') {
+                    tabJomaOther.classList.remove('bg-gray-200', 'text-gray-700');
+                    tabJomaOther.classList.add('bg-green-500', 'text-white');
+                } else if (activeTab === 'khoroch') {
+                    tabKhoroch.classList.remove('bg-gray-200', 'text-gray-700');
+                    tabKhoroch.classList.add('bg-red-500', 'text-white');
+                }
+            };
+
+            tabChada.addEventListener('click', () => showForm(chadaForm, 'chada'));
+            tabJomaOther.addEventListener('click', () => showForm(jomaOtherForm, 'jomaOther'));
+            tabKhoroch.addEventListener('click', () => showForm(khorochForm, 'khoroch'));
+
+            // Initial view
+            showForm(chadaForm, 'chada');
+            loadMembers(); // Load members when the page loads
+
+            // Set current month and year as default for Chada form
+            const d = new Date();
+            const currentMonth = d.toLocaleString('bn', { month: 'long' });
+            const currentYear = d.getFullYear();
+            document.getElementById('chadaMonth').value = currentMonth;
+            document.getElementById('chadaYear').value = currentYear;
+
+            // Generic submit handler
+            async function handleSubmit(event, sheetName, submitBtn, btnTextElem, spinnerElem, statusElem) {
+                event.preventDefault();
+
+                submitBtn.disabled = true;
+                btnTextElem.textContent = 'জমা হচ্ছে...';
+                spinnerElem.classList.remove('hidden');
+                statusElem.textContent = '';
+                statusElem.classList.remove('text-green-600', 'text-red-600');
+
+                let formData = {};
+                if (sheetName === 'চাঁদা') {
+                    const selectedOption = chadaMemberSelect.value;
+                    if (selectedOption === 'other_member' || selectedOption === '') {
+                        // Manual input for other or new member
+                        formData = {
+                            memberName: chadaMemberNameManual.value,
+                            memberEmail: chadaMemberEmailManual.value,
+                            memberPhone: chadaMemberPhoneManual.value,
+                            month: document.getElementById('chadaMonth').value,
+                            year: document.getElementById('chadaYear').value,
+                            amount: document.getElementById('chadaAmount').value,
+                            acknowledgement: document.getElementById('chadaAcknowledgement').value
+                        };
+                    } else {
+                        // Selected from dropdown
+                        const [name, email, phone] = selectedOption.split('|');
+                        formData = {
+                            memberName: name,
+                            memberEmail: email,
+                            memberPhone: phone,
+                            month: document.getElementById('chadaMonth').value,
+                            year: document.getElementById('chadaYear').value,
+                            amount: document.getElementById('chadaAmount').value,
+                            acknowledgement: document.getElementById('chadaAcknowledgement').value
+                        };
+                    }
+                } else {
+                    // For Joma (Other) and Khoroch forms, directly use form data
+                    const form = event.target;
+                    new FormData(form).forEach((value, key) => {
+                        formData[key] = value;
+                    });
+                }
+
+                try {
+                    const response = await fetch(`${appScriptURL}?sheet=${sheetName}`, {
+                        method: 'POST',
+                        mode: 'no-cors',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(formData),
+                    });
+
+                    statusElem.textContent = `সফলভাবে ${sheetName} জমা হয়েছে!`;
+                    statusElem.classList.add('text-green-600');
+                    
+                    // Reset forms
+                    if (sheetName === 'চাঁদা') {
+                        chadaForm.reset();
+                        document.getElementById('chadaMonth').value = currentMonth;
+                        document.getElementById('chadaYear').value = currentYear;
+                        chadaMemberSelect.value = ''; // Reset dropdown
+                        manualMemberInputDiv.classList.add('hidden'); // Hide manual input
+                        chadaMemberNameManual.disabled = true;
+                        chadaMemberEmailManual.disabled = true;
+                        chadaMemberPhoneManual.disabled = true;
+                        chadaMemberNameManual.removeAttribute('required');
+                        chadaMemberEmailManual.removeAttribute('required');
+                        chadaMemberPhoneManual.removeAttribute('required');
+                    } else if (sheetName === 'জমা') {
+                        jomaOtherForm.reset();
+                    } else if (sheetName === 'খরচ') {
+                        khorochForm.reset();
+                    }
+
+                } catch (error) {
+                    console.error('Error submitting form:', error);
+                    statusElem.textContent = `${sheetName} জমা দিতে সমস্যা হয়েছে। অনুগ্রহ করে আবার চেষ্টা করুন।`;
+                    statusElem.classList.add('text-red-600');
+                } finally {
+                    submitBtn.disabled = false;
+                    btnTextElem.textContent = (sheetName === 'চাঁদা' ? 'চাঁদা জমা করুন' : (sheetName === 'জমা' ? 'জমা করুন' : 'খরচ জমা করুন'));
+                    spinnerElem.classList.add('hidden');
+                }
+            }
+
+            // Attach event listeners to forms
+            chadaForm.addEventListener('submit', (event) => handleSubmit(event, 'চাঁদা', submitChadaBtn, buttonTextChada, loadingSpinnerChada, formStatusChada));
+            jomaOtherForm.addEventListener('submit', (event) => handleSubmit(event, 'জমা', submitJomaOtherBtn, buttonTextJomaOther, loadingSpinnerJomaOther, formStatusJomaOther));
+            khorochForm.addEventListener('submit', (event) => handleSubmit(event, 'খরচ', submitKhorochBtn, buttonTextKhoroch, loadingSpinnerKhoroch, formStatusKhoroch));
+
+            logoutButton.addEventListener('click', () => {
+                localStorage.removeItem('loggedInPSTULibraryAdmin'); // Clear the login flag
+                window.location.href = 'login.html'; // Redirect to login page
+            });
+        });
+    </script>
+</body>
+</html>

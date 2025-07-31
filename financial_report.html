@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>আর্থিক প্রতিবেদন - PSTU Islamic Library</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Bengali:wght@400;700&family=Amiri:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        body { font-family: 'Noto Sans Bengali', sans-serif; }
+        .amiri-font { font-family: 'Amiri', serif; }
+        .card {
+            @apply bg-white p-6 rounded-lg shadow-md;
+        }
+        .text-green-amount { color: #28a745; } /* Bootstrap success green */
+        .text-red-amount { color: #dc3545; } /* Bootstrap danger red */
+        .text-blue-balance { color: #007bff; } /* Bootstrap primary blue */
+    </style>
+</head>
+<body class="bg-gray-100 p-4">
+    <div class="container mx-auto max-w-4xl">
+        <h2 class="text-4xl font-extrabold text-center text-green-700 my-8 amiri-font">PSTU Islamic Library</h2>
+        <h3 class="text-3xl font-bold text-center text-gray-800 mb-8">সর্বজনীন আর্থিক প্রতিবেদন</h3>
+
+        <div class="card mb-8 flex flex-col md:flex-row justify-between items-center">
+            <label for="reportYear" class="text-xl font-semibold text-gray-700 mb-2 md:mb-0">প্রতিবেদনের বছর নির্বাচন করুন:</label>
+            <select id="reportYear" class="input-style px-4 py-2 border rounded-md">
+                </select>
+            <button id="loadReportBtn" class="bg-green-600 text-white px-6 py-2 rounded-md hover:bg-green-700 transition-colors mt-4 md:mt-0">
+                প্রতিবেদন লোড করুন
+            </button>
+        </div>
+
+        <div class="card mb-8">
+            <h4 class="text-2xl font-bold text-gray-800 mb-4 text-center">সর্বমোট আর্থিক সারসংক্ষেপ</h4>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 text-center">
+                <div>
+                    <p class="text-xl font-semibold text-gray-600 mb-2">সর্বমোট আয়</p>
+                    <p id="overallIncome" class="text-4xl font-bold text-green-amount">৳ 0</p>
+                </div>
+                <div>
+                    <p class="text-xl font-semibold text-gray-600 mb-2">সর্বমোট খরচ</p>
+                    <p id="overallExpense" class="text-4xl font-bold text-red-amount">৳ 0</p>
+                </div>
+                <div>
+                    <p class="text-xl font-semibold text-gray-600 mb-2">সর্বমোট ব্যালেন্স</p>
+                    <p id="overallBalance" class="text-4xl font-bold text-blue-balance">৳ 0</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="card mb-8">
+            <h4 class="text-2xl font-bold text-gray-800 mb-4 text-center">
+                <span id="yearlyReportHeading">বাৎসরিক আর্থিক সারসংক্ষেপ (<span id="selectedYearDisplay"></span>)</span>
+            </h4>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 text-center">
+                <div>
+                    <p class="text-xl font-semibold text-gray-600 mb-2">বাৎসরিক আয়</p>
+                    <p id="yearlyIncome" class="text-4xl font-bold text-green-amount">৳ 0</p>
+                </div>
+                <div>
+                    <p class="text-xl font-semibold text-gray-600 mb-2">বাৎসরিক খরচ</p>
+                    <p id="yearlyExpense" class="text-4xl font-bold text-red-amount">৳ 0</p>
+                </div>
+                <div>
+                    <p class="text-xl font-semibold text-gray-600 mb-2">বাৎসরিক ব্যালেন্স</p>
+                    <p id="yearlyBalance" class="text-4xl font-bold text-blue-balance">৳ 0</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="card mb-8">
+            <h4 class="text-2xl font-bold text-gray-800 mb-4 text-center">মাসিক জমা-খরচের গ্রাফ (<span id="graphYearDisplay"></span>)</h4>
+            <canvas id="monthlyReportChart"></canvas>
+        </div>
+
+        <div class="card">
+            <h4 class="text-2xl font-bold text-gray-800 mb-4 text-center">মাসিক আর্থিক প্রতিবেদন (<span id="tableYearDisplay"></span>)</h4>
+            <div class="overflow-x-auto">
+                <table class="min-w-full bg-white border border-gray-200">
+                    <thead>
+                        <tr>
+                            <th class="py-3 px-4 border-b-2 border-gray-200 bg-gray-100 text-left text-sm font-semibold text-gray-600 uppercase tracking-wider">মাস</th>
+                            <th class="py-3 px-4 border-b-2 border-gray-200 bg-gray-100 text-right text-sm font-semibold text-gray-600 uppercase tracking-wider">মোট আয় (৳)</th>
+                            <th class="py-3 px-4 border-b-2 border-gray-200 bg-gray-100 text-right text-sm font-semibold text-gray-600 uppercase tracking-wider">মোট খরচ (৳)</th>
+                            <th class="py-3 px-4 border-b-2 border-gray-200 bg-gray-100 text-right text-sm font-semibold text-gray-600 uppercase tracking-wider">ব্যালেন্স (৳)</th>
+                        </tr>
+                    </thead>
+                    <tbody id="monthlyReportTableBody">
+                        <tr><td colspan="4" class="text-center py-4 text-gray-500">তথ্য লোড হচ্ছে...</td></tr>
+                    </tbody>
+                </table>
+            </div>
+            <p id="loadingMessage" class="text-center text-gray-500 mt-4 hidden">তথ্য লোড হচ্ছে...</p>
+            <p id="errorMessage" class="text-center text-red-600 mt-4 hidden">ডেটা লোড করতে ব্যর্থ।</p>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', async () => {
+            const appScriptURL = 'YOUR_GOOGLE_APPS_SCRIPT_WEB_APP_URL_HERE'; // <<< এটি পরিবর্তন করুন
+
+            const reportYearSelect = document.getElementById('reportYear');
+            const loadReportBtn = document.getElementById('loadReportBtn');
+
+            const overallIncomeElem = document.getElementById('overallIncome');
+            const overallExpenseElem = document.getElementById('overallExpense');
+            const overallBalanceElem = document.getElementById('overallBalance');
+
+            const selectedYearDisplay = document.getElementById('selectedYearDisplay');
+            const yearlyIncomeElem = document.getElementById('yearlyIncome');
+            const yearlyExpenseElem = document.getElementById('yearlyExpense');
+            const yearlyBalanceElem = document.getElementById('yearlyBalance');
+
+            const graphYearDisplay = document.getElementById('graphYearDisplay');
+            const tableYearDisplay = document.getElementById('tableYearDisplay');
+            const monthlyReportTableBody = document.getElementById('monthlyReportTableBody');
+            const loadingMessageElem = document.getElementById('loadingMessage');
+            const errorMessageElem = document.getElementById('errorMessage');
+
+            let monthlyChart; // Variable to hold the Chart.js instance
+
+            // Populate year dropdown
+            const currentYear = new Date().getFullYear();
+            for (let year = currentYear; year >= 2023; year--) { // Adjust start year as needed
+                const option = document.createElement('option');
+                option.value = year;
+                option.textContent = year;
+                if (year === currentYear) {
+                    option.selected = true;
+                }
+                reportYearSelect.appendChild(option);
+            }
+
+            const fetchAndRenderReports = async (year) => {
+                loadingMessageElem.classList.remove('hidden');
+                errorMessageElem.classList.add('hidden');
+                monthlyReportTableBody.innerHTML = '<tr><td colspan="4" class="text-center py-4 text-gray-500">তথ্য লোড হচ্ছে...</td></tr>';
+                
+                try {
+                    const response = await fetch(`${appScriptURL}?action=getFinancialReports&year=${year}`);
+                    if (!response.ok) {
+                        throw new Error(`HTTP error! status: ${response.status}`);
+                    }
+                    const data = await response.json();
+                    console.log(data); // For debugging
+
+                    // Update Overall Report
+                    overallIncomeElem.textContent = `৳ ${data.overallReport.totalIncome.toLocaleString('bn-BD')}`;
+                    overallExpenseElem.textContent = `৳ ${data.overallReport.totalExpense.toLocaleString('bn-BD')}`;
+                    overallBalanceElem.textContent = `৳ ${data.overallReport.currentBalance.toLocaleString('bn-BD')}`;
+                    overallBalanceElem.style.color = data.overallReport.currentBalance >= 0 ? '#007bff' : '#dc3545';
+
+
+                    // Update Yearly Report for selected year
+                    selectedYearDisplay.textContent = year;
+                    yearlyIncomeElem.textContent = `৳ ${data.yearlyReport.income.toLocaleString('bn-BD')}`;
+                    yearlyExpenseElem.textContent = `৳ ${data.yearlyReport.expense.toLocaleString('bn-BD')}`;
+                    yearlyBalanceElem.textContent = `৳ ${data.yearlyReport.balance.toLocaleString('bn-BD')}`;
+                    yearlyBalanceElem.style.color = data.yearlyReport.balance >= 0 ? '#007bff' : '#dc3545';
+
+                    // Update Graph and Table Year Displays
+                    graphYearDisplay.textContent = year;
+                    tableYearDisplay.textContent = year;
+
+                    // Prepare data for Chart.js
+                    const monthNames = ["জানুয়ারি", "ফেব্রুয়ারি", "মার্চ", "এপ্রিল", "মে", "জুন", "জুলাই", "আগস্ট", "সেপ্টেম্বর", "অক্টোবর", "নভেম্বর", "ডিসেম্বর"];
+                    const monthlyIncomeData = monthNames.map(month => data.monthlyReports[month].income);
+                    const monthlyExpenseData = monthNames.map(month => data.monthlyReports[month].expense);
+
+                    // Destroy existing chart if it exists
+                    if (monthlyChart) {
+                        monthlyChart.destroy();
+                    }
+
+                    // Create new chart
+                    const ctx = document.getElementById('monthlyReportChart').getContext('2d');
+                    monthlyChart = new Chart(ctx, {
+                        type: 'bar',
+                        data: {
+                            labels: monthNames,
+                            datasets: [{
+                                label: 'মোট আয় (৳)',
+                                data: monthlyIncomeData,
+                                backgroundColor: 'rgba(40, 167, 69, 0.6)', // Green
+                                borderColor: 'rgba(40, 167, 69, 1)',
+                                borderWidth: 1
+                            }, {
+                                label: 'মোট খরচ (৳)',
+                                data: monthlyExpenseData,
+                                backgroundColor: 'rgba(220, 53, 69, 0.6)', // Red
+                                borderColor: 'rgba(220, 53, 69, 1)',
+                                borderWidth: 1
+                            }]
+                        },
+                        options: {
+                            responsive: true,
+                            scales: {
+                                x: {
+                                    title: {
+                                        display: true,
+                                        text: 'মাস'
+                                    }
+                                },
+                                y: {
+                                    beginAtZero: true,
+                                    title: {
+                                        display: true,
+                                        text: 'পরিমাণ (৳)'
+                                    }
+                                }
+                            }
+                        }
+                    });
+
+                    // Update Monthly Report Table
+                    monthlyReportTableBody.innerHTML = ''; // Clear existing rows
+                    monthNames.forEach(month => {
+                        const income = data.monthlyReports[month].income;
+                        const expense = data.monthlyReports[month].expense;
+                        const balance = income - expense;
+                        const row = `
+                            <tr>
+                                <td class="py-2 px-4 border-b border-gray-200">${month}</td>
+                                <td class="py-2 px-4 border-b border-gray-200 text-right text-green-amount">${income.toLocaleString('bn-BD')}</td>
+                                <td class="py-2 px-4 border-b border-gray-200 text-right text-red-amount">${expense.toLocaleString('bn-BD')}</td>
+                                <td class="py-2 px-4 border-b border-gray-200 text-right ${balance >= 0 ? 'text-blue-balance' : 'text-red-amount'}">${balance.toLocaleString('bn-BD')}</td>
+                            </tr>
+                        `;
+                        monthlyReportTableBody.insertAdjacentHTML('beforeend', row);
+                    });
+
+                } catch (error) {
+                    console.error('Error fetching financial reports:', error);
+                    errorMessageElem.classList.remove('hidden');
+                    errorMessageElem.textContent = `প্রতিবেদন লোড করতে সমস্যা হয়েছে: ${error.message}`;
+                    // Clear all data if error
+                    overallIncomeElem.textContent = '৳ 0';
+                    overallExpenseElem.textContent = '৳ 0';
+                    overallBalanceElem.textContent = '৳ 0';
+                    yearlyIncomeElem.textContent = '৳ 0';
+                    yearlyExpenseElem.textContent = '৳ 0';
+                    yearlyBalanceElem.textContent = '৳ 0';
+                    monthlyReportTableBody.innerHTML = '<tr><td colspan="4" class="text-center py-4 text-red-600">ডেটা লোড করা যায়নি।</td></tr>';
+                    if (monthlyChart) {
+                        monthlyChart.destroy(); // Destroy chart on error
+                    }
+                } finally {
+                    loadingMessageElem.classList.add('hidden');
+                }
+            };
+
+            // Event listener for year selection
+            loadReportBtn.addEventListener('click', () => {
+                const selectedYear = parseInt(reportYearSelect.value);
+                fetchAndRenderReports(selectedYear);
+            });
+
+            // Load report for the current year on initial page load
+            fetchAndRenderReports(currentYear);
+        });
+    </script>
+</body>
+</html>
