@@ -77,56 +77,62 @@
     <script>
         document.addEventListener('DOMContentLoaded', async () => {
             // *** আপনার Apps Script Web App URL এখানে দিন (এটি আপনার ফর্ম সাবমিশন URL এর মতোই হবে) ***
-            const appScriptURL = "https://script.google.com/macros/s/AKfycby2NWuCJcZ6444_QJl32AwZPgSrBOL01ZoOR8ZVn5dB/dev"; // আপনার Apps Script Web App URL বসান
+          // আপনার Apps Script Web App URL এখানে দিন।
+// নিশ্চিত করুন URL এর শেষে '/exec' আছে, '/dev' নয়।
+const appScriptURL = "https://script.google.com/macros/s/AKfycby2NWuCJcZ6444_QJl32AwZPgSrBOL01ZoOR8ZVn5dB/exec";
             
             const membersContainer = document.getElementById('membersContainer');
             const loadingDiv = document.getElementById('loading');
             const errorMessageDiv = document.getElementById('errorMessage');
             const noMembersFoundDiv = document.getElementById('noMembersFound');
 
-            try {
-                // 'action=getApprovedMembersData' প্যারামিটার যোগ করে Apps Script এর doGet ফাংশন কল করা হচ্ছে
-                const response = await fetch(`${appScriptURL}?action=getApprovedMembersData`);
-                if (!response.ok) {
-                    throw new Error(`HTTP error! status: ${response.status}`);
-                }
-                const data = await response.json();
-                console.log(data); // ডিবাগিং এর জন্য কনসোলে ডেটা দেখাবে
+          // ... (অন্যান্য কোড অপরিবর্তিত) ...
 
-                loadingDiv.classList.add('hidden'); // লোডিং স্পিনার লুকান
+try {
+    const response = await fetch(`${appScriptURL}?action=getApprovedMembersData`);
+    if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+    }
+    const data = await response.json();
+    console.log(data); // ডিবাগিং এর জন্য কনসোলে ডেটা দেখাবে
 
-                if (data.error) {
-                    errorMessageDiv.textContent = `Error: ${data.error}`;
-                    errorMessageDiv.classList.remove('hidden');
-                    return;
-                }
+    loadingDiv.classList.add('hidden'); // লোডিং স্পিনার লুকান
 
-                if (data.members && data.members.length > 0) {
-                    // সদস্যদের নাম অনুযায়ী বর্ণানুক্রমিকভাবে সাজানো
-                    data.members.sort((a, b) => a.memberName.localeCompare(b.memberName, 'bn', { sensitivity: 'base' }));
+    if (data.error) {
+        errorMessageDiv.textContent = `Error: ${data.error}`;
+        errorMessageDiv.classList.remove('hidden');
+        return;
+    }
 
-                    data.members.forEach(member => {
-                        const memberCardHtml = `
-                            <div class="member-card">
-                                <h3><i class="fas fa-user-circle mr-2 text-green-500"></i>${member.memberName}</h3>
-                                <p><span>ফ্যাকাল্টি:</span> ${member.memberFaculty || 'N/A'}</p>
-                                <p><span>সেশন:</span> ${member.memberSession || 'N/A'}</p>
-                                <p><span>হল:</span> ${member.memberHall || 'N/A'}</p>
-                                <p><span>ইমেইল:</span> ${member.memberEmail || 'N/A'}</p>
-                                <p><span>ফোন:</span> ${member.memberPhone || 'N/A'}</p>
-                            </div>
-                        `;
-                        membersContainer.insertAdjacentHTML('beforeend', memberCardHtml);
-                    });
-                } else {
-                    noMembersFoundDiv.classList.remove('hidden'); // কোনো সদস্য না থাকলে বার্তা দেখান
-                }
+    // *** এখানে পরিবর্তন করা হয়েছে: data.members ব্যবহার করা হয়েছে ***
+    if (data.members && data.members.length > 0) {
+        // সদস্যদের নাম অনুযায়ী বর্ণানুক্রমিকভাবে সাজানো
+        data.members.sort((a, b) => a.memberName.localeCompare(b.memberName, 'bn', { sensitivity: 'base' }));
 
-            } catch (error) {
-                console.error('Error fetching members data:', error);
-                loadingDiv.classList.add('hidden');
-                errorMessageDiv.classList.remove('hidden');
-            }
+        data.members.forEach(member => {
+            const memberCardHtml = `
+                <div class="member-card">
+                    <h3><i class="fas fa-user-circle mr-2 text-green-500"></i>${member.memberName}</h3>
+                    <p><span>ফ্যাকাল্টি:</span> ${member.memberFaculty || 'N/A'}</p>
+                    <p><span>সেশন:</span> ${member.memberSession || 'N/A'}</p>
+                    <p><span>হল:</span> ${member.memberHall || 'N/A'}</p>
+                    <p><span>ইমেইল:</span> ${member.memberEmail || 'N/A'}</p>
+                    <p><span>ফোন:</span> ${member.memberPhone || 'N/A'}</p>
+                </div>
+            `;
+            membersContainer.insertAdjacentHTML('beforeend', memberCardHtml);
+        });
+    } else {
+        noMembersFoundDiv.classList.remove('hidden'); // কোনো সদস্য না থাকলে বার্তা দেখান
+    }
+
+} catch (error) {
+    console.error('Error fetching members data:', error);
+    loadingDiv.classList.add('hidden');
+    errorMessageDiv.classList.remove('hidden');
+}
+
+// ... (বাকি কোড অপরিবর্তিত) ...
         });
     </script>
 </body>
