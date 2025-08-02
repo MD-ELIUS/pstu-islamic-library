@@ -93,24 +93,63 @@
         return;
       }
 
-      if (data.members && data.members.length > 0) {
-        data.members.sort((a, b) => a.memberName.localeCompare(b.memberName, 'bn', { sensitivity: 'base' }));
-        data.members.forEach(member => {
-          const memberCardHtml = `
-            <div class="member-card">
-              <h3><i class="fas fa-user-circle mr-2 text-green-500"></i>${member.memberName}</h3>
-              <p><span>ফ্যাকাল্টি:</span> ${member.memberFaculty || 'N/A'}</p>
-              <p><span>সেশন:</span> ${member.memberSession || 'N/A'}</p>
-              <p><span>হল:</span> ${member.memberHall || 'N/A'}</p>
-              <p><span>ইমেইল:</span> ${member.memberEmail || 'N/A'}</p>
-              <p><span>ফোন:</span> ${member.memberPhone || 'N/A'}</p>
-            </div>
-          `;
-          membersContainer.insertAdjacentHTML('beforeend', memberCardHtml);
-        });
-      } else {
-        noMembersFoundDiv.classList.remove('hidden');
-      }
+if (data.members && data.members.length > 0) {
+            data.members.sort((a, b) => a.memberName.localeCompare(b.memberName, 'bn', { sensitivity: 'base' }));
+
+            data.members.forEach(member => {
+                const memberCardHtml = `
+                    <div class="member-card bg-white rounded-xl shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 overflow-hidden border border-gray-200">
+                        <div class="p-6">
+                            <div class="flex items-center mb-4 pb-4 border-b border-gray-200">
+                                <i class="fas fa-user-circle text-4xl text-green-600 mr-4"></i>
+                                <h3 class="text-2xl font-bold text-gray-900">${member.memberName}</h3>
+                            </div>
+                            <div class="space-y-4 text-gray-700">
+                                <div class="flex items-start">
+                                    <i class="fas fa-building text-green-500 w-6 mt-1 mr-3"></i>
+                                    <div>
+                                        <p class="text-sm font-semibold text-gray-500">ফ্যাকাল্টি</p>
+                                        <p class="text-lg text-gray-800">${member.memberFaculty || 'N/A'}</p>
+                                    </div>
+                                </div>
+                                <div class="flex items-start">
+                                    <i class="fas fa-calendar-alt text-green-500 w-6 mt-1 mr-3"></i>
+                                    <div>
+                                        <p class="text-sm font-semibold text-gray-500">সেশন</p>
+                                        <p class="text-lg text-gray-800">${member.memberSession || 'N/A'}</p>
+                                    </div>
+                                </div>
+                                <div class="flex items-start">
+                                    <i class="fas fa-university text-green-500 w-6 mt-1 mr-3"></i>
+                                    <div>
+                                        <p class="text-sm font-semibold text-gray-500">হল</p>
+                                        <p class="text-lg text-gray-800">${member.memberHall || 'N/A'}</p>
+                                    </div>
+                                </div>
+                                <div class="flex items-start">
+                                    <i class="fas fa-envelope text-green-500 w-6 mt-1 mr-3"></i>
+                                    <div>
+                                        <p class="text-sm font-semibold text-gray-500">ইমেইল</p>
+                                        <p class="text-lg text-gray-800">${member.memberEmail || 'N/A'}</p>
+                                    </div>
+                                </div>
+                                <div class="flex items-start">
+                                    <i class="fas fa-phone-alt text-green-500 w-6 mt-1 mr-3"></i>
+                                    <div>
+                                        <p class="text-sm font-semibold text-gray-500">ফোন</p>
+                                        <p class="text-lg text-gray-800">${member.memberPhone || 'N/A'}</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+                membersContainer.insertAdjacentHTML('beforeend', memberCardHtml);
+            });
+        } else {
+            noMembersFoundDiv.classList.remove('hidden');
+        }
+
     };
 
     // JSONP স্ক্রিপ্ট ইনজেকশন
