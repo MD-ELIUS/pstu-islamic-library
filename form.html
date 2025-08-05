@@ -74,37 +74,37 @@
             <div>
                 <label for="userName" class="block text-sm font-medium text-gray-700 mb-1">আপনার নাম:</label>
                 <input type="text" id="userName" name="userName" required
-                        class="w-full px-4 py-3 border-2 border-green-300 rounded-xl outline-none shadow-sm placeholder:text-gray-500 font-semibold placeholder:font-normal text-gray-800 transition-all duration-200 focus:border-green-500">
+                         class="w-full px-4 py-3 border-2 border-green-300 rounded-xl outline-none shadow-sm placeholder:text-gray-500 font-semibold placeholder:font-normal text-gray-800 transition-all duration-200 focus:border-green-500">
             </div>
 
             <div>
                 <label for="userFaculty" class="block text-sm font-medium text-gray-700 mb-1">ফ্যাকাল্টি:</label>
                 <input type="text" id="userFaculty" name="userFaculty" required
-                        class="w-full px-4 py-3 border-2 border-green-300 rounded-xl outline-none shadow-sm placeholder:text-gray-500 font-semibold placeholder:font-normal text-gray-800 transition-all duration-200 focus:border-green-500">
+                         class="w-full px-4 py-3 border-2 border-green-300 rounded-xl outline-none shadow-sm placeholder:text-gray-500 font-semibold placeholder:font-normal text-gray-800 transition-all duration-200 focus:border-green-500">
             </div>
 
             <div>
                 <label for="userSession" class="block text-sm font-medium text-gray-700 mb-1">সেশন:</label>
                 <input type="text" id="userSession" name="userSession" required
-                        class="w-full px-4 py-3 border-2 border-green-300 rounded-xl outline-none shadow-sm placeholder:text-gray-500 font-semibold placeholder:font-normal text-gray-800 transition-all duration-200 focus:border-green-500">
+                         class="w-full px-4 py-3 border-2 border-green-300 rounded-xl outline-none shadow-sm placeholder:text-gray-500 font-semibold placeholder:font-normal text-gray-800 transition-all duration-200 focus:border-green-500">
             </div>
 
             <div>
                 <label for="userHall" class="block text-sm font-medium text-gray-700 mb-1">হল:</label>
                 <input type="text" id="userHall" name="userHall" required
-                        class="w-full px-4 py-3 border-2 border-green-300 rounded-xl outline-none shadow-sm placeholder:text-gray-500 font-semibold placeholder:font-normal text-gray-800 transition-all duration-200 focus:border-green-500">
+                         class="w-full px-4 py-3 border-2 border-green-300 rounded-xl outline-none shadow-sm placeholder:text-gray-500 font-semibold placeholder:font-normal text-gray-800 transition-all duration-200 focus:border-green-500">
             </div>
 
             <div>
                 <label for="userEmail" class="block text-sm font-medium text-gray-700 mb-1">ইমেইল:</label>
                 <input type="email" id="userEmail" name="userEmail" required
-                        class="w-full px-4 py-3 border-2 border-green-300 rounded-xl outline-none shadow-sm placeholder:text-gray-500 font-semibold placeholder:font-normal text-gray-800 transition-all duration-200 focus:border-green-500">
+                         class="w-full px-4 py-3 border-2 border-green-300 rounded-xl outline-none shadow-sm placeholder:text-gray-500 font-semibold placeholder:font-normal text-gray-800 transition-all duration-200 focus:border-green-500">
             </div>
 
             <div>
                 <label for="userPhone" class="block text-sm font-medium text-gray-700 mb-1">ফোন নম্বর:</label>
                 <input type="tel" id="userPhone" name="userPhone" pattern="[0-9]{10,11}" placeholder="যেমন: ০১৭০০০০০০০০" required
-                        class="w-full px-4 py-3 border-2 border-green-300 rounded-xl outline-none shadow-sm placeholder:text-gray-500 font-semibold placeholder:font-normal text-gray-800 transition-all duration-200 focus:border-green-500">
+                         class="w-full px-4 py-3 border-2 border-green-300 rounded-xl outline-none shadow-sm placeholder:text-gray-500 font-semibold placeholder:font-normal text-gray-800 transition-all duration-200 focus:border-green-500">
                 <p class="mt-1 text-sm text-gray-500">১১-সংখ্যার মোবাইল নম্বর দিন।</p>
             </div>
 
@@ -122,13 +122,14 @@
                     />
                     <div class="clear-btn" onclick="clearBookSearch()">×</div>
                     <div id="bookSuggestions" class="dropdown-content"></div>
+                    <input type="hidden" id="selectedBookSerial" name="selectedBookSerial">
                 </div>
             </div>
 
             <div>
                 <label for="bookOwnerEmail" class="block text-sm font-medium text-gray-700 mb-1">বইয়ের মালিকের ইমেইল:</label>
                 <input type="email" id="bookOwnerEmail" name="bookOwnerEmail" readonly
-                        class="w-full px-4 py-3 border-2 border-green-300 rounded-xl outline-none shadow-sm bg-gray-50 text-gray-600 cursor-not-allowed">
+                         class="w-full px-4 py-3 border-2 border-green-300 rounded-xl outline-none shadow-sm bg-gray-50 text-gray-600 cursor-not-allowed">
                 <p id="bookOwnerEmailDisplay" class="mt-2 text-sm text-gray-600 bg-gray-100 p-2 rounded-md hidden"></p>
             </div>
 
@@ -144,6 +145,7 @@
             const bookSearchInput = document.getElementById('bookSearch');
             const bookSuggestionsDiv = document.getElementById('bookSuggestions');
             const clearBtn = document.querySelector('.clear-btn');
+            const selectedBookSerialInput = document.getElementById('selectedBookSerial');
             const bookOwnerEmailInput = document.getElementById('bookOwnerEmail');
             const bookOwnerEmailDisplay = document.getElementById('bookOwnerEmailDisplay');
             let allBooksData = []; // Store all books
@@ -156,6 +158,7 @@
                 bookSuggestionsDiv.classList.remove('show');
                 clearBtn.style.display = 'none';
                 selectedBook = null;
+                selectedBookSerialInput.value = ''; // Clear selected book serial
                 bookOwnerEmailInput.value = '';
                 bookOwnerEmailDisplay.textContent = '';
                 bookOwnerEmailDisplay.classList.add('hidden');
@@ -168,12 +171,13 @@
                 if (booksToDisplay.length > 0) {
                     booksToDisplay.forEach(book => {
                         const suggestionItem = document.createElement('div');
-                        suggestionItem.textContent = `${book.title} - ${book.author}`;
+                        suggestionItem.textContent = book.title; // Show only the book title
                         suggestionItem.dataset.book = JSON.stringify(book);
 
                         suggestionItem.addEventListener('click', () => {
                             selectedBook = JSON.parse(suggestionItem.dataset.book);
                             bookSearchInput.value = selectedBook.title;
+                            selectedBookSerialInput.value = selectedBook.serial;
                             bookOwnerEmailInput.value = selectedBook.owner_email;
                             bookOwnerEmailDisplay.textContent = `মালিকের ইমেইল: ${selectedBook.owner_email}`;
                             bookOwnerEmailDisplay.classList.remove('hidden');
@@ -190,6 +194,7 @@
                     bookSuggestionsDiv.appendChild(noResult);
                     bookSuggestionsDiv.classList.add('show');
                     selectedBook = null;
+                    selectedBookSerialInput.value = ''; // No book found, clear serial
                     bookSearchInput.setCustomValidity('নির্বাচিত বই পাওয়া যায়নি।'); // Show validation for no match
                 }
             };
@@ -226,6 +231,7 @@
                     displaySuggestions(allBooksData);
                     clearBtn.style.display = 'none';
                     selectedBook = null;
+                    selectedBookSerialInput.value = '';
                     bookOwnerEmailInput.value = '';
                     bookOwnerEmailDisplay.textContent = '';
                     bookOwnerEmailDisplay.classList.add('hidden');
@@ -234,7 +240,7 @@
                     clearBtn.style.display = 'block';
                     const filteredBooks = allBooksData.filter(book =>
                         book.title.toLowerCase().includes(searchTerm) ||
-                        book.author.toLowerCase().includes(searchTerm)
+                        book.serial.toString().includes(searchTerm)
                     );
                     displaySuggestions(filteredBooks);
                 }
@@ -277,6 +283,7 @@
                     userHall: document.getElementById('userHall').value,
                     userEmail: document.getElementById('userEmail').value,
                     userPhone: document.getElementById('userPhone').value,
+                    selectedBookSerial: selectedBook.serial,
                     selectedBookTitle: selectedBook.title,
                     bookOwnerEmail: selectedBook.owner_email,
                     borrowDate: new Date().toISOString().slice(0, 10)
