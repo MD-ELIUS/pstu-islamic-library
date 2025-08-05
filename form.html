@@ -149,35 +149,31 @@
         const selectedBookSerialInput = document.getElementById('selectedBookSerial');
         const bookOwnerEmailInput = document.getElementById('bookOwnerEmail');
         const bookOwnerEmailDisplay = document.getElementById('bookOwnerEmailDisplay');
-        let allBooksData = []; // Store all books
-        let selectedBook = null; // Store the selected book object
+        let allBooksData = [];
+        let selectedBook = null;
 
-        // The URL of your Google Apps Script web app
         const appScriptURL = 'https://script.google.com/macros/s/AKfycbwQxJW8iWbH7OVvaoc_r2fsW4BvDObPsz0WBUgJWJN-l7wjaz1rRrj9KRHMTeXOc9S0/exec';
 
-        // Function to clear search and selection
         window.clearBookSearch = () => {
             bookSearchInput.value = '';
             bookSuggestionsDiv.innerHTML = '';
             bookSuggestionsDiv.classList.remove('show');
             clearBtn.style.display = 'none';
             selectedBook = null;
-            selectedBookSerialInput.value = ''; // Clear selected book serial
+            selectedBookSerialInput.value = '';
             bookOwnerEmailInput.value = '';
             bookOwnerEmailDisplay.textContent = '';
             bookOwnerEmailDisplay.classList.add('hidden');
-            bookSearchInput.setCustomValidity('অনুগ্রহ করে একটি বই নির্বাচন করুন।'); // Re-apply validation
+            bookSearchInput.setCustomValidity('অনুগ্রহ করে একটি বই নির্বাচন করুন।');
             bookSearchInput.focus();
         };
 
-        // Function to display suggestions
         const displaySuggestions = (booksToDisplay) => {
-            bookSuggestionsDiv.innerHTML = ''; // Clear previous suggestions
+            bookSuggestionsDiv.innerHTML = '';
             if (booksToDisplay.length > 0) {
                 booksToDisplay.forEach(book => {
                     const suggestionItem = document.createElement('div');
-                    // Display only the book title as requested
-                    suggestionItem.textContent = book.title; 
+                    suggestionItem.textContent = book.title;
                     suggestionItem.dataset.book = JSON.stringify(book);
 
                     suggestionItem.addEventListener('click', () => {
@@ -188,8 +184,8 @@
                         bookOwnerEmailDisplay.textContent = `মালিকের ইমেইল: ${selectedBook.owner_email}`;
                         bookOwnerEmailDisplay.classList.remove('hidden');
                         bookSuggestionsDiv.classList.remove('show');
-                        bookSearchInput.setCustomValidity(''); // Clear validation on selection
-                        clearBtn.style.display = 'block'; // Show clear button
+                        bookSearchInput.setCustomValidity('');
+                        clearBtn.style.display = 'block';
                     });
                     bookSuggestionsDiv.appendChild(suggestionItem);
                 });
@@ -206,7 +202,6 @@
             }
         };
 
-        // Fetch books.json
         fetch('books.json')
             .then(response => {
                 if (!response.ok) {
@@ -226,13 +221,11 @@
                 bookSearchInput.setCustomValidity('বই লোড করা যায়নি।');
             });
 
-        // Handle input in search field
         bookSearchInput.addEventListener('input', () => {
             const searchTerm = bookSearchInput.value.toLowerCase().trim();
             bookSearchInput.setCustomValidity('');
-            
+
             if (searchTerm.length === 0) {
-                // If input is empty, show all books
                 displaySuggestions(allBooksData);
                 clearBtn.style.display = 'none';
                 selectedBook = null;
@@ -251,14 +244,12 @@
             }
         });
 
-        // Show all books when input is focused (clicked)
         bookSearchInput.addEventListener('focus', () => {
             if (bookSearchInput.value.trim() === '' || !selectedBook) {
                 displaySuggestions(allBooksData);
             }
         });
 
-        // Hide suggestions when clicking outside
         document.addEventListener('click', (event) => {
             if (!bookSearchInput.contains(event.target) && !bookSuggestionsDiv.contains(event.target)) {
                 bookSuggestionsDiv.classList.remove('show');
@@ -268,7 +259,6 @@
             }
         });
 
-        // Form submission handler
         document.getElementById('bookBorrowForm').addEventListener('submit', (event) => {
             event.preventDefault();
 
@@ -327,6 +317,5 @@
         });
     });
 </script>
-    
 </body>
 </html>
