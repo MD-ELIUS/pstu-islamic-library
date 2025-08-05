@@ -611,7 +611,7 @@
 <div class="space-y-4">
   <h3 class="text-xl font-bold text-green-700 border-b-2 border-green-700 pb-2">আমাদের সাথে যুক্ত থাকুন</h3>
   <p class="text-sm">নতুন বই বা আপডেটের খবর পেতে আমাদের সাথে যুক্ত থাকুন।</p>
-  <form id="footerFeedbackForm" action="https://script.google.com/macros/s/AKfycbz3NaCeaNgCBq1GUqJqG18YA9XF3ewYtpVGcc2X0iyukn5Kvqd4ODQfUj9SBcZ4VbN8KA/exec" method="POST" class="space-y-4" novalidate aria-live="polite">
+  <form id="footerFeedbackForm" action="https://script.google.com/macros/s/AKfycbzrVX5ploB2HmTwHaNABdcmys1XEZzEt7ViqPh9e6ssycw8J-HiB4hPJcMRLVjvzopT/exec" method="POST" class="space-y-4" novalidate aria-live="polite">
     <input type="hidden" name="source" value="footer-newsletter" />
     <input type="hidden" name="timestamp" id="newsletter-timestamp" value="" />
     <label for="newsletter-email" class="sr-only">ইমেইল</label>
@@ -1267,117 +1267,59 @@ document.addEventListener('DOMContentLoaded', () => {
   document.addEventListener('DOMContentLoaded', loadArticles);
 </script>
 
-<script>
-(() => {
-  const form = document.getElementById('footerFeedbackForm');
-  if (!form) return;
+<script> 
 
-  // set timestamp on load
-  const tsInput = document.getElementById('newsletter-timestamp');
-  if (tsInput) tsInput.value = new Date().toISOString();
+// Get the form and the feedback container
+const form = document.getElementById('footerFeedbackForm');
+const feedbackContainer = document.getElementById('subscription-feedback-container');
+const submitButton = form.querySelector('button[type="submit"]');
 
-  const feedbackContainer = document.getElementById('subscription-feedback-container');
+// Add a submit event listener to the form
+form.addEventListener('submit', async (event) => {
+    // Prevent the default form submission (page reload)
+    event.preventDefault();
 
-  const createMessageElement = (text, type = 'success') => {
-    const div = document.createElement('div');
-    div.className = type === 'error' ? 'text-red-600 text-sm mt-2' : 'text-green-600 text-sm mt-2';
-    div.textContent = text;
-    return div;
-  };
-
-  const emailInput = form.querySelector('input[name="email"]');
-  let lastSubmittedEmail = localStorage.getItem('lastSubEmail') || '';
-
-  form.addEventListener('submit', async (e) => {
-    e.preventDefault();
+    // Show a loading state
+    submitButton.innerHTML = `<i class="fas fa-spinner fa-spin mr-2"></i><span>সাবমিট হচ্ছে...</span>`;
+    submitButton.disabled = true;
     feedbackContainer.innerHTML = '';
 
-    const email = (emailInput.value || '').trim();
-    if (!email) {
-      feedbackContainer.appendChild(createMessageElement('ইমেল খালি রাখতে পারবে না।', 'error'));
-      return;
-    }
+    // Get the form data
+    const formData = new FormData(form);
 
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!emailRegex.test(email)) {
-      feedbackContainer.appendChild(createMessageElement('সঠিক ইমেল ঠিকানা দিন।', 'error'));
-      return;
-    }
+    // The Google Apps Script web app URL is taken directly from the form's action attribute
+    const actionUrl = form.action;
 
-    if (email === lastSubmittedEmail) {
-      feedbackContainer.appendChild(createMessageElement('এই ইমেইল ইতোমধ্যে সাবমিট করা হয়েছে।', 'error'));
-      return;
-    }
-
-    const submitBtn = form.querySelector('button[type="submit"]');
-    submitBtn.disabled = true;
-    const originalBtnHtml = submitBtn.innerHTML;
-    submitBtn.innerHTML = 'সাবস্ক্রাইব হচ্ছে...';
-
-    const formData = new URLSearchParams(new FormData(form));
-    let attempts = 0;
-    const maxAttempts = 3;
-    const baseDelay = 500;
-    const endpoint = form.action;
-
-    const send = async () => {
-      try {
-        const controller = new AbortController();
-        const timeoutId = setTimeout(() => controller.abort(), 10000); // 10s timeout
-
-        const res = await fetch(endpoint, {
-          method: 'POST',
-          headers: {
-            'Accept': 'application/json',
-            'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8',
-          },
-          body: formData.toString(),
-          credentials: 'omit',
-          signal: controller.signal
+    try {
+        // Send the form data to the Google Apps Script
+        const response = await fetch(actionUrl, {
+            method: 'POST',
+            body: formData,
         });
-        clearTimeout(timeoutId);
 
-        const data = await res.json().catch(() => null);
-        if (!res.ok) {
-          throw new Error((data && data.message) || `সার্ভারে সমস্যা: ${res.status}`);
-        }
+        // Parse the JSON response from the server
+        const result = await response.json();
 
-        lastSubmittedEmail = email;
-        localStorage.setItem('lastSubEmail', email);
-        form.reset();
-        if (tsInput) tsInput.value = new Date().toISOString();
-
-        let successText = 'ধন্যবাদ! আপনি সফলভাবে সাবস্ক্রাইব করেছেন।';
-        if (data.message) successText = data.message;
-        feedbackContainer.appendChild(createMessageElement(successText, 'success'));
-
-        if (data.unsubscribe_url) {
-          const hint = document.createElement('div');
-          hint.className = 'text-sm mt-1';
-          hint.innerHTML = `আপনি আনসাবস্ক্রাইব করতে পারেন: <a href="${data.unsubscribe_url}" class="text-green-700 underline" target="_blank" rel="noopener">এখানে ক্লিক করুন</a>`;
-          feedbackContainer.appendChild(hint);
-        }
-      } catch (err) {
-        attempts++;
-        if (attempts < maxAttempts) {
-          const delay = baseDelay * (2 ** (attempts - 1));
-          setTimeout(send, delay);
+        if (result.status === 'success') {
+            // Display a success message
+            feedbackContainer.innerHTML = `<p class="text-green-600">✅ ${result.message}</p>`;
+            form.reset(); // Clear the form
         } else {
-          feedbackContainer.appendChild(createMessageElement('সাবস্ক্রিপশন ব্যর্থ হয়েছে; পরে আবার চেষ্টা করুন।', 'error'));
-          console.error('Subscription error:', err);
+            // Display an error message
+            feedbackContainer.innerHTML = `<p class="text-red-600">❌ ${result.message}</p>`;
         }
-      } finally {
-        submitBtn.disabled = false;
-        submitBtn.innerHTML = originalBtnHtml;
-      }
-    };
+    } catch (error) {
+        // Handle network or other unexpected errors
+        console.error('Error:', error);
+        feedbackContainer.innerHTML = `<p class="text-red-600">❌ An error occurred. Please check your network connection.</p>`;
+    } finally {
+        // Reset the button to its original state regardless of success or failure
+        submitButton.innerHTML = `<i class="fas fa-envelope mr-2" aria-hidden="true"></i><span>সাবস্ক্রাইব করুন</span>`;
+        submitButton.disabled = false;
+    }
+});
 
-    send();
-  });
-})();
 </script>
 
-
-  
 </body>
 </html>
