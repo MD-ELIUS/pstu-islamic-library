@@ -1,0 +1,861 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" />
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <title></title>
+  
+  <style>
+      
+    .dropdown {
+      position: relative;
+    }
+    .dropdown-content {
+      position: absolute;
+      z-index: 10;
+      background-color: white;
+      border: 1px solid #15803D;
+      border-radius: 0.75rem;
+      width: 100%;
+      max-height: 250px;
+      overflow-y: auto;
+      display: none;
+      margin-top: 0.5rem;
+      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+      scrollbar-width: thin;
+      scrollbar-color: #15803D #E2E8F0;
+    }
+    .dropdown-content::-webkit-scrollbar {
+      width: 8px;
+    }
+    .dropdown-content::-webkit-scrollbar-track {
+      background: #F0FDF4;
+      border-radius: 0.75rem;
+    }
+    .dropdown-content::-webkit-scrollbar-thumb {
+      background-color: #15803D;
+      border-radius: 0.75rem;
+      border: 2px solid #F0FDF4;
+    }
+    .dropdown-content.active {
+      display: block;
+      animation: slideDown 0.2s ease-out;
+    }
+    .dropdown-content div {
+      padding: 10px 16px;
+      cursor: pointer;
+      color: #15803D;
+      font-weight: 600;
+      transition: all 0.2s ease;
+      border-bottom: 1px solid #DCFCE7;
+    }
+    .dropdown-content div:last-child {
+      border-bottom: none;
+    }
+    .dropdown-content div:hover {
+      background-color: #F0FDF4;
+      padding-left: 20px;
+    }
+    @keyframes slideDown {
+      from {
+        opacity: 0;
+        transform: translateY(-10px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+    input:not(:placeholder-shown), input:focus {
+      border-color: #22c55e; /* green-500 */
+      border-width: 2px;
+      --tw-ring-offset-shadow: var(--tw-ring-inset) 0 0 0 var(--tw-ring-offset-width) var(--tw-ring-offset-color);
+      --tw-ring-shadow: var(--tw-ring-inset) 0 0 0 calc(2px + var(--tw-ring-offset-width)) var(--tw-ring-color);
+      box-shadow: var(--tw-ring-offset-shadow), var(--tw-ring-shadow), var(--tw-shadow, 0 0 #0000);
+      --tw-ring-color: rgb(34 197 94 / 0.5);
+      --tw-ring-opacity: 0.5;
+    }
+    /* Ensure consistent text color for all filter inputs */
+    #categoryInput, #authorInput, #publisherInput {
+      color: #15803d !important; /* green-700 */
+    }
+    /* Base styles for all filter inputs */
+    .filter-input {
+      color: #15803d !important;
+      border-color: #86efac;
+    }
+    /* Specific styles for publisher input */
+    #publisherInput {
+      color: #15803d !important;
+    }
+
+    /* Clear button styles */
+    .clear-btn {
+      position: absolute;
+      right: 12px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: #15803d;
+      cursor: pointer;
+      font-size: 18px;
+      display: none;
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      background: #f0fdf4;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.2s;
+    }
+
+    .clear-btn:hover {
+      background: #dcfce7;
+    }
+
+    input:not(:placeholder-shown) + .clear-btn {
+      display: flex;
+    }
+  </style>
+</head>
+
+<body>
+  
+  
+  <nav class="sticky top-0 bg-white shadow-md px-4 py-0 grid grid-cols-3 items-center z-50">
+  <div class="flex items-center gap-3">
+    <img class="w-[60px] h-[60px] md:w-[80px] md:h-[80px]" src="./images/logo.jpg" alt="লোগো" />
+  </div>
+
+  <div class="font-bold text-green-800 tracking-tight text-sm md:text-xl justify-self-center">
+    বই পড়ুন, জীবন গড়ুন
+  </div>
+
+  <button id="menu-toggle" class="text-green-800 text-3xl focus:outline-none justify-self-end">
+    <i class="fas fa-bars"></i>
+  </button>
+</nav>
+
+<!-- Overlay -->
+<div id="sidebar-overlay" class="fixed inset-0 bg-black bg-opacity-25 backdrop-blur-sm opacity-0 pointer-events-none transition-opacity duration-200 z-40"></div>
+
+<div id="sidebar-menu"
+     class="fixed top-0 right-0 w-64 h-full bg-white text-green-800 transform translate-x-full transition-transform duration-300 ease-in-out z-50 shadow-xl">
+  <div class="flex justify-between items-center px-6 h-16 md:h-[84px] border-b-4 border-green-200">
+    <h2 class="text-xl font-bold">মেনু</h2>
+    <button id="close-menu" class="text-green-800 text-3xl hover:text-red-500 transition-colors">
+      <i class="fas fa-times"></i>
+    </button>
+  </div>
+
+  <nav class="mt-8 flex flex-col gap-1">
+
+    <a href="index.html" data-page="index" class="flex items-center gap-4 px-4 py-3 rounded-lg hover:bg-green-100 transition-colors duration-200">
+      <i class="fas fa-home text-2xl"></i>
+      <span class="text-lg font-semibold">হোম</span>
+    </a>
+    <a href="books.html" data-page="books" class="flex items-center gap-4 px-4 py-3 rounded-lg hover:bg-green-100 transition-colors duration-200">
+      <i class="fas fa-book text-2xl"></i>
+      <span class="text-lg font-semibold">বই</span>
+    </a>
+    <a href="articles.html" data-page="contact" class="flex items-center gap-4 px-4 py-3 rounded-lg hover:bg-green-100 transition-colors duration-200">
+     <i class="fa-solid fa-file-pen text-2xl"></i>
+      <span class="text-lg font-semibold">আর্টিকেল</span>
+    </a>
+    
+         <a href="notice.html" data-page="about" class="flex items-center gap-4 px-4 py-3 rounded-lg hover:bg-green-100 transition-colors duration-200">
+       <i class="fas fa-info-circle text-2xl"></i>
+       <span class="text-lg font-semibold"> নোটিশ </span>
+     </a>
+    
+    <a href="about.html" data-page="about" class="flex items-center gap-4 px-4 py-3 rounded-lg hover:bg-green-100 transition-colors duration-200">
+      <i class="fas fa-info-circle text-2xl"></i>
+      <span class="text-lg font-semibold">আমাদের সম্পর্কে</span>
+    </a>
+  </nav>
+</div>
+
+  
+  
+    <!-- Filters Section -->
+  <div class="p-6 scroll-mt-[100px] md:scroll-mt-[120px] mt-[100px]" id="filter_section">
+    <div class="max-w-7xl mx-auto">
+      <!-- Search Row -->
+      <div class="mb-6">
+        <label for="bookSearch" class="block text-green-700 font-semibold mb-2 text-center text-lg">
+          <i class="fas fa-search text-green-600 mr-2"></i>বই খুঁজুন
+        </label>
+        <div class="dropdown relative">
+          <input
+            type="text"
+            id="bookSearch"
+            placeholder="📘 বইয়ের নাম লিখুন..."
+            class="filter-input w-full px-4 py-3 border-2 border-green-300 rounded-xl outline-none shadow-sm placeholder:text-green-700 font-semibold placeholder:font-normal text-green-700 transition-all duration-200"
+          />
+          <div class="clear-btn" onclick="clearBookSearch()">×</div>
+          <div id="bookSuggestions" class="dropdown-content"></div>
+        </div>
+      </div>
+
+      <!-- Filters Row -->
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+        <div class="dropdown relative">
+          <input id="categoryInput" type="text" placeholder="ক্যাটাগরি..." 
+            class="filter-input w-full px-4 py-2 border-2 border-green-300 rounded-xl outline-none shadow-sm placeholder:text-green-700 font-semibold placeholder:font-normal text-green-700 transition-all duration-200"
+          />
+          <div class="clear-btn" onclick="clearFilter('categoryInput')">×</div>
+          <div id="categoryDropdown" class="dropdown-content"></div>
+        </div>
+        <div class="dropdown relative">
+          <input id="authorInput" type="text" placeholder="লেখক..." 
+            class="filter-input w-full px-4 py-2 border-2 border-green-300 rounded-xl outline-none shadow-sm placeholder:text-green-700 font-semibold placeholder:font-normal text-green-700 transition-all duration-200"
+          />
+          <div class="clear-btn" onclick="clearFilter('authorInput')">×</div>
+          <div id="authorDropdown" class="dropdown-content"></div>
+        </div>
+        <div class="dropdown relative">
+          <input id="publisherInput" type="text" placeholder="প্রকাশনী..." 
+            class="filter-input w-full px-4 py-2 border-2 border-green-300 rounded-xl outline-none shadow-sm placeholder:text-green-700 font-semibold placeholder:font-normal text-green-700 transition-all duration-200"
+          />
+          <div class="clear-btn" onclick="clearFilter('publisherInput')">×</div>
+          <div id="publisherDropdown" class="dropdown-content"></div>
+        </div>
+      </div>
+
+      <div class="flex justify-center mb-6">
+        <button id="toggleAllBtn" class="px-6 py-2 bg-green-600 text-white rounded-full text-center hover:bg-green-700 transition duration-200 shadow-md">
+          সবগুলো বই দেখুন
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Book Grid -->
+  <div id="bookGrid" class="p-6 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+    <!-- Book cards will be injected here -->
+  </div>
+  
+  
+  
+  <footer class="bg-gray-100 text-gray-800 py-12 px-6 md:px-20 mt-20">
+  <div class="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12">
+    <div class="space-y-4">
+      <h3 class="text-xl font-bold text-green-700 border-b-2 border-green-700 pb-2">আমাদের সম্পর্কে</h3>
+      <p class="text-sm leading-relaxed">
+        পটুয়াখালী বিজ্ঞান ও প্রযুক্তি বিশ্ববিদ্যালয় (PSTU) এর ইসলামিক লাইব্রেরিটি শিক্ষার্থীদের জ্ঞানার্জনের একটি অনন্য মাধ্যম। আমাদের লক্ষ্য হলো, ইসলামিক বই পাঠের মাধ্যমে একটি আলোকিত ও আদর্শ প্রজন্ম গড়ে তোলা।
+      </p>
+      <div class="flex space-x-4 mt-4">
+        <a href="https://facebook.com/PSTU Islamic Library" target="_blank" aria-label="Facebook" class="text-gray-600 hover:text-green-700 transition-colors duration-300">
+          <i class="fab fa-facebook-f text-2xl"></i>
+        </a>
+        <a href="https://t.me/PSTU Islamic Library" target="_blank" aria-label="Telegram" class="text-gray-600 hover:text-green-700 transition-colors duration-300">
+          <i class="fab fa-telegram-plane text-2xl"></i>
+        </a>
+        <a href="mailto:pstu.islamic.library@email.com" aria-label="Email" class="text-gray-600 hover:text-green-700 transition-colors duration-300">
+          <i class="fas fa-envelope text-2xl"></i>
+        </a>
+      </div>
+    </div>
+
+    <div class="space-y-4">
+      <h3 class="text-xl font-bold text-green-700 border-b-2 border-green-700 pb-2">গুরুত্বপূর্ণ লিংক</h3>
+      <ul class="space-y-2">
+        <li>
+          <a href="./form.html" class="hover:text-green-700 transition-colors duration-300 flex items-center">
+            <i class="fas fa-chevron-right text-xs mr-2"></i> বই ধার করার ফর্ম
+          </a>
+        </li>
+        <li>
+          <a href="./member.html" class="hover:text-green-700 transition-colors duration-300 flex items-center">
+            <i class="fas fa-chevron-right text-xs mr-2"></i> সদস্য হোন
+          </a>
+        </li>
+        <li>
+          <a href="./financial_report.html" class="hover:text-green-700 transition-colors duration-300 flex items-center">
+            <i class="fas fa-chevron-right text-xs mr-2"></i> আর্থিক প্রতিবেদন
+          </a>
+        </li>
+        <li>
+          <a href="#quote-slider" class="hover:text-green-700 transition-colors duration-300 flex items-center">
+            <i class="fas fa-chevron-right text-xs mr-2"></i> গুরুত্বপূর্ণ উক্তি
+          </a>
+        </li>
+      </ul>
+    </div>
+
+    <div class="space-y-4">
+      <h3 class="text-xl font-bold text-green-700 border-b-2 border-green-700 pb-2">যোগাযোগ</h3>
+      <ul class="space-y-2 text-sm">
+        <li class="flex items-start">
+          <i class="fas fa-map-marker-alt mt-1 mr-3 text-green-700"></i>
+         <span>PSTU, দুমকি, পটুয়াখালী, বাংলাদেশ</span>
+        </li>
+        <li class="flex items-center">
+          <i class="fas fa-envelope mr-3 text-green-700"></i>
+          <span>pstu.islamic.library@email.com</span>
+        </li>
+        <li class="flex items-center">
+          <i class="fas fa-phone-alt mr-3 text-green-700"></i>
+          <span>+880 17XX-XXXXXX</span>
+        </li>
+      </ul>
+    </div>
+
+    <div class="space-y-4">
+      <h3 class="text-xl font-bold text-green-700 border-b-2 border-green-700 pb-2">আমাদের সাথে যুক্ত থাকুন</h3>
+      <p class="text-sm">নতুন বই বা আপডেটের খবর পেতে আমাদের সাথে যুক্ত থাকুন।</p>
+      <form id="footerFeedbackForm" action="https://script.google.com/macros/s/AKfycbxQMGK0SwfTjrbGfjV2ud2ranEgt4s9H1D38RcGdx1Ctk8cmK89-VjggUZF2mYPX9XnzA/exec" method="POST" class="space-y-4">
+        <input type="email" name="email" placeholder="আপনার ইমেল লিখুন" class="w-full px-4 py-2 rounded-lg bg-gray-200 border border-gray-300 focus:outline-none focus:ring-2 focus:ring-green-700 text-sm placeholder-gray-500 transition-colors duration-300" required />
+        <button type="submit" class="w-full bg-green-700 text-white font-semibold py-2 rounded-lg hover:bg-green-800 transition-colors duration-300 text-sm">
+          সাবস্ক্রাইব করুন
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <div class="border-t border-gray-300 mt-12 pt-8 text-center text-sm text-gray-500">
+    <p>&copy; 2025 PSTU Islamic Library. All Rights Reserved. | Created with ❤️ by <a href="https://yourprofile.com" target="_blank" class="text-green-700 hover:underline">Your Name</a></p>
+  </div>
+</footer>
+  
+</body>
+
+<script>
+  let books = [];
+  let selected = { title: '', category: '', author: '', publisher: '' };
+  let isShowingAll = false;
+
+  let currentPage = 1;
+  const booksPerPage = 12;
+  let lastFiltered = []; // শেষবারের ফিল্টার করা বইগুলো
+
+  // Store unique values for filtering
+  const uniqueValues = {
+    categories: new Set(),
+    authors: new Set(),
+    publishers: new Set(),
+    titles: new Set()
+  };
+
+  function processUniqueValues(data) {
+    data.forEach(book => {
+      uniqueValues.titles.add(book.title);
+      uniqueValues.categories.add(book.category);
+      uniqueValues.authors.add(book.author);
+      uniqueValues.publishers.add(book.publisher);
+    });
+  }
+
+  async function loadBooks() {
+    try {
+      const response = await fetch('books.json');
+      books = await response.json();
+
+      processUniqueValues(books);
+
+      attachInputEvents('categoryInput', 'categoryDropdown', 'categories');
+      attachInputEvents('authorInput', 'authorDropdown', 'authors');
+      attachInputEvents('publisherInput', 'publisherDropdown', 'publishers');
+
+      setupSearch();
+
+      lastFiltered = [];
+      renderBooksWithPagination([]);
+      renderPaginationControls();
+    } catch (error) {
+      console.error('Error loading books:', error);
+      document.getElementById('bookGrid').innerHTML = `
+        <div class="col-span-full text-center text-red-600 p-4">
+          <p>দুঃখিত, বইয়ের তথ্য লোড করতে সমস্যা হয়েছে। অনুগ্রহ করে পেজটি রিফ্রেশ করুন।</p>
+        </div>
+      `;
+    }
+  }
+
+  function setupSearch() {
+    const searchInput = document.getElementById("bookSearch");
+    const suggestionsBox = document.getElementById("bookSuggestions");
+
+    searchInput.addEventListener("input", () => {
+      const searchQuery = searchInput.value.trim().toLowerCase();
+      suggestionsBox.classList.add("active");
+
+      let filteredBooks = books;
+      if (searchQuery) {
+        filteredBooks = books.filter(book =>
+          book.title.toLowerCase().includes(searchQuery) ||
+          book.author.toLowerCase().includes(searchQuery) ||
+          book.category.toLowerCase().includes(searchQuery) ||
+          book.publisher.toLowerCase().includes(searchQuery)
+        );
+      }
+
+      updateBookDropdown(filteredBooks);
+      currentPage = 1;
+      updateFilters();
+    });
+
+    searchInput.addEventListener("focus", () => {
+      suggestionsBox.classList.add("active");
+      updateBookDropdown(books);
+    });
+
+    searchInput.addEventListener("blur", () => {
+      setTimeout(() => suggestionsBox.classList.remove("active"), 200);
+    });
+
+    // Keyboard navigation
+    searchInput.addEventListener('keydown', (e) => {
+      const items = suggestionsBox.querySelectorAll('div.cursor-pointer');
+      const currentIndex = Array.from(items).findIndex(item => item.classList.contains('bg-gray-100'));
+
+      switch (e.key) {
+        case 'ArrowDown':
+          e.preventDefault();
+          if (currentIndex < items.length - 1) {
+            items[currentIndex]?.classList.remove('bg-gray-100');
+            items[currentIndex + 1]?.classList.add('bg-gray-100');
+            items[currentIndex + 1]?.scrollIntoView({ block: 'nearest' });
+          } else if (currentIndex === -1 && items.length) {
+            items[0].classList.add('bg-gray-100');
+          }
+          break;
+        case 'ArrowUp':
+          e.preventDefault();
+          if (currentIndex > 0) {
+            items[currentIndex]?.classList.remove('bg-gray-100');
+            items[currentIndex - 1]?.classList.add('bg-gray-100');
+            items[currentIndex - 1]?.scrollIntoView({ block: 'nearest' });
+          }
+          break;
+        case 'Enter':
+          e.preventDefault();
+          if (currentIndex >= 0 && items[currentIndex]) {
+            const bookTitle = items[currentIndex].querySelector('.font-semibold')?.textContent;
+            if (bookTitle) {
+              document.getElementById("bookSearch").value = bookTitle;
+              updateFilters();
+              suggestionsBox.classList.remove("active");
+            }
+          }
+          break;
+        case 'Escape':
+          suggestionsBox.classList.remove("active");
+          searchInput.blur();
+          break;
+      }
+    });
+  }
+
+  function updateBookDropdown(filteredBooks) {
+    const dropdown = document.getElementById("bookSuggestions");
+    const searchInput = document.getElementById("bookSearch");
+
+    dropdown.innerHTML = '';
+
+    if (filteredBooks.length === 0) {
+      const div = document.createElement("div");
+      div.innerHTML = `<div class="px-2 py-1 text-gray-500 text-center">কোন ফলাফল পাওয়া যায়নি</div>`;
+      dropdown.appendChild(div);
+      return;
+    }
+
+    filteredBooks.forEach(book => {
+      const div = document.createElement("div");
+      div.innerHTML = `
+        <div class="flex flex-col">
+          <span class="font-semibold">${book.title}</span>
+          <span class="text-sm text-gray-600">
+            <i class="fa-solid fa-pen-nib text-green-500 mr-1"></i>${book.author}
+            <span class="mx-1">•</span>
+            <i class="fas fa-folder-open text-green-500 mr-1"></i>${book.category}
+          </span>
+        </div>`;
+      div.classList.add('cursor-pointer', 'px-2', 'py-1', 'hover:bg-gray-100');
+
+      div.addEventListener('mousedown', () => {
+        document.getElementById("bookSearch").value = book.title;
+        updateFilters();
+        dropdown.classList.remove("active");
+      });
+      dropdown.appendChild(div);
+    });
+  }
+
+  function updateFilters() {
+    const searchValue = document.getElementById("bookSearch").value.trim();
+    const noActiveFilter = !isShowingAll &&
+      !selected.category &&
+      !selected.author &&
+      !selected.publisher &&
+      !searchValue;
+
+    if (noActiveFilter) {
+      lastFiltered = [];
+      currentPage = 1;
+      renderBooksWithPagination([]);
+      renderPaginationControls();
+      return;
+    }
+
+    let filteredBooks = [...books];
+    const searchQuery = searchValue.toLowerCase();
+
+    if (searchQuery) {
+      filteredBooks = filteredBooks.filter(book => {
+        return book.title.toLowerCase() === searchQuery ||
+               book.title.toLowerCase().includes(searchQuery) ||
+               book.author.toLowerCase().includes(searchQuery) ||
+               book.category.toLowerCase().includes(searchQuery) ||
+               book.publisher.toLowerCase().includes(searchQuery);
+      });
+    }
+
+    if (selected.category) {
+      filteredBooks = filteredBooks.filter(book => book.category === selected.category);
+    }
+    if (selected.author) {
+      filteredBooks = filteredBooks.filter(book => book.author === selected.author);
+    }
+    if (selected.publisher) {
+      filteredBooks = filteredBooks.filter(book => book.publisher === selected.publisher);
+    }
+
+    if (isShowingAll) {
+      filteredBooks = books.slice();
+    }
+
+    lastFiltered = filteredBooks;
+    currentPage = 1;
+    renderBooksWithPagination(filteredBooks);
+    renderPaginationControls();
+  }
+
+  function updateDropdown(inputId, dropdownId, items) {
+    const dropdown = document.getElementById(dropdownId);
+    const input = document.getElementById(inputId);
+    const inputValue = input.value.trim().toLowerCase();
+
+    dropdown.innerHTML = '';
+
+    if (items.length === 0) {
+      const div = document.createElement('div');
+      div.textContent = 'কোন ফলাফল পাওয়া যায়নি';
+      div.classList.add('px-2', 'py-1', 'text-gray-500', 'text-center');
+      dropdown.appendChild(div);
+      return;
+    }
+
+    const filteredItems = inputValue ?
+      items.filter(item => item.toLowerCase().includes(inputValue)) :
+      items;
+
+    filteredItems.sort((a, b) => a.localeCompare(b, 'bn'));
+
+    filteredItems.forEach(item => {
+      const div = document.createElement('div');
+      div.textContent = item;
+      div.classList.add('cursor-pointer', 'px-2', 'py-1', 'hover:bg-gray-100');
+
+      if (selected[inputId.replace('Input', '')] === item) {
+        div.classList.add('bg-green-50');
+      }
+
+      div.addEventListener('mousedown', () => {
+        const key = inputId.replace('Input', '');
+        input.value = item;
+        selected[key] = item;
+        updateFilters();
+        dropdown.classList.remove('active');
+      });
+      dropdown.appendChild(div);
+    });
+  }
+
+  function attachInputEvents(inputId, dropdownId, type) {
+    const input = document.getElementById(inputId);
+    const dropdown = document.getElementById(dropdownId);
+
+    const refreshAvailableItems = () => {
+      let availableItems = [...books];
+
+      if (selected.category && type !== 'categories') {
+        availableItems = availableItems.filter(book => book.category === selected.category);
+      }
+      if (selected.author && type !== 'authors') {
+        availableItems = availableItems.filter(book => book.author === selected.author);
+      }
+      if (selected.publisher && type !== 'publishers') {
+        availableItems = availableItems.filter(book => book.publisher === selected.publisher);
+      }
+
+      const itemsSet = new Set(availableItems.map(book => {
+        switch (type) {
+          case 'categories': return book.category;
+          case 'authors': return book.author;
+          case 'publishers': return book.publisher;
+          default: return '';
+        }
+      }));
+
+      updateDropdown(inputId, dropdownId, Array.from(itemsSet));
+      dropdown.classList.add('active');
+    };
+
+    input.addEventListener('input', () => {
+      refreshAvailableItems();
+      currentPage = 1;
+      updateFilters();
+    });
+
+    input.addEventListener('focus', () => {
+      refreshAvailableItems();
+    });
+
+    input.addEventListener('blur', () => {
+      setTimeout(() => dropdown.classList.remove('active'), 200);
+    });
+  }
+
+  function clearBookSearch() {
+    document.getElementById("bookSearch").value = '';
+    updateFilters();
+  }
+
+  function clearFilter(inputId) {
+    const input = document.getElementById(inputId);
+    input.value = '';
+    selected[inputId.replace('Input', '')] = '';
+    updateFilters();
+  }
+
+  function renderBooksWithPagination(filtered) {
+    const container = document.getElementById('bookGrid');
+    container.innerHTML = '';
+
+    const noActiveFilter = !isShowingAll &&
+      !selected.category &&
+      !selected.author &&
+      !selected.publisher &&
+      !document.getElementById("bookSearch").value.trim();
+
+    if (filtered.length === 0 && noActiveFilter) {
+      // কিছুই দেখাবে না, মেসেজও নয়
+      return;
+    }
+
+    const start = (currentPage - 1) * booksPerPage;
+    const end = start + booksPerPage;
+    const slice = filtered.slice(start, end);
+
+    if (slice.length === 0) {
+      container.innerHTML = `
+        <div class="col-span-full text-center text-gray-500 p-6">
+          <p>কোনো বই পাওয়া যায়নি।</p>
+        </div>
+      `;
+      return;
+    }
+
+    slice.forEach(book => {
+      container.innerHTML += `
+        <div class="bg-white rounded-2xl shadow-md p-5 border border-gray-200 transition hover:shadow-lg text-center flex flex-col justify-between">
+          <img src="${book.cover}" alt="cover" class="w-48 mx-auto h-72 object-cover rounded-lg mb-5">
+          <h2 class="text-xl font-semibold mb-1 text-green-700">${book.title}</h2>
+          <p><i class="text-green-500 fa-solid fa-square-pen"></i> লেখক: ${book.author}</p>
+          <p><i class="fas fa-folder-open text-green-500"></i> ক্যাটাগরি: ${book.category}</p>
+          <p><i class="fas fa-building text-green-600"></i> প্রকাশনী: ${book.publisher}</p>
+          <p><i class="fa-solid fa-user text-green-600"></i> বইটির মালিক: ${book.owner_name}</p>
+          <div class="mt-3 justify-center flex gap-2 flex-wrap">
+            <a href="https://wa.me/${book.owner_whatsapp}?text=${encodeURIComponent('আমি \"' + book.title + '\" বইটি নিতে চাচ্ছি।')}" 
+              target="_blank"
+              class="flex items-center gap-2 bg-green-600 text-white text-sm px-3 py-1.5 rounded-xl hover:bg-green-600 transition">
+              <img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg" class="w-5 h-5" alt="WhatsApp"/>
+              বইটি নিতে যোগাযোগ করুন
+            </a>
+            <button class="bg-green-600 text-white text-sm px-3 py-1.5 rounded-xl hover:bg-yellow-600 transition">
+              <a href="${book.review}" target="_blank">
+                <i class="fa-solid fa-book-open"></i>
+                বইটির শর্ট পিডিএফ পড়ুন
+              </a>
+            </button>
+          </div>
+        </div>
+      `;
+    });
+  }
+
+  function renderPaginationControls() {
+    const totalPages = Math.ceil(lastFiltered.length / booksPerPage) || 1;
+    let paginationWrapper = document.getElementById('booksPagination');
+
+    const noActiveFilter = !isShowingAll &&
+      !selected.category &&
+      !selected.author &&
+      !selected.publisher &&
+      !document.getElementById("bookSearch").value.trim();
+
+    if (noActiveFilter || lastFiltered.length === 0) {
+      if (paginationWrapper) paginationWrapper.innerHTML = '';
+      return;
+    }
+
+    if (!paginationWrapper) {
+      const bookGrid = document.getElementById('bookGrid');
+      paginationWrapper = document.createElement('div');
+      paginationWrapper.id = 'booksPagination';
+      paginationWrapper.className = 'flex justify-center items-center gap-2 mt-6';
+      bookGrid.after(paginationWrapper);
+    }
+
+    if (totalPages <= 1) {
+      paginationWrapper.innerHTML = '';
+      return;
+    }
+
+    paginationWrapper.innerHTML = '';
+
+    const prevBtn = document.createElement('button');
+    prevBtn.textContent = 'পূর্ববর্তী';
+    prevBtn.disabled = currentPage === 1;
+    prevBtn.className = `px-4 py-2 rounded-full font-semibold transition-colors ${currentPage === 1 ? 'bg-gray-200 text-gray-500 cursor-not-allowed' : 'bg-green-100 text-green-700 hover:bg-green-200'}`;
+    prevBtn.addEventListener('click', () => {
+      if (currentPage > 1) {
+        currentPage--;
+        renderBooksWithPagination(lastFiltered);
+        renderPaginationControls();
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      }
+    });
+    paginationWrapper.appendChild(prevBtn);
+
+    const pagesToShow = 5;
+    let startPage = Math.max(1, currentPage - Math.floor(pagesToShow / 2));
+    let endPage = Math.min(totalPages, startPage + pagesToShow - 1);
+    if (endPage - startPage < pagesToShow - 1) {
+      startPage = Math.max(1, endPage - pagesToShow + 1);
+    }
+
+    for (let i = startPage; i <= endPage; i++) {
+      const pageBtn = document.createElement('button');
+      pageBtn.textContent = i;
+      pageBtn.className = `px-3 py-1 rounded-full font-semibold transition-colors ${i === currentPage ? 'bg-green-600 text-white' : 'bg-green-100 text-green-700 hover:bg-green-200'}`;
+      pageBtn.addEventListener('click', () => {
+        currentPage = i;
+        renderBooksWithPagination(lastFiltered);
+        renderPaginationControls();
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      });
+      paginationWrapper.appendChild(pageBtn);
+    }
+
+    const nextBtn = document.createElement('button');
+    nextBtn.textContent = 'পরবর্তী';
+    nextBtn.disabled = currentPage === totalPages;
+    nextBtn.className = `px-4 py-2 rounded-full font-semibold transition-colors ${currentPage === totalPages ? 'bg-gray-200 text-gray-500 cursor-not-allowed' : 'bg-green-100 text-green-700 hover:bg-green-200'}`;
+    nextBtn.addEventListener('click', () => {
+      if (currentPage < totalPages) {
+        currentPage++;
+        renderBooksWithPagination(lastFiltered);
+        renderPaginationControls();
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      }
+    });
+    paginationWrapper.appendChild(nextBtn);
+  }
+
+  document.addEventListener('DOMContentLoaded', () => {
+    const menuToggle = document.getElementById('menu-toggle');
+    const closeMenu = document.getElementById('close-menu');
+    const sidebarMenu = document.getElementById('sidebar-menu');
+    const toggleAllBtn = document.getElementById("toggleAllBtn");
+
+    menuToggle.addEventListener('click', () => {
+      sidebarMenu.classList.remove('translate-x-full');
+    });
+
+    closeMenu.addEventListener('click', () => {
+      sidebarMenu.classList.add('translate-x-full');
+    });
+
+    loadBooks();
+
+    toggleAllBtn.addEventListener("click", () => {
+      if (!isShowingAll) {
+        isShowingAll = true;
+        selected = { title: '', category: '', author: '', publisher: '' };
+        document.getElementById("categoryInput").value = '';
+        document.getElementById("authorInput").value = '';
+        document.getElementById("publisherInput").value = '';
+        document.getElementById("bookSearch").value = '';
+        toggleAllBtn.textContent = "সবগুলো বই হাইড করুন";
+        lastFiltered = books.slice();
+        currentPage = 1;
+        renderBooksWithPagination(lastFiltered);
+        renderPaginationControls();
+      } else {
+        isShowingAll = false;
+        toggleAllBtn.textContent = "সবগুলো বই দেখুন";
+        lastFiltered = [];
+        currentPage = 1;
+        renderBooksWithPagination([]);
+        renderPaginationControls();
+      }
+    });
+  });
+</script>
+
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const menuToggle = document.getElementById('menu-toggle');
+    const closeMenu = document.getElementById('close-menu');
+    const sidebarMenu = document.getElementById('sidebar-menu');
+    const overlay = document.getElementById('sidebar-overlay');
+
+    const openSidebar = () => {
+      sidebarMenu.classList.remove('translate-x-full');
+      overlay.classList.add('opacity-100');
+      overlay.classList.remove('pointer-events-none');
+      document.body.style.overflow = 'hidden';
+    };
+    const closeSidebar = () => {
+      sidebarMenu.classList.add('translate-x-full');
+      overlay.classList.remove('opacity-100');
+      overlay.classList.add('pointer-events-none');
+      document.body.style.overflow = '';
+    };
+
+    menuToggle.addEventListener('click', (e) => {
+      e.stopPropagation();
+      openSidebar();
+    });
+    closeMenu.addEventListener('click', (e) => {
+      e.stopPropagation();
+      closeSidebar();
+    });
+    overlay.addEventListener('click', closeSidebar);
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') closeSidebar();
+    });
+    sidebarMenu.addEventListener('click', e => e.stopPropagation());
+
+    // Active link highlighting based on current path or data-page
+    const links = sidebarMenu.querySelectorAll('nav a');
+    const currentPath = window.location.pathname.split('/').pop(); // e.g., "books.html"
+    links.forEach(link => {
+      const href = link.getAttribute('href') || '';
+      const pageName = link.dataset.page;
+      if (href && currentPath === href) {
+        link.classList.add('bg-green-100', 'border-l-4', 'border-green-600', 'pl-3');
+      } else if (pageName && currentPath.includes(pageName)) {
+        link.classList.add('bg-green-100', 'border-l-4', 'border-green-600', 'pl-3');
+      }
+    });
+  });
+</script>
+
+
+</html>

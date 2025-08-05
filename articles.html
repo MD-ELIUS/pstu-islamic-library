@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>গুরুত্বপূর্ণ আর্টিকেল</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-white text-green-800">
+  
+ 
+ 
+ <nav class="sticky top-0 bg-white shadow-md px-4 py-0 grid grid-cols-3 items-center z-50">
+  <div class="flex items-center gap-3">
+    <img class="w-[60px] h-[60px] md:w-[80px] md:h-[80px]" src="./images/logo.jpg" alt="লোগো" />
+  </div>
+
+  <div class="font-bold text-green-800 tracking-tight text-sm md:text-xl justify-self-center">
+    বই পড়ুন, জীবন গড়ুন
+  </div>
+
+  <button id="menu-toggle" class="text-green-800 text-3xl focus:outline-none justify-self-end">
+    <i class="fas fa-bars"></i>
+  </button>
+</nav>
+
+<!-- Overlay -->
+<div id="sidebar-overlay" class="fixed inset-0 bg-black bg-opacity-25 backdrop-blur-sm opacity-0 pointer-events-none transition-opacity duration-200 z-40"></div>
+
+<div id="sidebar-menu"
+     class="fixed top-0 right-0 w-64 h-full bg-white text-green-800 transform translate-x-full transition-transform duration-300 ease-in-out z-50 shadow-xl">
+  <div class="flex justify-between items-center px-6 h-16 md:h-[84px] border-b-4 border-green-200">
+    <h2 class="text-xl font-bold">মেনু</h2>
+    <button id="close-menu" class="text-green-800 text-3xl hover:text-red-500 transition-colors">
+      <i class="fas fa-times"></i>
+    </button>
+  </div>
+
+  <nav class="mt-8 flex flex-col gap-1">
+
+    <a href="index.html" data-page="index" class="flex items-center gap-4 px-4 py-3 rounded-lg hover:bg-green-100 transition-colors duration-200">
+      <i class="fas fa-home text-2xl"></i>
+      <span class="text-lg font-semibold">হোম</span>
+    </a>
+    <a href="books.html" data-page="books" class="flex items-center gap-4 px-4 py-3 rounded-lg hover:bg-green-100 transition-colors duration-200">
+      <i class="fas fa-book text-2xl"></i>
+      <span class="text-lg font-semibold">বই</span>
+    </a>
+    <a href="articles.html" data-page="contact" class="flex items-center gap-4 px-4 py-3 rounded-lg hover:bg-green-100 transition-colors duration-200">
+     <i class="fa-solid fa-file-pen text-2xl"></i>
+      <span class="text-lg font-semibold">আর্টিকেল</span>
+    </a>
+    
+         <a href="notice.html" data-page="about" class="flex items-center gap-4 px-4 py-3 rounded-lg hover:bg-green-100 transition-colors duration-200">
+       <i class="fas fa-info-circle text-2xl"></i>
+       <span class="text-lg font-semibold"> নোটিশ </span>
+     </a>
+    <a href="about.html" data-page="about" class="flex items-center gap-4 px-4 py-3 rounded-lg hover:bg-green-100 transition-colors duration-200">
+      <i class="fas fa-info-circle text-2xl"></i>
+      <span class="text-lg font-semibold">আমাদের সম্পর্কে</span>
+    </a>
+  </nav>
+</div>
+ 
+ 
+
+  
+  <main>
+    <section class="p-6 bg-white rounded-xl mx-auto max-w-7xl mb-16 justify-center">
+      <h2 class=" text-lg md:text-3xl font-extrabold text-green-800 text-center mb-6 flex flex-col sm:flex-row items-center justify-center gap-3">
+        <span class="bg-gradient-to-r from-green-600 to-green-800 text-white px-4 py-2 rounded-lg shadow-md tracking-wide">
+          ইসলামিক বই পাঠ: গুরুত্বপূর্ণ আর্টিকেল
+        </span>
+      </h2>
+      <div id="articlesContainer" class="grid grid-cols-1  gap-4 text-center">
+      </div>
+        
+      <div id="paginationContainer" class="flex justify-center items-center gap-2 mt-6">
+        <button id="prevBtn" class="px-4 py-2 bg-green-100 text-green-700 rounded-full hover:bg-green-200 transition-colors disabled:opacity-50 disabled:cursor-not-allowed">
+          পূর্ববর্তী
+        </button>
+        
+        <div id="pageNumbers" class="flex gap-2">
+        </div>
+        
+        <button id="nextBtn" class="px-4 py-2 bg-green-100 text-green-700 rounded-full hover:bg-green-200 transition-colors disabled:opacity-50 disabled:cursor-not-allowed">
+          পরবর্তী
+        </button>
+      </div>
+    </section>
+  </main>
+  
+  
+  
+  <footer class="bg-gray-100 text-gray-800 py-12 px-6 md:px-20 mt-20">
+  <div class="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12">
+    <div class="space-y-4">
+      <h3 class="text-xl font-bold text-green-700 border-b-2 border-green-700 pb-2">আমাদের সম্পর্কে</h3>
+      <p class="text-sm leading-relaxed">
+        পটুয়াখালী বিজ্ঞান ও প্রযুক্তি বিশ্ববিদ্যালয় (PSTU) এর ইসলামিক লাইব্রেরিটি শিক্ষার্থীদের জ্ঞানার্জনের একটি অনন্য মাধ্যম। আমাদের লক্ষ্য হলো, ইসলামিক বই পাঠের মাধ্যমে একটি আলোকিত ও আদর্শ প্রজন্ম গড়ে তোলা।
+      </p>
+      <div class="flex space-x-4 mt-4">
+        <a href="https://facebook.com/PSTU Islamic Library" target="_blank" aria-label="Facebook" class="text-gray-600 hover:text-green-700 transition-colors duration-300">
+          <i class="fab fa-facebook-f text-2xl"></i>
+        </a>
+        <a href="https://t.me/PSTU Islamic Library" target="_blank" aria-label="Telegram" class="text-gray-600 hover:text-green-700 transition-colors duration-300">
+          <i class="fab fa-telegram-plane text-2xl"></i>
+        </a>
+        <a href="mailto:pstu.islamic.library@email.com" aria-label="Email" class="text-gray-600 hover:text-green-700 transition-colors duration-300">
+          <i class="fas fa-envelope text-2xl"></i>
+        </a>
+      </div>
+    </div>
+
+    <div class="space-y-4">
+      <h3 class="text-xl font-bold text-green-700 border-b-2 border-green-700 pb-2">গুরুত্বপূর্ণ লিংক</h3>
+      <ul class="space-y-2">
+        <li>
+          <a href="./form.html" class="hover:text-green-700 transition-colors duration-300 flex items-center">
+            <i class="fas fa-chevron-right text-xs mr-2"></i> বই ধার করার ফর্ম
+          </a>
+        </li>
+        <li>
+          <a href="./member.html" class="hover:text-green-700 transition-colors duration-300 flex items-center">
+            <i class="fas fa-chevron-right text-xs mr-2"></i> সদস্য হোন
+          </a>
+        </li>
+        <li>
+          <a href="./financial_report.html" class="hover:text-green-700 transition-colors duration-300 flex items-center">
+            <i class="fas fa-chevron-right text-xs mr-2"></i> আর্থিক প্রতিবেদন
+          </a>
+        </li>
+        <li>
+          <a href="#quote-slider" class="hover:text-green-700 transition-colors duration-300 flex items-center">
+            <i class="fas fa-chevron-right text-xs mr-2"></i> গুরুত্বপূর্ণ উক্তি
+          </a>
+        </li>
+      </ul>
+    </div>
+
+    <div class="space-y-4">
+      <h3 class="text-xl font-bold text-green-700 border-b-2 border-green-700 pb-2">যোগাযোগ</h3>
+      <ul class="space-y-2 text-sm">
+        <li class="flex items-start">
+          <i class="fas fa-map-marker-alt mt-1 mr-3 text-green-700"></i>
+         <span>PSTU, দুমকি, পটুয়াখালী, বাংলাদেশ</span>
+        </li>
+        <li class="flex items-center">
+          <i class="fas fa-envelope mr-3 text-green-700"></i>
+          <span>pstu.islamic.library@email.com</span>
+        </li>
+        <li class="flex items-center">
+          <i class="fas fa-phone-alt mr-3 text-green-700"></i>
+          <span>+880 17XX-XXXXXX</span>
+        </li>
+      </ul>
+    </div>
+
+    <div class="space-y-4">
+      <h3 class="text-xl font-bold text-green-700 border-b-2 border-green-700 pb-2">আমাদের সাথে যুক্ত থাকুন</h3>
+      <p class="text-sm">নতুন বই বা আপডেটের খবর পেতে আমাদের সাথে যুক্ত থাকুন।</p>
+      <form id="footerFeedbackForm" action="https://script.google.com/macros/s/AKfycbxQMGK0SwfTjrbGfjV2ud2ranEgt4s9H1D38RcGdx1Ctk8cmK89-VjggUZF2mYPX9XnzA/exec" method="POST" class="space-y-4">
+        <input type="email" name="email" placeholder="আপনার ইমেল লিখুন" class="w-full px-4 py-2 rounded-lg bg-gray-200 border border-gray-300 focus:outline-none focus:ring-2 focus:ring-green-700 text-sm placeholder-gray-500 transition-colors duration-300" required />
+        <button type="submit" class="w-full bg-green-700 text-white font-semibold py-2 rounded-lg hover:bg-green-800 transition-colors duration-300 text-sm">
+          সাবস্ক্রাইব করুন
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <div class="border-t border-gray-300 mt-12 pt-8 text-center text-sm text-gray-500">
+    <p>&copy; 2025 PSTU Islamic Library. All Rights Reserved. | Created with ❤️ by <a href="https://facebook.com/elius320" target="_blank" class="text-green-700 hover:underline">Mohammad Elius</a></p>
+  </div>
+</footer>
+
+
+  
+  
+  <script>
+      // Pagination functionality
+      let articles = [];
+      let currentPage = 1;
+      const articlesPerPage = 12;
+      
+      async function loadArticles() {
+        try {
+          // fetch() ফাংশন ব্যবহার করে articles.json ফাইল থেকে ডেটা লোড করা হচ্ছে
+          const response = await fetch('articles.json');
+          if (!response.ok) {
+              throw new Error('Network response was not ok');
+          }
+          articles = await response.json();
+          renderArticles();
+          renderPagination();
+        } catch (error) {
+          console.error('Error loading articles:', error);
+          document.getElementById('articlesContainer').innerHTML = `
+            <div class="p-6 bg-red-100 text-red-700 rounded-xl max-w-sm mx-auto">
+              <p class="font-bold">দুঃখিত, আর্টিকেলের তথ্য লোড করতে সমস্যা হয়েছে।</p>
+              <p class="mt-2 text-sm">সম্ভবত, ফাইলটি সরাসরি ব্রাউজারে রান করার কারণে এটি লোড হচ্ছে না।</p>
+            </div>
+          `;
+        }
+      }
+      
+      function renderArticles() {
+        const articlesContainer = document.getElementById('articlesContainer');
+        articlesContainer.innerHTML = '';
+        
+        const startIndex = (currentPage - 1) * articlesPerPage;
+        const endIndex = startIndex + articlesPerPage;
+        const visibleArticles = articles.slice(startIndex, endIndex);
+        
+        if (visibleArticles.length === 0) {
+          articlesContainer.innerHTML = `<p class="text-gray-500">এই পেজে কোনো আর্টিকেল নেই।</p>`;
+        } else {
+          visibleArticles.forEach(article => {
+            articlesContainer.innerHTML += `
+              <a href="${article.url}" target="_blank" class="block p-4 bg-white rounded-xl shadow-sm hover:shadow-md transition-shadow duration-200 border border-gray-200">
+                <h3 class="text-[16px] md:text-[24px] font-semibold text-green-600 hover:text-green-700 transition-colors duration-200">${article.title}</h3>
+                <p class="text-[rgba(0,0,0,0.5)] text-sm mt-1">${article.source}</p>
+              </a>
+            `;
+          });
+        }
+      }
+      
+      function renderPagination() {
+        const totalPages = Math.ceil(articles.length / articlesPerPage);
+        const pageNumbersContainer = document.getElementById('pageNumbers');
+        pageNumbersContainer.innerHTML = '';
+        
+        for (let i = 1; i <= totalPages; i++) {
+          const pageBtn = document.createElement('button');
+          pageBtn.textContent = i;
+          pageBtn.className = `px-3 py-1 rounded-full font-semibold transition-colors ${i === currentPage ? 'bg-green-600 text-white' : 'bg-green-100 text-green-700 hover:bg-green-200'}`;
+          pageBtn.addEventListener('click', () => {
+            currentPage = i;
+            renderArticles();
+            renderPagination();
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+          });
+          pageNumbersContainer.appendChild(pageBtn);
+        }
+        
+        document.getElementById('prevBtn').disabled = currentPage === 1;
+        document.getElementById('nextBtn').disabled = currentPage === totalPages;
+      }
+      
+      document.getElementById('prevBtn').addEventListener('click', () => {
+        if (currentPage > 1) {
+          currentPage--;
+          renderArticles();
+          renderPagination();
+          window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+      });
+      
+      document.getElementById('nextBtn').addEventListener('click', () => {
+        const totalPages = Math.ceil(articles.length / articlesPerPage);
+        if (currentPage < totalPages) {
+          currentPage++;
+          renderArticles();
+          renderPagination();
+          window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+      });
+      
+      loadArticles();
+ 
+  </script>
+  
+  <script>
+document.addEventListener('DOMContentLoaded', () => {
+    const menuToggle = document.getElementById('menu-toggle');
+    const closeMenu = document.getElementById('close-menu');
+    const sidebarMenu = document.getElementById('sidebar-menu');
+
+    menuToggle.addEventListener('click', () => {
+        sidebarMenu.classList.remove('translate-x-full');
+    });
+
+    closeMenu.addEventListener('click', () => {
+        sidebarMenu.classList.add('translate-x-full');
+    });
+});
+</script>
+
+  
+  
+  <script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const menuToggle = document.getElementById('menu-toggle');
+    const closeMenu = document.getElementById('close-menu');
+    const sidebarMenu = document.getElementById('sidebar-menu');
+    const overlay = document.getElementById('sidebar-overlay');
+
+    const openSidebar = () => {
+      sidebarMenu.classList.remove('translate-x-full');
+      overlay.classList.add('opacity-100');
+      overlay.classList.remove('pointer-events-none');
+      document.body.style.overflow = 'hidden';
+    };
+    const closeSidebar = () => {
+      sidebarMenu.classList.add('translate-x-full');
+      overlay.classList.remove('opacity-100');
+      overlay.classList.add('pointer-events-none');
+      document.body.style.overflow = '';
+    };
+
+    menuToggle.addEventListener('click', (e) => {
+      e.stopPropagation();
+      openSidebar();
+    });
+    closeMenu.addEventListener('click', (e) => {
+      e.stopPropagation();
+      closeSidebar();
+    });
+    overlay.addEventListener('click', closeSidebar);
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') closeSidebar();
+    });
+    sidebarMenu.addEventListener('click', e => e.stopPropagation());
+
+    // Active link highlighting based on current path or data-page
+    const links = sidebarMenu.querySelectorAll('nav a');
+    const currentPath = window.location.pathname.split('/').pop(); // e.g., "books.html"
+    links.forEach(link => {
+      const href = link.getAttribute('href') || '';
+      const pageName = link.dataset.page;
+      if (href && currentPath === href) {
+        link.classList.add('bg-green-100', 'border-l-4', 'border-green-600', 'pl-3');
+      } else if (pageName && currentPath.includes(pageName)) {
+        link.classList.add('bg-green-100', 'border-l-4', 'border-green-600', 'pl-3');
+      }
+    });
+  });
+</script>
+
+  
+  
+  
+  
+</body>
+</html>

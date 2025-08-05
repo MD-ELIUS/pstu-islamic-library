@@ -1,0 +1,294 @@
+
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>আমাদের সম্পর্কে - PSTU Islamic Library</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Bengali:wght@400;700&family=Amiri:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    <style>
+        body {
+            background-color: #f3f4f6; /* Tailwind's bg-gray-100 */
+        }
+        .text-justify {
+            text-align: justify;
+        }
+    </style>
+</head>
+<body class="bg-gray-100">
+    
+    
+        <nav class="sticky top-0 bg-white shadow-md px-4 py-0 grid grid-cols-3 items-center z-50">
+  <div class="flex items-center gap-3">
+    <img class="w-[60px] h-[60px] md:w-[80px] md:h-[80px]" src="./images/logo.jpg" alt="লোগো" />
+  </div>
+
+  <div class="font-bold text-green-800 tracking-tight text-sm md:text-xl justify-self-center">
+    বই পড়ুন, জীবন গড়ুন
+  </div>
+
+  <button id="menu-toggle" class="text-green-800 text-3xl focus:outline-none justify-self-end">
+    <i class="fas fa-bars"></i>
+  </button>
+</nav>
+
+<!-- Overlay -->
+<div id="sidebar-overlay" class="fixed inset-0 bg-black bg-opacity-25 backdrop-blur-sm opacity-0 pointer-events-none transition-opacity duration-200 z-40"></div>
+
+<div id="sidebar-menu"
+     class="fixed top-0 right-0 w-64 h-full bg-white text-green-800 transform translate-x-full transition-transform duration-300 ease-in-out z-50 shadow-xl">
+  <div class="flex justify-between items-center px-6 h-16 md:h-[84px] border-b-4 border-green-200">
+    <h2 class="text-xl font-bold">মেনু</h2>
+    <button id="close-menu" class="text-green-800 text-3xl hover:text-red-500 transition-colors">
+      <i class="fas fa-times"></i>
+    </button>
+  </div>
+
+  <nav class="mt-8 flex flex-col gap-1">
+
+    <a href="index.html" data-page="index" class="flex items-center gap-4 px-4 py-3 rounded-lg hover:bg-green-100 transition-colors duration-200">
+      <i class="fas fa-home text-xl"></i>
+      <span class="text-lg font-semibold">হোম</span>
+    </a>
+    <a href="books.html" data-page="books" class="flex items-center gap-4 px-4 py-3 rounded-lg hover:bg-green-100 transition-colors duration-200">
+      <i class="fas fa-book text-2xl"></i>
+      <span class="text-lg font-semibold">বই</span>
+    </a>
+    <a href="articles.html" data-page="contact" class="flex items-center gap-4 px-4 py-3 rounded-lg hover:bg-green-100 transition-colors duration-200">
+<i class="fa-solid fa-file-pen text-2xl"></i>
+      <span class="text-lg font-semibold">আর্টিকেল</span>
+    </a>
+         <a href="notice.html" data-page="notice" class="flex items-center gap-4 px-4 py-3 rounded-lg hover:bg-green-100 transition-colors duration-200">
+       <i class="fa-solid fa-clipboard-list text-2xl"></i>
+
+       <span class="text-lg font-semibold"> নোটিশ </span>
+     </a>
+    <a href="about.html" data-page="about" class="flex items-center gap-4 px-4 py-3 rounded-lg hover:bg-green-100 transition-colors duration-200">
+      <i class="fas fa-info-circle text-2xl"></i>
+      <span class="text-lg font-semibold">আমাদের সম্পর্কে</span>
+    </a>
+  </nav>
+</div>
+
+
+
+
+
+    <div class="container mx-auto max-w-6xl p-4">
+
+        <h2 class="text-3xl md:text-4xl font-extrabold text-center text-green-800 my-8">
+            <span class="bg-gradient-to-r from-green-600 to-green-800 text-white px-4 py-2 rounded-lg shadow-md tracking-wide">
+              আমাদের সম্পর্কে
+            </span>
+        </h2>
+        
+        <div class="bg-white rounded-xl shadow-lg border border-gray-200 p-8 md:p-12 mb-8">
+            <div class="space-y-6 text-gray-700 leading-relaxed text-justify">
+                <p>
+                    পটুয়াখালী বিজ্ঞান ও প্রযুক্তি বিশ্ববিদ্যালয়ের (PSTU) ইসলামিক লাইব্রেরিটি শুধুমাত্র বইয়ের সংগ্রহশালা নয়, এটি জ্ঞান, সংস্কৃতি এবং নৈতিকতার একটি প্রাণবন্ত কেন্দ্র। আমাদের লক্ষ্য হলো, ইসলামিক জ্ঞান বিতরণের মাধ্যমে শিক্ষার্থীদের মধ্যে একটি সুদৃঢ় নৈতিক ভিত্তি তৈরি করা এবং তাদের একটি আলোকিত ও আদর্শ প্রজন্ম হিসেবে গড়ে তোলা।
+                </p>
+                <p>
+                    লাইব্রেরিটি ২০১৭ সালে প্রতিষ্ঠিত হয়েছিল এবং তখন থেকেই এটি বিশ্ববিদ্যালয়ের শিক্ষার্থীদের জন্য একটি গুরুত্বপূর্ণ সম্পদ হিসেবে কাজ করে আসছে। আমাদের সংগ্রহে রয়েছে কুরআন, হাদীস, তাফসীর, ফিকহ, ইসলামী ইতিহাস, সাহিত্য এবং সমসাময়িক ইসলামিক বিষয়ে হাজার হাজার বই।
+                </p>
+                <p>
+                    আমরা বিশ্বাস করি, বই পড়ার মাধ্যমে শিক্ষার্থীরা তাদের জ্ঞান বৃদ্ধি করতে পারবে এবং জীবনের বিভিন্ন চ্যালেঞ্জ মোকাবেলার জন্য প্রয়োজনীয় দিকনির্দেশনা লাভ করবে। আমাদের লাইব্রেরি সকল শিক্ষার্থী, শিক্ষক এবং আগ্রহী পাঠকের জন্য উন্মুক্ত। আমরা নিয়মিত বই পড়া প্রতিযোগিতা, সেমিনার এবং মাশওয়ারা সভার আয়োজন করি, যাতে সদস্যরা নিজেদের মধ্যে জ্ঞান ও অভিজ্ঞতা বিনিময় করতে পারে।
+                </p>
+                <p>
+                    আমাদের এই যাত্রায় আমরা আপনার অংশগ্রহণকে স্বাগত জানাই। আপনার সহযোগিতা ও পরামর্শ আমাদের লাইব্রেরিকে আরও সমৃদ্ধ করতে সাহায্য করবে।
+                </p>
+            </div>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8">
+            <div class="bg-green-50 p-6 rounded-xl shadow-lg border border-green-200 hover:shadow-xl transition-shadow duration-300">
+                <div class="flex items-start mb-4">
+                    <i class="fas fa-bullseye text-green-600 text-2xl mr-4 mt-1"></i>
+                    <h3 class="text-xl font-bold text-green-800">আমাদের লক্ষ্য</h3>
+                </div>
+                <p class="text-gray-700 leading-relaxed text-justify">
+                    ইসলামিক বই পাঠের মাধ্যমে একটি আলোকিত, আদর্শ ও নৈতিক প্রজন্ম গড়ে তোলা। শিক্ষার্থীদের জ্ঞান ও নৈতিকতার সমন্বয় ঘটিয়ে তাদের উন্নত জীবন গঠনে সহায়তা করা।
+                </p>
+            </div>
+            
+            <div class="bg-green-50 p-6 rounded-xl shadow-lg border border-green-200 hover:shadow-xl transition-shadow duration-300">
+                <div class="flex items-start mb-4">
+                    <i class="fas fa-eye text-green-600 text-2xl mr-4 mt-1"></i>
+                    <h3 class="text-xl font-bold text-green-800">আমাদের ভিশন</h3>
+                </div>
+                <p class="text-gray-700 leading-relaxed text-justify">
+                    দেশের সর্ববৃহৎ ও আধুনিক ইসলামিক লাইব্রেরি হিসেবে প্রতিষ্ঠিত হওয়া, যা জ্ঞানার্জনের একটি কেন্দ্রবিন্দু হিসেবে কাজ করবে এবং শিক্ষার্থীদের মধ্যে সুস্থ ইসলামিক সংস্কৃতি ছড়িয়ে দেবে।
+                </p>
+            </div>
+        </div>
+
+        <div class="bg-white rounded-xl shadow-lg border border-gray-200 p-8 md:p-12">
+            <h3 class="text-2xl font-bold text-green-800 mb-6 border-b-2 border-green-200 pb-2">যোগাযোগ</h3>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 text-gray-700">
+                <div class="flex items-start space-x-4">
+                    <i class="fas fa-map-marker-alt text-green-600 text-2xl mt-1"></i>
+                    <div>
+                        <p class="font-semibold">ঠিকানা:</p>
+                        <p>PSTU ইসলামিক লাইব্রেরি, দুমকি, পটুয়াখালী, বাংলাদেশ</p>
+                    </div>
+                </div>
+                <div class="flex items-start space-x-4">
+                    <i class="fas fa-envelope text-green-600 text-2xl mt-1"></i>
+                    <div>
+                        <p class="font-semibold">ইমেইল:</p>
+                        <p>pstu.islamic.library@email.com</p>
+                    </div>
+                </div>
+                <div class="flex items-start space-x-4">
+                    <i class="fas fa-phone-alt text-green-600 text-2xl mt-1"></i>
+                    <div>
+                        <p class="font-semibold">ফোন:</p>
+                        <p>+880 17XX-XXXXXX</p>
+                    </div>
+                </div>
+                <div class="flex items-start space-x-4">
+                    <i class="fas fa-clock text-green-600 text-2xl mt-1"></i>
+                    <div>
+                        <p class="font-semibold">খোলা থাকার সময়:</p>
+                        <p>প্রতিদিন সকাল ৯টা থেকে রাত ৯টা</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <footer class="bg-gray-100 text-gray-800 py-12 px-6 md:px-20 mt-20">
+      <div class="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12">
+        <div class="space-y-4">
+          <h3 class="text-xl font-bold text-green-700 border-b-2 border-green-700 pb-2">আমাদের সম্পর্কে</h3>
+          <p class="text-sm leading-relaxed">
+            পটুয়াখালী বিজ্ঞান ও প্রযুক্তি বিশ্ববিদ্যালয় (PSTU) এর ইসলামিক লাইব্রেরিটি শিক্ষার্থীদের জ্ঞানার্জনের একটি অনন্য মাধ্যম। আমাদের লক্ষ্য হলো, ইসলামিক বই পাঠের মাধ্যমে একটি আলোকিত ও আদর্শ প্রজন্ম গড়ে তোলা।
+          </p>
+          <div class="flex space-x-4 mt-4">
+            <a href="#" aria-label="Facebook" class="text-gray-600 hover:text-green-700 transition-colors duration-300">
+              <i class="fab fa-facebook-f text-2xl"></i>
+            </a>
+            <a href="#" aria-label="Telegram" class="text-gray-600 hover:text-green-700 transition-colors duration-300">
+              <i class="fab fa-telegram-plane text-2xl"></i>
+            </a>
+            <a href="mailto:pstu.islamic.library@email.com" aria-label="Email" class="text-gray-600 hover:text-green-700 transition-colors duration-300">
+              <i class="fas fa-envelope text-2xl"></i>
+            </a>
+          </div>
+        </div>
+
+        <div class="space-y-4">
+          <h3 class="text-xl font-bold text-green-700 border-b-2 border-green-700 pb-2">গুরুত্বপূর্ণ লিংক</h3>
+          <ul class="space-y-2">
+            <li>
+              <a href="./form.html" class="hover:text-green-700 transition-colors duration-300 flex items-center">
+                <i class="fas fa-chevron-right text-xs mr-2"></i> বই ধার করার ফর্ম
+              </a>
+            </li>
+            <li>
+              <a href="./member.html" class="hover:text-green-700 transition-colors duration-300 flex items-center">
+                <i class="fas fa-chevron-right text-xs mr-2"></i> সদস্য হোন
+              </a>
+            </li>
+            <li>
+              <a href="./financial_report.html" class="hover:text-green-700 transition-colors duration-300 flex items-center">
+                <i class="fas fa-chevron-right text-xs mr-2"></i> আর্থিক প্রতিবেদন
+              </a>
+            </li>
+            <li>
+              <a href="#quote-slider" class="hover:text-green-700 transition-colors duration-300 flex items-center">
+                <i class="fas fa-chevron-right text-xs mr-2"></i> গুরুত্বপূর্ণ উক্তি
+              </a>
+            </li>
+          </ul>
+        </div>
+
+        <div class="space-y-4">
+          <h3 class="text-xl font-bold text-green-700 border-b-2 border-green-700 pb-2">যোগাযোগ</h3>
+          <ul class="space-y-2 text-sm">
+            <li class="flex items-start">
+              <i class="fas fa-map-marker-alt mt-1 mr-3 text-green-700"></i>
+              <span>PSTU, দুমকি, পটুয়াখালী, বাংলাদেশ</span>
+            </li>
+            <li class="flex items-center">
+              <i class="fas fa-envelope mr-3 text-green-700"></i>
+              <span>pstu.islamic.library@email.com</span>
+            </li>
+            <li class="flex items-center">
+              <i class="fas fa-phone-alt mr-3 text-green-700"></i>
+              <span>+880 17XX-XXXXXX</span>
+            </li>
+          </ul>
+        </div>
+
+        <div class="space-y-4">
+          <h3 class="text-xl font-bold text-green-700 border-b-2 border-green-700 pb-2">আমাদের সাথে যুক্ত থাকুন</h3>
+          <p class="text-sm">নতুন বই বা আপডেটের খবর পেতে আমাদের সাথে যুক্ত থাকুন।</p>
+          <form id="footerFeedbackForm" action="#" method="POST" class="space-y-4">
+            <input type="email" name="email" placeholder="আপনার ইমেল লিখুন" class="w-full px-4 py-2 rounded-lg bg-gray-200 border border-gray-300 focus:outline-none focus:ring-2 focus:ring-green-700 text-sm placeholder-gray-500 transition-colors duration-300" required />
+            <button type="submit" class="w-full bg-green-700 text-white font-semibold py-2 rounded-lg hover:bg-green-800 transition-colors duration-300 text-sm">
+              সাবস্ক্রাইব করুন
+            </button>
+          </form>
+        </div>
+      </div>
+
+      <div class="border-t border-gray-300 mt-12 pt-8 text-center text-sm text-gray-500">
+        <p>&copy; 2025 PSTU Islamic Library. All Rights Reserved. | Created with ❤️ by <a href="https://facebook.com/elius320" target="_blank" class="text-green-700 hover:underline">Mohammad Elius</a></p>
+      </div>
+    </footer>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const menuToggle = document.getElementById('menu-toggle');
+            const closeMenu = document.getElementById('close-menu');
+            const sidebarMenu = document.getElementById('sidebar-menu');
+            const overlay = document.getElementById('sidebar-overlay');
+            const links = sidebarMenu.querySelectorAll('nav a');
+
+            const openSidebar = () => {
+                sidebarMenu.classList.remove('translate-x-full');
+                overlay.classList.add('opacity-100');
+                overlay.classList.remove('pointer-events-none');
+                document.body.style.overflow = 'hidden';
+            };
+            const closeSidebar = () => {
+                sidebarMenu.classList.add('translate-x-full');
+                overlay.classList.remove('opacity-100');
+                overlay.classList.add('pointer-events-none');
+                document.body.style.overflow = '';
+            };
+
+            menuToggle.addEventListener('click', (e) => {
+                e.stopPropagation();
+                openSidebar();
+            });
+            closeMenu.addEventListener('click', (e) => {
+                e.stopPropagation();
+                closeSidebar();
+            });
+            overlay.addEventListener('click', closeSidebar);
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'Escape') closeSidebar();
+            });
+            sidebarMenu.addEventListener('click', e => e.stopPropagation());
+
+            // Active link highlighting
+            const currentPath = window.location.pathname.split('/').pop();
+            links.forEach(link => {
+                const href = link.getAttribute('href') || '';
+                const pageName = link.dataset.page;
+                if (href && currentPath === href) {
+                    link.classList.add('bg-green-100', 'border-l-4', 'border-green-600', 'pl-3');
+                } else if (pageName && currentPath.includes(pageName)) {
+                    link.classList.add('bg-green-100', 'border-l-4', 'border-green-600', 'pl-3');
+                }
+            });
+        });
+    </script>
+</body>
+</html>
