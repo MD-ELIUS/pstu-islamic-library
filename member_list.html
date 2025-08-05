@@ -39,7 +39,7 @@
         আমাদের সম্মানিত সদস্যগণ
     </h2>
 
-  <div id="membersContainer" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 justify-around gap-8">
+  <div id="membersContainer" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 justify-around gap-8 mx-8">
         </div>
 
     <div id="loading" class="flex justify-center items-center py-10">
@@ -86,7 +86,7 @@ if (data.members && data.members.length > 0) {
 
             data.members.forEach(member => {
                 const memberCardHtml = `
-                    <div class="member-card bg-white rounded-xl shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 border border-gray-200">
+                    <div class="member-card bg-white rounded-xl shadow-lg hover:shadow-2xl break-all transition-all duration-300 transform hover:-translate-y-2 border border-gray-200">
                         <div class="p-6">
                             <div class="flex items-center mb-4 pb-4 border-b border-gray-200">
                                 <i class="fas fa-user-circle text-4xl text-green-600 mr-4"></i>
