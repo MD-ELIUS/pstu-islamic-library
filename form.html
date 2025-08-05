@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>বই ধার নেওয়ার ফর্ম - PSTU Islamic Library</title>
+    <title>বই ধার নেওয়ার ফর্ম - PSTU Islamic Library</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -68,43 +68,43 @@
 <body class="bg-gray-100 flex items-center justify-center min-h-screen p-4">
     <div class="bg-white p-8 rounded-lg shadow-xl w-full max-w-2xl">
         <h2 class="text-3xl font-extrabold text-center text-green-700 mb-4 amiri-font">PSTU Islamic Library</h2>
-        <h3 class=" texl-lg font-bold text-center text-gray-800 mb-6">বই ধার নেওয়ার ফর্ম</h3>
+        <h3 class=" texl-lg font-bold text-center text-gray-800 mb-6">বই ধার নেওয়ার ফর্ম</h3>
 
         <form id="bookBorrowForm" class="space-y-6">
             <div>
                 <label for="userName" class="block text-sm font-medium text-gray-700 mb-1">আপনার নাম:</label>
                 <input type="text" id="userName" name="userName" required
-                       class="w-full px-4 py-3 border-2 border-green-300 rounded-xl outline-none shadow-sm placeholder:text-gray-500 font-semibold placeholder:font-normal text-gray-800 transition-all duration-200 focus:border-green-500">
+                        class="w-full px-4 py-3 border-2 border-green-300 rounded-xl outline-none shadow-sm placeholder:text-gray-500 font-semibold placeholder:font-normal text-gray-800 transition-all duration-200 focus:border-green-500">
             </div>
 
             <div>
                 <label for="userFaculty" class="block text-sm font-medium text-gray-700 mb-1">ফ্যাকাল্টি:</label>
                 <input type="text" id="userFaculty" name="userFaculty" required
-                       class="w-full px-4 py-3 border-2 border-green-300 rounded-xl outline-none shadow-sm placeholder:text-gray-500 font-semibold placeholder:font-normal text-gray-800 transition-all duration-200 focus:border-green-500">
+                        class="w-full px-4 py-3 border-2 border-green-300 rounded-xl outline-none shadow-sm placeholder:text-gray-500 font-semibold placeholder:font-normal text-gray-800 transition-all duration-200 focus:border-green-500">
             </div>
 
             <div>
                 <label for="userSession" class="block text-sm font-medium text-gray-700 mb-1">সেশন:</label>
                 <input type="text" id="userSession" name="userSession" required
-                       class="w-full px-4 py-3 border-2 border-green-300 rounded-xl outline-none shadow-sm placeholder:text-gray-500 font-semibold placeholder:font-normal text-gray-800 transition-all duration-200 focus:border-green-500">
+                        class="w-full px-4 py-3 border-2 border-green-300 rounded-xl outline-none shadow-sm placeholder:text-gray-500 font-semibold placeholder:font-normal text-gray-800 transition-all duration-200 focus:border-green-500">
             </div>
 
             <div>
                 <label for="userHall" class="block text-sm font-medium text-gray-700 mb-1">হল:</label>
                 <input type="text" id="userHall" name="userHall" required
-                       class="w-full px-4 py-3 border-2 border-green-300 rounded-xl outline-none shadow-sm placeholder:text-gray-500 font-semibold placeholder:font-normal text-gray-800 transition-all duration-200 focus:border-green-500">
+                        class="w-full px-4 py-3 border-2 border-green-300 rounded-xl outline-none shadow-sm placeholder:text-gray-500 font-semibold placeholder:font-normal text-gray-800 transition-all duration-200 focus:border-green-500">
             </div>
 
             <div>
                 <label for="userEmail" class="block text-sm font-medium text-gray-700 mb-1">ইমেইল:</label>
                 <input type="email" id="userEmail" name="userEmail" required
-                       class="w-full px-4 py-3 border-2 border-green-300 rounded-xl outline-none shadow-sm placeholder:text-gray-500 font-semibold placeholder:font-normal text-gray-800 transition-all duration-200 focus:border-green-500">
+                        class="w-full px-4 py-3 border-2 border-green-300 rounded-xl outline-none shadow-sm placeholder:text-gray-500 font-semibold placeholder:font-normal text-gray-800 transition-all duration-200 focus:border-green-500">
             </div>
 
             <div>
                 <label for="userPhone" class="block text-sm font-medium text-gray-700 mb-1">ফোন নম্বর:</label>
                 <input type="tel" id="userPhone" name="userPhone" pattern="[0-9]{10,11}" placeholder="যেমন: ০১৭০০০০০০০০" required
-                       class="w-full px-4 py-3 border-2 border-green-300 rounded-xl outline-none shadow-sm placeholder:text-gray-500 font-semibold placeholder:font-normal text-gray-800 transition-all duration-200 focus:border-green-500">
+                        class="w-full px-4 py-3 border-2 border-green-300 rounded-xl outline-none shadow-sm placeholder:text-gray-500 font-semibold placeholder:font-normal text-gray-800 transition-all duration-200 focus:border-green-500">
                 <p class="mt-1 text-sm text-gray-500">১১-সংখ্যার মোবাইল নম্বর দিন।</p>
             </div>
 
@@ -122,15 +122,13 @@
                     />
                     <div class="clear-btn" onclick="clearBookSearch()">×</div>
                     <div id="bookSuggestions" class="dropdown-content"></div>
-                    <input type="hidden" id="selectedBookId" name="selectedBookId">
-                    <input type="hidden" id="selectedBookAuthor" name="selectedBookAuthor">
                 </div>
             </div>
 
             <div>
-                <label for="bookOwnerEmail" class="block text-sm font-medium text-gray-700 mb-1">বইয়ের মালিকের ইমেইল:</label>
+                <label for="bookOwnerEmail" class="block text-sm font-medium text-gray-700 mb-1">বইয়ের মালিকের ইমেইল:</label>
                 <input type="email" id="bookOwnerEmail" name="bookOwnerEmail" readonly
-                       class="w-full px-4 py-3 border-2 border-green-300 rounded-xl outline-none shadow-sm bg-gray-50 text-gray-600 cursor-not-allowed">
+                        class="w-full px-4 py-3 border-2 border-green-300 rounded-xl outline-none shadow-sm bg-gray-50 text-gray-600 cursor-not-allowed">
                 <p id="bookOwnerEmailDisplay" class="mt-2 text-sm text-gray-600 bg-gray-100 p-2 rounded-md hidden"></p>
             </div>
 
@@ -146,11 +144,10 @@
             const bookSearchInput = document.getElementById('bookSearch');
             const bookSuggestionsDiv = document.getElementById('bookSuggestions');
             const clearBtn = document.querySelector('.clear-btn');
-            const selectedBookIdInput = document.getElementById('selectedBookId');
-            const selectedBookAuthorInput = document.getElementById('selectedBookAuthor');
             const bookOwnerEmailInput = document.getElementById('bookOwnerEmail');
             const bookOwnerEmailDisplay = document.getElementById('bookOwnerEmailDisplay');
             let allBooksData = []; // Store all books
+            let selectedBook = null; // Store the selected book object
 
             // Function to clear search and selection
             window.clearBookSearch = () => {
@@ -158,9 +155,8 @@
                 bookSuggestionsDiv.innerHTML = '';
                 bookSuggestionsDiv.classList.remove('show');
                 clearBtn.style.display = 'none';
-                selectedBookIdInput.value = ''; // Clear selected book ID
-                selectedBookAuthorInput.value = ''; // Clear selected author
-                bookOwnerEmailInput.value = ''; // Clear owner email
+                selectedBook = null;
+                bookOwnerEmailInput.value = '';
                 bookOwnerEmailDisplay.textContent = '';
                 bookOwnerEmailDisplay.classList.add('hidden');
                 bookSearchInput.setCustomValidity('অনুগ্রহ করে একটি বই নির্বাচন করুন।'); // Re-apply validation
@@ -173,16 +169,13 @@
                     booksToDisplay.forEach(book => {
                         const suggestionItem = document.createElement('div');
                         suggestionItem.textContent = `${book.title} - ${book.author}`;
-                        suggestionItem.dataset.id = book.id;
-                        suggestionItem.dataset.ownerEmail = book.owner_email;
-                        suggestionItem.dataset.author = book.author;
+                        suggestionItem.dataset.book = JSON.stringify(book);
 
                         suggestionItem.addEventListener('click', () => {
-                            bookSearchInput.value = `${book.title} - ${book.author}`;
-                            selectedBookIdInput.value = book.id;
-                            selectedBookAuthorInput.value = book.author;
-                            bookOwnerEmailInput.value = book.owner_email;
-                            bookOwnerEmailDisplay.textContent = `মালিকের ইমেইল: ${book.owner_email}`;
+                            selectedBook = JSON.parse(suggestionItem.dataset.book);
+                            bookSearchInput.value = selectedBook.title;
+                            bookOwnerEmailInput.value = selectedBook.owner_email;
+                            bookOwnerEmailDisplay.textContent = `মালিকের ইমেইল: ${selectedBook.owner_email}`;
                             bookOwnerEmailDisplay.classList.remove('hidden');
                             bookSuggestionsDiv.classList.remove('show');
                             bookSearchInput.setCustomValidity(''); // Clear validation on selection
@@ -196,7 +189,7 @@
                     noResult.classList.add('text-gray-500', 'italic');
                     bookSuggestionsDiv.appendChild(noResult);
                     bookSuggestionsDiv.classList.add('show');
-                    selectedBookIdInput.value = ''; // No book found, clear ID
+                    selectedBook = null;
                     bookSearchInput.setCustomValidity('নির্বাচিত বই পাওয়া যায়নি।'); // Show validation for no match
                 }
             };
@@ -218,7 +211,7 @@
                 })
                 .catch(error => {
                     console.error('Error loading books.json:', error);
-                    bookSearchInput.placeholder = 'বই লোড করা যায়নি।';
+                    bookSearchInput.placeholder = 'বই লোড করা যায়নি।';
                     bookSearchInput.disabled = true;
                     bookSearchInput.setCustomValidity('বই লোড করা যায়নি।'); // Indicate load failure
                 });
@@ -232,8 +225,7 @@
                     // If input is empty, show all books
                     displaySuggestions(allBooksData);
                     clearBtn.style.display = 'none';
-                    selectedBookIdInput.value = '';
-                    selectedBookAuthorInput.value = '';
+                    selectedBook = null;
                     bookOwnerEmailInput.value = '';
                     bookOwnerEmailDisplay.textContent = '';
                     bookOwnerEmailDisplay.classList.add('hidden');
@@ -251,7 +243,7 @@
             // Show all books when input is focused (clicked)
             bookSearchInput.addEventListener('focus', () => {
                 // Only show all books if the input is currently empty or nothing is selected
-                if (bookSearchInput.value.trim() === '' || selectedBookIdInput.value === '') {
+                if (bookSearchInput.value.trim() === '' || !selectedBook) {
                     displaySuggestions(allBooksData);
                 }
             });
@@ -261,7 +253,7 @@
                 if (!bookSearchInput.contains(event.target) && !bookSuggestionsDiv.contains(event.target)) {
                     bookSuggestionsDiv.classList.remove('show');
                     // If no book was selected and input still has text, consider it invalid
-                    if (selectedBookIdInput.value === '' && bookSearchInput.value.trim() !== '') {
+                    if (!selectedBook && bookSearchInput.value.trim() !== '') {
                         bookSearchInput.setCustomValidity('তালিকা থেকে একটি বই নির্বাচন করুন।');
                     }
                 }
@@ -272,7 +264,7 @@
                 event.preventDefault();
 
                 // Final validation before submission
-                if (!selectedBookIdInput.value) { // Check if a book ID has been set by selection
+                if (!selectedBook) { // Check if a book has been selected
                     bookSearchInput.setCustomValidity('অনুগ্রহ করে তালিকা থেকে একটি বই নির্বাচন করুন।');
                     bookSearchInput.reportValidity(); // Show validation message
                     return; // Prevent form submission
@@ -285,10 +277,8 @@
                     userHall: document.getElementById('userHall').value,
                     userEmail: document.getElementById('userEmail').value,
                     userPhone: document.getElementById('userPhone').value,
-                    selectedBookId: selectedBookIdInput.value,
-                    selectedBookTitle: bookSearchInput.value.split(' - ')[0].trim(),
-                    selectedBookAuthor: selectedBookAuthorInput.value,
-                    bookOwnerEmail: bookOwnerEmailInput.value,
+                    selectedBookTitle: selectedBook.title,
+                    bookOwnerEmail: selectedBook.owner_email,
                     borrowDate: new Date().toISOString().slice(0, 10)
                 };
 
@@ -296,7 +286,7 @@
                 alert('ফর্ম সফলভাবে জমা হয়েছে! (এটি একটি ডেমো। আসল ডেটা জমা হবে না।)');
 
                 // *** এখানে আপনার Google Apps Script ওয়েব অ্যাপে ডেটা পাঠানোর কোড যোগ করুন ***
-                /*
+                */
                 const appScriptURL = 'আপনার_Google_Apps_Script_Deploy_করা_URL_এখানে_দিন';
                 fetch(appScriptURL, {
                     method: 'POST',
@@ -307,13 +297,13 @@
                     body: JSON.stringify(formData),
                 })
                 .then(() => {
-                    alert('আপনার অনুরোধ সফলভাবে পাঠানো হয়েছে!');
+                    alert('আপনার অনুরোধ সফলভাবে পাঠানো হয়েছে!');
                     document.getElementById('bookBorrowForm').reset();
                     clearBookSearch();
                 })
                 .catch(error => {
                     console.error('Error submitting form:', error);
-                    alert('ফর্ম জমা দিতে সমস্যা হয়েছে। অনুগ্রহ করে আবার চেষ্টা করুন।');
+                    alert('ফর্ম জমা দিতে সমস্যা হয়েছে। অনুগ্রহ করে আবার চেষ্টা করুন।');
                 });
                 */
             });
