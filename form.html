@@ -140,7 +140,7 @@
         </form>
     </div>
 
- <script>
+<script>
     document.addEventListener('DOMContentLoaded', () => {
         const bookSearchInput = document.getElementById('bookSearch');
         const bookSuggestionsDiv = document.getElementById('bookSuggestions');
@@ -175,7 +175,7 @@
             if (booksToDisplay.length > 0) {
                 booksToDisplay.forEach(book => {
                     const suggestionItem = document.createElement('div');
-                    suggestionItem.textContent = `${book.title} (সিরিয়াল: ${book.serial})`; // Show both title and serial
+                    suggestionItem.textContent = book.title; // Show only the book title
                     suggestionItem.dataset.book = JSON.stringify(book);
 
                     suggestionItem.addEventListener('click', () => {
