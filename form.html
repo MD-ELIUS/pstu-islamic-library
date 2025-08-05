@@ -140,181 +140,190 @@
         </form>
     </div>
 
-    <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            const bookSearchInput = document.getElementById('bookSearch');
-            const bookSuggestionsDiv = document.getElementById('bookSuggestions');
-            const clearBtn = document.querySelector('.clear-btn');
-            const selectedBookSerialInput = document.getElementById('selectedBookSerial');
-            const bookOwnerEmailInput = document.getElementById('bookOwnerEmail');
-            const bookOwnerEmailDisplay = document.getElementById('bookOwnerEmailDisplay');
-            let allBooksData = []; // Store all books
-            let selectedBook = null; // Store the selected book object
+ <script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const bookSearchInput = document.getElementById('bookSearch');
+        const bookSuggestionsDiv = document.getElementById('bookSuggestions');
+        const clearBtn = document.querySelector('.clear-btn');
+        const selectedBookSerialInput = document.getElementById('selectedBookSerial');
+        const bookOwnerEmailInput = document.getElementById('bookOwnerEmail');
+        const bookOwnerEmailDisplay = document.getElementById('bookOwnerEmailDisplay');
+        let allBooksData = []; // Store all books
+        let selectedBook = null; // Store the selected book object
 
-            // Function to clear search and selection
-            window.clearBookSearch = () => {
-                bookSearchInput.value = '';
-                bookSuggestionsDiv.innerHTML = '';
-                bookSuggestionsDiv.classList.remove('show');
+        // The URL of your Google Apps Script web app
+        const appScriptURL = 'https://script.google.com/macros/s/AKfycbwQxJW8iWbH7OVvaoc_r2fsW4BvDObPsz0WBUgJWJN-l7wjaz1rRrj9KRHMTeXOc9S0/exec';
+
+        // Function to clear search and selection
+        window.clearBookSearch = () => {
+            bookSearchInput.value = '';
+            bookSuggestionsDiv.innerHTML = '';
+            bookSuggestionsDiv.classList.remove('show');
+            clearBtn.style.display = 'none';
+            selectedBook = null;
+            selectedBookSerialInput.value = ''; // Clear selected book serial
+            bookOwnerEmailInput.value = '';
+            bookOwnerEmailDisplay.textContent = '';
+            bookOwnerEmailDisplay.classList.add('hidden');
+            bookSearchInput.setCustomValidity('অনুগ্রহ করে একটি বই নির্বাচন করুন।'); // Re-apply validation
+            bookSearchInput.focus();
+        };
+
+        // Function to display suggestions
+        const displaySuggestions = (booksToDisplay) => {
+            bookSuggestionsDiv.innerHTML = ''; // Clear previous suggestions
+            if (booksToDisplay.length > 0) {
+                booksToDisplay.forEach(book => {
+                    const suggestionItem = document.createElement('div');
+                    suggestionItem.textContent = `${book.title} (সিরিয়াল: ${book.serial})`; // Show both title and serial
+                    suggestionItem.dataset.book = JSON.stringify(book);
+
+                    suggestionItem.addEventListener('click', () => {
+                        selectedBook = JSON.parse(suggestionItem.dataset.book);
+                        bookSearchInput.value = selectedBook.title;
+                        selectedBookSerialInput.value = selectedBook.serial;
+                        bookOwnerEmailInput.value = selectedBook.owner_email;
+                        bookOwnerEmailDisplay.textContent = `মালিকের ইমেইল: ${selectedBook.owner_email}`;
+                        bookOwnerEmailDisplay.classList.remove('hidden');
+                        bookSuggestionsDiv.classList.remove('show');
+                        bookSearchInput.setCustomValidity(''); // Clear validation on selection
+                        clearBtn.style.display = 'block'; // Show clear button
+                    });
+                    bookSuggestionsDiv.appendChild(suggestionItem);
+                });
+                bookSuggestionsDiv.classList.add('show');
+            } else {
+                const noResult = document.createElement('div');
+                noResult.textContent = 'কোনো বই পাওয়া যায়নি।';
+                noResult.classList.add('text-gray-500', 'italic');
+                bookSuggestionsDiv.appendChild(noResult);
+                bookSuggestionsDiv.classList.add('show');
+                selectedBook = null;
+                selectedBookSerialInput.value = '';
+                bookSearchInput.setCustomValidity('নির্বাচিত বই পাওয়া যায়নি।');
+            }
+        };
+
+        // Fetch books.json
+        fetch('books.json')
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status} - Could not load books.json.`);
+                }
+                return response.json();
+            })
+            .then(data => {
+                allBooksData = data;
+                console.log('books.json loaded successfully:', allBooksData);
+                bookSearchInput.setCustomValidity('অনুগ্রহ করে একটি বই নির্বাচন করুন।');
+            })
+            .catch(error => {
+                console.error('Error loading books.json:', error);
+                bookSearchInput.placeholder = 'বই লোড করা যায়নি।';
+                bookSearchInput.disabled = true;
+                bookSearchInput.setCustomValidity('বই লোড করা যায়নি।');
+            });
+
+        // Handle input in search field
+        bookSearchInput.addEventListener('input', () => {
+            const searchTerm = bookSearchInput.value.toLowerCase().trim();
+            bookSearchInput.setCustomValidity('');
+            
+            if (searchTerm.length === 0) {
+                // If input is empty, show all books
+                displaySuggestions(allBooksData);
                 clearBtn.style.display = 'none';
                 selectedBook = null;
-                selectedBookSerialInput.value = ''; // Clear selected book serial
+                selectedBookSerialInput.value = '';
                 bookOwnerEmailInput.value = '';
                 bookOwnerEmailDisplay.textContent = '';
                 bookOwnerEmailDisplay.classList.add('hidden');
-                bookSearchInput.setCustomValidity('অনুগ্রহ করে একটি বই নির্বাচন করুন।'); // Re-apply validation
+                bookSearchInput.setCustomValidity('অনুগ্রহ করে একটি বই নির্বাচন করুন।');
+            } else {
+                clearBtn.style.display = 'block';
+                const filteredBooks = allBooksData.filter(book =>
+                    book.title.toLowerCase().includes(searchTerm) ||
+                    book.serial.toString().includes(searchTerm)
+                );
+                displaySuggestions(filteredBooks);
+            }
+        });
+
+        // Show all books when input is focused (clicked)
+        bookSearchInput.addEventListener('focus', () => {
+            if (bookSearchInput.value.trim() === '' || !selectedBook) {
+                displaySuggestions(allBooksData);
+            }
+        });
+
+        // Hide suggestions when clicking outside
+        document.addEventListener('click', (event) => {
+            if (!bookSearchInput.contains(event.target) && !bookSuggestionsDiv.contains(event.target)) {
+                bookSuggestionsDiv.classList.remove('show');
+                if (!selectedBook && bookSearchInput.value.trim() !== '') {
+                    bookSearchInput.setCustomValidity('তালিকা থেকে একটি বই নির্বাচন করুন।');
+                }
+            }
+        });
+
+        // Form submission handler
+        document.getElementById('bookBorrowForm').addEventListener('submit', (event) => {
+            event.preventDefault();
+
+            if (!selectedBook) {
+                bookSearchInput.setCustomValidity('অনুগ্রহ করে তালিকা থেকে একটি বই নির্বাচন করুন।');
+                bookSearchInput.reportValidity();
+                return;
+            }
+
+            const formData = {
+                userName: document.getElementById('userName').value,
+                userFaculty: document.getElementById('userFaculty').value,
+                userSession: document.getElementById('userSession').value,
+                userHall: document.getElementById('userHall').value,
+                userEmail: document.getElementById('userEmail').value,
+                userPhone: document.getElementById('userPhone').value,
+                selectedBookSerial: selectedBook.serial,
+                selectedBookTitle: selectedBook.title,
+                bookOwnerEmail: selectedBook.owner_email,
             };
 
-            // Function to display suggestions
-            const displaySuggestions = (booksToDisplay) => {
-                bookSuggestionsDiv.innerHTML = ''; // Clear previous suggestions
-                if (booksToDisplay.length > 0) {
-                    booksToDisplay.forEach(book => {
-                        const suggestionItem = document.createElement('div');
-                        suggestionItem.textContent = book.title; // Show only the book title
-                        suggestionItem.dataset.book = JSON.stringify(book);
+            const submitButton = event.target.querySelector('button[type="submit"]');
+            submitButton.disabled = true;
+            submitButton.textContent = 'জমা হচ্ছে...';
 
-                        suggestionItem.addEventListener('click', () => {
-                            selectedBook = JSON.parse(suggestionItem.dataset.book);
-                            bookSearchInput.value = selectedBook.title;
-                            selectedBookSerialInput.value = selectedBook.serial;
-                            bookOwnerEmailInput.value = selectedBook.owner_email;
-                            bookOwnerEmailDisplay.textContent = `মালিকের ইমেইল: ${selectedBook.owner_email}`;
-                            bookOwnerEmailDisplay.classList.remove('hidden');
-                            bookSuggestionsDiv.classList.remove('show');
-                            bookSearchInput.setCustomValidity(''); // Clear validation on selection
-                        });
-                        bookSuggestionsDiv.appendChild(suggestionItem);
-                    });
-                    bookSuggestionsDiv.classList.add('show');
-                } else {
-                    const noResult = document.createElement('div');
-                    noResult.textContent = 'কোনো বই পাওয়া যায়নি।';
-                    noResult.classList.add('text-gray-500', 'italic');
-                    bookSuggestionsDiv.appendChild(noResult);
-                    bookSuggestionsDiv.classList.add('show');
-                    selectedBook = null;
-                    selectedBookSerialInput.value = ''; // No book found, clear serial
-                    bookSearchInput.setCustomValidity('নির্বাচিত বই পাওয়া যায়নি।'); // Show validation for no match
+            fetch(appScriptURL, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(formData),
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error(`Server error! Status: ${response.status}`);
                 }
-            };
-
-
-            // Fetch books.json
-            fetch('books.json')
-                .then(response => {
-                    if (!response.ok) {
-                        throw new Error(`HTTP error! status: ${response.status} - Could not load books.json. Make sure it's in the same directory and accessible.`);
-                    }
-                    return response.json();
-                })
-                .then(data => {
-                    allBooksData = data;
-                    console.log('books.json loaded successfully:', allBooksData);
-                    // Initially set custom validity for required input
-                    bookSearchInput.setCustomValidity('অনুগ্রহ করে একটি বই নির্বাচন করুন।');
-                })
-                .catch(error => {
-                    console.error('Error loading books.json:', error);
-                    bookSearchInput.placeholder = 'বই লোড করা যায়নি।';
-                    bookSearchInput.disabled = true;
-                    bookSearchInput.setCustomValidity('বই লোড করা যায়নি।'); // Indicate load failure
-                });
-
-            // Handle input in search field
-            bookSearchInput.addEventListener('input', () => {
-                const searchTerm = bookSearchInput.value.toLowerCase().trim();
-                bookSearchInput.setCustomValidity(''); // Clear validation message when user starts typing
-
-                if (searchTerm.length === 0) {
-                    // If input is empty, show all books
-                    displaySuggestions(allBooksData);
-                    clearBtn.style.display = 'none';
-                    selectedBook = null;
-                    selectedBookSerialInput.value = '';
-                    bookOwnerEmailInput.value = '';
-                    bookOwnerEmailDisplay.textContent = '';
-                    bookOwnerEmailDisplay.classList.add('hidden');
-                    bookSearchInput.setCustomValidity('অনুগ্রহ করে একটি বই নির্বাচন করুন।'); // Re-apply validation
-                } else {
-                    clearBtn.style.display = 'block';
-                    const filteredBooks = allBooksData.filter(book =>
-                        book.title.toLowerCase().includes(searchTerm) ||
-                        book.serial.toString().includes(searchTerm)
-                    );
-                    displaySuggestions(filteredBooks);
-                }
-            });
-
-            // Show all books when input is focused (clicked)
-            bookSearchInput.addEventListener('focus', () => {
-                // Only show all books if the input is currently empty or nothing is selected
-                if (bookSearchInput.value.trim() === '' || !selectedBook) {
-                    displaySuggestions(allBooksData);
-                }
-            });
-
-            // Hide suggestions when clicking outside
-            document.addEventListener('click', (event) => {
-                if (!bookSearchInput.contains(event.target) && !bookSuggestionsDiv.contains(event.target)) {
-                    bookSuggestionsDiv.classList.remove('show');
-                    // If no book was selected and input still has text, consider it invalid
-                    if (!selectedBook && bookSearchInput.value.trim() !== '') {
-                        bookSearchInput.setCustomValidity('তালিকা থেকে একটি বই নির্বাচন করুন।');
-                    }
-                }
-            });
-
-            // Form submission handler
-            document.getElementById('bookBorrowForm').addEventListener('submit', (event) => {
-                event.preventDefault();
-
-                // Final validation before submission
-                if (!selectedBook) { // Check if a book has been selected
-                    bookSearchInput.setCustomValidity('অনুগ্রহ করে তালিকা থেকে একটি বই নির্বাচন করুন।');
-                    bookSearchInput.reportValidity(); // Show validation message
-                    return; // Prevent form submission
-                }
-
-                const formData = {
-                    userName: document.getElementById('userName').value,
-                    userFaculty: document.getElementById('userFaculty').value,
-                    userSession: document.getElementById('userSession').value,
-                    userHall: document.getElementById('userHall').value,
-                    userEmail: document.getElementById('userEmail').value,
-                    userPhone: document.getElementById('userPhone').value,
-                    selectedBookSerial: selectedBook.serial,
-                    selectedBookTitle: selectedBook.title,
-                    bookOwnerEmail: selectedBook.owner_email,
-                    borrowDate: new Date().toISOString().slice(0, 10)
-                };
-
-                console.log('ফর্ম ডেটা:', formData);
-                alert('ফর্ম সফলভাবে জমা হয়েছে! (এটি একটি ডেমো। আসল ডেটা জমা হবে না।)');
-
-                // *** এখানে আপনার Google Apps Script ওয়েব অ্যাপে ডেটা পাঠানোর কোড যোগ করুন ***
-                */
-                const appScriptURL = 'https://script.google.com/macros/s/AKfycbwQxJW8iWbH7OVvaoc_r2fsW4BvDObPsz0WBUgJWJN-l7wjaz1rRrj9KRHMTeXOc9S0/exec';
-                fetch(appScriptURL, {
-                    method: 'POST',
-                    mode: 'no-cors',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify(formData),
-                })
-                .then(() => {
+                return response.json();
+            })
+            .then(data => {
+                if (data.success) {
                     alert('আপনার অনুরোধ সফলভাবে পাঠানো হয়েছে!');
                     document.getElementById('bookBorrowForm').reset();
                     clearBookSearch();
-                })
-                .catch(error => {
-                    console.error('Error submitting form:', error);
-                    alert('ফর্ম জমা দিতে সমস্যা হয়েছে। অনুগ্রহ করে আবার চেষ্টা করুন।');
-                });
-                */
+                } else {
+                    alert('ফর্ম জমা দিতে সমস্যা হয়েছে: ' + data.message);
+                }
+            })
+            .catch(error => {
+                console.error('Error submitting form:', error);
+                alert('ফর্ম জমা দিতে সমস্যা হয়েছে। অনুগ্রহ করে আবার চেষ্টা করুন।');
+            })
+            .finally(() => {
+                submitButton.disabled = false;
+                submitButton.textContent = 'ফর্ম জমা দিন';
             });
         });
-    </script>
+    });
+</script>
 </body>
 </html>
