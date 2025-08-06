@@ -271,8 +271,9 @@
       <span class="text-lg font-semibold">আর্টিকেল</span>
     </a>
     
-     <a href="notice.html" data-page="about" class="flex items-center gap-4 px-4 py-3 rounded-lg hover:bg-green-100 transition-colors duration-200">
-      <i class="fas fa-info-circle text-2xl"></i>
+     <a href="notice.html" data-page="notice" class="flex items-center gap-4 px-4 py-3 rounded-lg hover:bg-green-100 transition-colors duration-200">
+      <i class="fa-solid fa-clipboard-list text-2xl"></i>
+
       <span class="text-lg font-semibold"> নোটিশ </span>
     </a>
     
@@ -332,7 +333,7 @@
 
         
         <div class=" fade-in-up delay-400">
-            <a href="#filter_section" class="inline-block bg-green-600 border border-green-600 text-white hover:bg-green-700 px-8 py-3 rounded-full  shadow-xl transition ">
+            <a href="books.html" class="inline-block bg-green-600 border border-green-600 text-white hover:bg-green-700 px-8 py-3 rounded-full  shadow-xl transition ">
                 বই সংগ্রহ দেখুন <i class="fa-solid fa-arrow-down ml-[3px]"></i>
             </a>
         </div>
@@ -710,6 +711,35 @@
 
 
   <!-- Script -->
+
+<script>
+
+    function openRulesModal() {
+      document.getElementById('rulesModal').classList.remove('hidden');
+      document.getElementById('rulesModal').classList.add('flex');
+    }
+
+    function closeRulesModal() {
+      document.getElementById('rulesModal').classList.add('hidden');
+      document.getElementById('rulesModal').classList.remove('flex');
+    }
+
+    // Initialize on page load
+    loadBooks();
+    
+   
+   
+
+   
+    
+
+  </script>
+
+
+
+
+
+
 
 <script>
   function hideWhatsAppButton() {
@@ -1092,6 +1122,44 @@ form.addEventListener('submit', async (event) => {
     fetchLatestNotices();
   });
 </script> 
+
+<script>
+  function getNextFirstFriday() {
+    const today = new Date();
+    let year = today.getFullYear();
+    let month = today.getMonth();
+    
+    // যদি বর্তমান মাসের প্রথম শুক্রবার পেরিয়ে যায়, তবে পরের মাসে চলে যাবে
+    let firstDayOfMonth = new Date(year, month, 1);
+    let firstFridayOfMonth = new Date(firstDayOfMonth);
+    
+    while (firstFridayOfMonth.getDay() !== 5) { // 5 মানে শুক্রবার
+      firstFridayOfMonth.setDate(firstFridayOfMonth.getDate() + 1);
+    }
+    
+    // যদি বর্তমান তারিখ প্রথম শুক্রবারের পরে হয়, তবে পরের মাসের প্রথম শুক্রবার নিতে হবে
+    if (today.getTime() > firstFridayOfMonth.getTime()) {
+      month++;
+      if (month > 11) {
+        month = 0;
+        year++;
+      }
+      firstDayOfMonth = new Date(year, month, 1);
+      firstFridayOfMonth = new Date(firstDayOfMonth);
+      
+      while (firstFridayOfMonth.getDay() !== 5) {
+        firstFridayOfMonth.setDate(firstFridayOfMonth.getDate() + 1);
+      }
+    }
+    
+    const options = { year: 'numeric', month: 'long', day: 'numeric' };
+    return firstFridayOfMonth.toLocaleDateString('bn-BD', options);
+  }
+  
+  // পরবর্তী মাশওয়ারার তারিখ HTML এ প্রদর্শন
+  document.getElementById('next-mashwara-date').textContent = getNextFirstFriday();
+</script>
+
 
 
 

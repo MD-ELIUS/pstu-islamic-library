@@ -20,9 +20,9 @@
     </style>
 </head>
 <body class="bg-gray-100">
-    
-    
-        <nav class="sticky top-0 bg-white shadow-md px-4 py-0 grid grid-cols-3 items-center z-50">
+   
+   
+         <nav class="sticky top-0 bg-white shadow-md px-4 py-0 grid grid-cols-3 items-center z-50">
   <div class="flex items-center gap-3">
     <img class="w-[60px] h-[60px] md:w-[80px] md:h-[80px]" src="./images/logo.jpg" alt="লোগো" />
   </div>
@@ -41,7 +41,7 @@
 
 <div id="sidebar-menu"
      class="fixed top-0 right-0 w-64 h-full bg-white text-green-800 transform translate-x-full transition-transform duration-300 ease-in-out z-50 shadow-xl">
-  <div class="flex justify-between items-center px-6 h-16 md:h-[84px] border-b-4 border-green-200">
+  <div class="flex justify-between items-center px-6 h-16 md:h-[84px] border-b-4  border-green-200">
     <h2 class="text-xl font-bold">মেনু</h2>
     <button id="close-menu" class="text-green-800 text-3xl hover:text-red-500 transition-colors">
       <i class="fas fa-times"></i>
@@ -51,7 +51,7 @@
   <nav class="mt-8 flex flex-col gap-1">
 
     <a href="index.html" data-page="index" class="flex items-center gap-4 px-4 py-3 rounded-lg hover:bg-green-100 transition-colors duration-200">
-      <i class="fas fa-home text-xl"></i>
+      <i class="fas fa-home text-2xl"></i>
       <span class="text-lg font-semibold">হোম</span>
     </a>
     <a href="books.html" data-page="books" class="flex items-center gap-4 px-4 py-3 rounded-lg hover:bg-green-100 transition-colors duration-200">
@@ -60,25 +60,36 @@
     </a>
     
     <a href="articles.html" data-page="contact" class="flex items-center gap-4 px-4 py-3 rounded-lg hover:bg-green-100 transition-colors duration-200">
-<i class="fa-solid fa-file-pen text-2xl"></i>
+     <i class="fa-solid fa-file-pen text-2xl"></i>
       <span class="text-lg font-semibold">আর্টিকেল</span>
     </a>
-         <a href="notice.html" data-page="notice" class="flex items-center gap-4 px-4 py-3 rounded-lg hover:bg-green-100 transition-colors duration-200">
-       <i class="fa-solid fa-clipboard-list text-2xl"></i>
-
-       <span class="text-lg font-semibold"> নোটিশ </span>
-     </a>
+    
+     <a href="notice.html" data-page="notice" class="flex items-center gap-4 px-4 py-3 rounded-lg hover:bg-green-100 transition-colors duration-200">
+     <i class="fa-solid fa-clipboard-list text-2xl"></i>
+      <span class="text-lg font-semibold"> নোটিশ </span>
+    </a>
+    
     <a href="about.html" data-page="about" class="flex items-center gap-4 px-4 py-3 rounded-lg hover:bg-green-100 transition-colors duration-200">
       <i class="fas fa-info-circle text-2xl"></i>
       <span class="text-lg font-semibold">আমাদের সম্পর্কে</span>
     </a>
-         <a href="member_list.html" data-page="members" class="flex items-center gap-4 px-4 py-3 rounded-lg hover:bg-green-100 transition-colors duration-200">
-         <i class="fas fa-users text-2xl"></i>
-         <span class="text-lg font-semibold">সদস্য তালিকা</span>
-     </a>
+    
+        <a href="member_list.html" data-page="members" class="flex items-center gap-4 px-4 py-3 rounded-lg hover:bg-green-100 transition-colors duration-200">
+  <i class="fas fa-users text-2xl"></i>
+  <span class="text-lg font-semibold">সদস্য তালিকা</span>
+</a>
+    
+    <a href="login.html" class="flex items-center gap-4 px-6 py-3 mt-4 rounded-lg bg-green-700 text-white hover:bg-green-800 transition-colors duration-200 shadow-lg">
+  <i class="fas fa-user-shield text-xl"></i>
+  <span class="text-lg font-semibold">এডমিন ড্যাশবোর্ড</span>
+</a>
+
   </nav>
 </div>
 
+   
+   
+    
 
 
 
@@ -271,53 +282,73 @@
 </footer>
 
 
-    <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            const menuToggle = document.getElementById('menu-toggle');
-            const closeMenu = document.getElementById('close-menu');
-            const sidebarMenu = document.getElementById('sidebar-menu');
-            const overlay = document.getElementById('sidebar-overlay');
-            const links = sidebarMenu.querySelectorAll('nav a');
+  <script>
+document.addEventListener('DOMContentLoaded', () => {
+    const menuToggle = document.getElementById('menu-toggle');
+    const closeMenu = document.getElementById('close-menu');
+    const sidebarMenu = document.getElementById('sidebar-menu');
 
-            const openSidebar = () => {
-                sidebarMenu.classList.remove('translate-x-full');
-                overlay.classList.add('opacity-100');
-                overlay.classList.remove('pointer-events-none');
-                document.body.style.overflow = 'hidden';
-            };
-            const closeSidebar = () => {
-                sidebarMenu.classList.add('translate-x-full');
-                overlay.classList.remove('opacity-100');
-                overlay.classList.add('pointer-events-none');
-                document.body.style.overflow = '';
-            };
+    menuToggle.addEventListener('click', () => {
+        sidebarMenu.classList.remove('translate-x-full');
+    });
 
-            menuToggle.addEventListener('click', (e) => {
-                e.stopPropagation();
-                openSidebar();
-            });
-            closeMenu.addEventListener('click', (e) => {
-                e.stopPropagation();
-                closeSidebar();
-            });
-            overlay.addEventListener('click', closeSidebar);
-            document.addEventListener('keydown', (e) => {
-                if (e.key === 'Escape') closeSidebar();
-            });
-            sidebarMenu.addEventListener('click', e => e.stopPropagation());
+    closeMenu.addEventListener('click', () => {
+        sidebarMenu.classList.add('translate-x-full');
+    });
+});
+</script>
 
-            // Active link highlighting
-            const currentPath = window.location.pathname.split('/').pop();
-            links.forEach(link => {
-                const href = link.getAttribute('href') || '';
-                const pageName = link.dataset.page;
-                if (href && currentPath === href) {
-                    link.classList.add('bg-green-100', 'border-l-4', 'border-green-600', 'pl-3');
-                } else if (pageName && currentPath.includes(pageName)) {
-                    link.classList.add('bg-green-100', 'border-l-4', 'border-green-600', 'pl-3');
-                }
-            });
-        });
-    </script>
+  
+  
+  <script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const menuToggle = document.getElementById('menu-toggle');
+    const closeMenu = document.getElementById('close-menu');
+    const sidebarMenu = document.getElementById('sidebar-menu');
+    const overlay = document.getElementById('sidebar-overlay');
+
+    const openSidebar = () => {
+      sidebarMenu.classList.remove('translate-x-full');
+      overlay.classList.add('opacity-100');
+      overlay.classList.remove('pointer-events-none');
+      document.body.style.overflow = 'hidden';
+    };
+    const closeSidebar = () => {
+      sidebarMenu.classList.add('translate-x-full');
+      overlay.classList.remove('opacity-100');
+      overlay.classList.add('pointer-events-none');
+      document.body.style.overflow = '';
+    };
+
+    menuToggle.addEventListener('click', (e) => {
+      e.stopPropagation();
+      openSidebar();
+    });
+    closeMenu.addEventListener('click', (e) => {
+      e.stopPropagation();
+      closeSidebar();
+    });
+    overlay.addEventListener('click', closeSidebar);
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') closeSidebar();
+    });
+    sidebarMenu.addEventListener('click', e => e.stopPropagation());
+
+    // Active link highlighting based on current path or data-page
+    const links = sidebarMenu.querySelectorAll('nav a');
+    const currentPath = window.location.pathname.split('/').pop(); // e.g., "books.html"
+    links.forEach(link => {
+      const href = link.getAttribute('href') || '';
+      const pageName = link.dataset.page;
+      if (href && currentPath === href) {
+        link.classList.add('bg-green-100', 'border-l-4', 'border-green-600', 'pl-3');
+      } else if (pageName && currentPath.includes(pageName)) {
+        link.classList.add('bg-green-100', 'border-l-4', 'border-green-600', 'pl-3');
+      }
+    });
+  });
+</script>
+
+
 </body>
 </html>
