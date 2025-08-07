@@ -140,7 +140,6 @@
         </form>
     </div>
 
-
 <script>
     document.addEventListener('DOMContentLoaded', () => {
         const bookSearchInput = document.getElementById('bookSearch');
@@ -280,31 +279,24 @@
                 bookOwnerEmail: selectedBook.owner_email,
             };
 
+            const fd = new FormData();
+            for (const key in formData) {
+                fd.append(key, formData[key]);
+            }
+
             const submitButton = event.target.querySelector('button[type="submit"]');
             submitButton.disabled = true;
             submitButton.textContent = 'জমা হচ্ছে...';
 
             fetch(appScriptURL, {
                 method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(formData),
+                body: fd,
+                mode: 'no-cors'
             })
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error(`Server error! Status: ${response.status}`);
-                }
-                return response.json();
-            })
-            .then(data => {
-                if (data.success) {
-                    alert('আপনার অনুরোধ সফলভাবে পাঠানো হয়েছে!');
-                    document.getElementById('bookBorrowForm').reset();
-                    clearBookSearch();
-                } else {
-                    alert('ফর্ম জমা দিতে সমস্যা হয়েছে: ' + data.message);
-                }
+            .then(() => {
+                alert('আপনার অনুরোধ সফলভাবে পাঠানো হয়েছে!');
+                document.getElementById('bookBorrowForm').reset();
+                clearBookSearch();
             })
             .catch(error => {
                 console.error('Error submitting form:', error);
@@ -317,5 +309,6 @@
         });
     });
 </script>
+
 </body>
 </html>
