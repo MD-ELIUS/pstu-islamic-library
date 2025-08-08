@@ -8,6 +8,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Bengali:wght@400;700&family=Amiri:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
         body {
             font-family: 'Noto Sans Bengali', sans-serif;
@@ -15,12 +16,11 @@
         .amiri-font {
             font-family: 'Amiri', serif;
         }
-        /* Custom styles for the dropdown search */
         .dropdown {
             position: relative;
         }
         .filter-input {
-            padding-right: 2.5rem; /* Space for clear button */
+            padding-right: 2.5rem;
         }
         .clear-btn {
             position: absolute;
@@ -29,21 +29,21 @@
             transform: translateY(-50%);
             cursor: pointer;
             font-size: 1.5rem;
-            color: #10B981; /* green-500 */
+            color: #10B981;
             font-weight: bold;
-            display: none; /* Hidden by default, shown by JS */
+            display: none;
         }
         .dropdown-content {
             display: none;
             position: absolute;
             background-color: #f9f9f9;
             min-width: 100%;
-            max-height: 200px; /* Limit height for scroll */
-            overflow-y: auto; /* Enable scrolling */
+            max-height: 200px;
+            overflow-y: auto;
             box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
             z-index: 10;
-            border-radius: 0.75rem; /* rounded-xl */
-            border: 1px solid #d1fae5; /* green-100 */
+            border-radius: 0.75rem;
+            border: 1px solid #d1fae5;
             margin-top: 0.25rem;
             left: 0;
             right: 0;
@@ -52,13 +52,13 @@
             padding: 12px 16px;
             text-decoration: none;
             display: block;
-            color: #374151; /* gray-700 */
+            color: #374151;
             cursor: pointer;
             transition: background-color 0.2s;
         }
         .dropdown-content div:hover {
-            background-color: #e0f2f1; /* green-100 */
-            color: #047857; /* green-800 */
+            background-color: #e0f2f1;
+            color: #047857;
         }
         .dropdown-content.show {
             display: block;
@@ -68,247 +68,268 @@
 <body class="bg-gray-100 flex items-center justify-center min-h-screen p-4">
     <div class="bg-white p-8 rounded-lg shadow-xl w-full max-w-2xl">
         <h2 class="text-3xl font-extrabold text-center text-green-700 mb-4 amiri-font">PSTU Islamic Library</h2>
-        <h3 class=" texl-lg font-bold text-center text-gray-800 mb-6">বই ধার নেওয়ার ফর্ম</h3>
+        <h3 class="text-2xl font-bold text-center text-gray-800 mb-6">বই ধার নেওয়ার ফর্ম</h3>
 
         <form id="bookBorrowForm" class="space-y-6">
+            <!-- Simple text input for Borrower Name -->
             <div>
-                <label for="userName" class="block text-sm font-medium text-gray-700 mb-1">আপনার নাম:</label>
+                <label for="userName" class="block text-sm font-medium text-gray-700 mb-1">আপনার নাম: <span class="text-red-500">*</span></label>
                 <input type="text" id="userName" name="userName" required
-                         class="w-full px-4 py-3 border-2 border-green-300 rounded-xl outline-none shadow-sm placeholder:text-gray-500 font-semibold placeholder:font-normal text-gray-800 transition-all duration-200 focus:border-green-500">
+                       class="w-full px-4 py-3 border-2 border-green-300 rounded-xl outline-none shadow-sm placeholder:text-gray-500 font-semibold placeholder:font-normal text-gray-800 transition-all duration-200 focus:border-green-500">
             </div>
 
+            <!-- Simple text input for Borrower Faculty -->
             <div>
-                <label for="userFaculty" class="block text-sm font-medium text-gray-700 mb-1">ফ্যাকাল্টি:</label>
+                <label for="userFaculty" class="block text-sm font-medium text-gray-700 mb-1">ফ্যাকাল্টি: <span class="text-red-500">*</span></label>
                 <input type="text" id="userFaculty" name="userFaculty" required
-                         class="w-full px-4 py-3 border-2 border-green-300 rounded-xl outline-none shadow-sm placeholder:text-gray-500 font-semibold placeholder:font-normal text-gray-800 transition-all duration-200 focus:border-green-500">
+                       class="w-full px-4 py-3 border-2 border-green-300 rounded-xl outline-none shadow-sm placeholder:text-gray-500 font-semibold placeholder:font-normal text-gray-800 transition-all duration-200 focus:border-green-500">
             </div>
 
+            <!-- Simple text input for Borrower Session -->
             <div>
-                <label for="userSession" class="block text-sm font-medium text-gray-700 mb-1">সেশন:</label>
+                <label for="userSession" class="block text-sm font-medium text-gray-700 mb-1">সেশন: <span class="text-red-500">*</span></label>
                 <input type="text" id="userSession" name="userSession" required
-                         class="w-full px-4 py-3 border-2 border-green-300 rounded-xl outline-none shadow-sm placeholder:text-gray-500 font-semibold placeholder:font-normal text-gray-800 transition-all duration-200 focus:border-green-500">
+                       class="w-full px-4 py-3 border-2 border-green-300 rounded-xl outline-none shadow-sm placeholder:text-gray-500 font-semibold placeholder:font-normal text-gray-800 transition-all duration-200 focus:border-green-500">
             </div>
 
+            <!-- Simple text input for Borrower Hall -->
             <div>
-                <label for="userHall" class="block text-sm font-medium text-gray-700 mb-1">হল:</label>
+                <label for="userHall" class="block text-sm font-medium text-gray-700 mb-1">হল: <span class="text-red-500">*</span></label>
                 <input type="text" id="userHall" name="userHall" required
-                         class="w-full px-4 py-3 border-2 border-green-300 rounded-xl outline-none shadow-sm placeholder:text-gray-500 font-semibold placeholder:font-normal text-gray-800 transition-all duration-200 focus:border-green-500">
+                       class="w-full px-4 py-3 border-2 border-green-300 rounded-xl outline-none shadow-sm placeholder:text-gray-500 font-semibold placeholder:font-normal text-gray-800 transition-all duration-200 focus:border-green-500">
             </div>
 
+            <!-- Simple text input for Borrower Email -->
             <div>
-                <label for="userEmail" class="block text-sm font-medium text-gray-700 mb-1">ইমেইল:</label>
+                <label for="userEmail" class="block text-sm font-medium text-gray-700 mb-1">ইমেইল: <span class="text-red-500">*</span></label>
                 <input type="email" id="userEmail" name="userEmail" required
-                         class="w-full px-4 py-3 border-2 border-green-300 rounded-xl outline-none shadow-sm placeholder:text-gray-500 font-semibold placeholder:font-normal text-gray-800 transition-all duration-200 focus:border-green-500">
+                       class="w-full px-4 py-3 border-2 border-green-300 rounded-xl outline-none shadow-sm placeholder:text-gray-500 font-semibold placeholder:font-normal text-gray-800 transition-all duration-200 focus:border-green-500">
             </div>
 
+            <!-- Simple text input for Borrower Phone -->
             <div>
-                <label for="userPhone" class="block text-sm font-medium text-gray-700 mb-1">ফোন নম্বর:</label>
-                <input type="tel" id="userPhone" name="userPhone" pattern="[0-9]{10,11}" placeholder="যেমন: ০১৭০০০০০০০০" required
-                         class="w-full px-4 py-3 border-2 border-green-300 rounded-xl outline-none shadow-sm placeholder:text-gray-500 font-semibold placeholder:font-normal text-gray-800 transition-all duration-200 focus:border-green-500">
-                <p class="mt-1 text-sm text-gray-500">১১-সংখ্যার মোবাইল নম্বর দিন।</p>
+                <label for="userPhone" class="block text-sm font-medium text-gray-700 mb-1">ফোন নম্বর: <span class="text-red-500">*</span></label>
+                <input type="tel" id="userPhone" name="userPhone" required
+                       class="w-full px-4 py-3 border-2 border-green-300 rounded-xl outline-none shadow-sm placeholder:text-gray-500 font-semibold placeholder:font-normal text-gray-800 transition-all duration-200 focus:border-green-500">
             </div>
 
-            <div class="mb-6">
-                <label for="bookSearch" class="block text-sm font-medium text-gray-700 mb-1">বই নির্বাচন করুন:</label>
-                <div class="dropdown relative">
-                    <input
-                        type="text"
-                        id="bookSearch"
-                        name="selectedBookTitle"
-                        placeholder="বই সিলেক্ট করুন..."
-                        class="filter-input w-full px-4 py-3 border-2 border-green-300 rounded-xl outline-none shadow-sm placeholder:text-gray-500 font-semibold placeholder:font-normal text-gray-800 transition-all duration-200 focus:border-green-500"
-                        autocomplete="off"
-                        required
-                    />
-                    <div class="clear-btn" onclick="clearBookSearch()">×</div>
-                    <div id="bookSuggestions" class="dropdown-content"></div>
-                    <input type="hidden" id="selectedBookSerial" name="selectedBookSerial">
+            <!-- Book Selection - Autopopulated from in-code data -->
+            <div class="dropdown">
+                <label for="bookSearch" class="block text-sm font-medium text-gray-700 mb-1">বই নির্বাচন করুন: <span class="text-red-500">*</span></label>
+                <div class="relative">
+                    <input type="text" id="bookSearch" name="selectedBookTitle" placeholder="বইয়ের নাম বা সিরিয়াল টাইপ করুন..." required
+                           class="filter-input w-full px-4 py-3 border-2 border-green-300 rounded-xl outline-none shadow-sm placeholder:text-gray-500 font-semibold placeholder:font-normal text-gray-800 transition-all duration-200 focus:border-green-500">
+                    <span id="bookClearBtn" class="clear-btn">&times;</span>
                 </div>
+                <div id="bookSuggestions" class="dropdown-content"></div>
+                <input type="hidden" id="selectedBookSerial" name="selectedBookSerial">
             </div>
 
+            <!-- Book Owner Email - Now visible -->
             <div>
                 <label for="bookOwnerEmail" class="block text-sm font-medium text-gray-700 mb-1">বইয়ের মালিকের ইমেইল:</label>
                 <input type="email" id="bookOwnerEmail" name="bookOwnerEmail" readonly
-                         class="w-full px-4 py-3 border-2 border-green-300 rounded-xl outline-none shadow-sm bg-gray-50 text-gray-600 cursor-not-allowed">
-                <p id="bookOwnerEmailDisplay" class="mt-2 text-sm text-gray-600 bg-gray-100 p-2 rounded-md hidden"></p>
+                       class="w-full px-4 py-3 bg-gray-200 border-2 border-green-300 rounded-xl shadow-sm text-gray-600 transition-all duration-200">
             </div>
 
-            <button type="submit"
+            <!-- Date input -->
+            <div class="mb-6">
+                <label for="borrowDate" class="block text-sm font-medium text-gray-700 mb-1">তারিখ: <span class="text-red-500">*</span></label>
+                <input type="date" id="borrowDate" name="borrowDate" required
+                       class="w-full px-4 py-3 border-2 border-green-300 rounded-xl outline-none shadow-sm font-semibold text-gray-800 transition-all duration-200 focus:border-green-500">
+            </div>
+
+            <button type="submit" id="submitButton"
                     class="w-full flex justify-center py-3 px-4 border border-transparent rounded-md shadow-sm text-lg font-medium text-white bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 transition duration-300 ease-in-out">
-                ফর্ম জমা দিন
+                <span id="buttonText">ফর্ম জমা দিন</span>
+                <i id="loadingSpinner" class="fas fa-spinner fa-spin ml-2 hidden"></i>
             </button>
+            <p id="formStatus" class="mt-4 text-center text-sm font-semibold"></p>
         </form>
     </div>
 
-<script>
-    document.addEventListener('DOMContentLoaded', () => {
-        const bookSearchInput = document.getElementById('bookSearch');
-        const bookSuggestionsDiv = document.getElementById('bookSuggestions');
-        const clearBtn = document.querySelector('.clear-btn');
-        const selectedBookSerialInput = document.getElementById('selectedBookSerial');
-        const bookOwnerEmailInput = document.getElementById('bookOwnerEmail');
-        const bookOwnerEmailDisplay = document.getElementById('bookOwnerEmailDisplay');
-        let allBooksData = [];
-        let selectedBook = null;
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Your Apps Script URL for form submission.
+            const appScriptURL = 'https://script.google.com/macros/s/AKfycby5K34PCKwkSEyf-vKO0qBblTFhl94OcFKi56OXlidF073O3m1mXZtLObF1O8EHFz3r/exec';
 
-        const appScriptURL = 'https://script.google.com/macros/s/AKfycbw-ZTf_tAbVlGJsVRh17aLIaFQ9OOoT-aEPPBC5r17qcUDMB-egx7juy-IDDGYh6Zxk/exec';
+            // Variable to hold book data
+            let allBooksData = [];
 
-        window.clearBookSearch = () => {
-            bookSearchInput.value = '';
-            bookSuggestionsDiv.innerHTML = '';
-            bookSuggestionsDiv.classList.remove('show');
-            clearBtn.style.display = 'none';
-            selectedBook = null;
-            selectedBookSerialInput.value = '';
-            bookOwnerEmailInput.value = '';
-            bookOwnerEmailDisplay.textContent = '';
-            bookOwnerEmailDisplay.classList.add('hidden');
-            bookSearchInput.setCustomValidity('অনুগ্রহ করে একটি বই নির্বাচন করুন।');
-            bookSearchInput.focus();
-        };
-
-        const displaySuggestions = (booksToDisplay) => {
-            bookSuggestionsDiv.innerHTML = '';
-            if (booksToDisplay.length > 0) {
-                booksToDisplay.forEach(book => {
-                    const suggestionItem = document.createElement('div');
-                    suggestionItem.textContent = book.title;
-                    suggestionItem.dataset.book = JSON.stringify(book);
-
-                    suggestionItem.addEventListener('click', () => {
-                        selectedBook = JSON.parse(suggestionItem.dataset.book);
-                        bookSearchInput.value = selectedBook.title;
-                        selectedBookSerialInput.value = selectedBook.serial;
-                        bookOwnerEmailInput.value = selectedBook.owner_email;
-                        bookOwnerEmailDisplay.textContent = `মালিকের ইমেইল: ${selectedBook.owner_email}`;
-                        bookOwnerEmailDisplay.classList.remove('hidden');
-                        bookSuggestionsDiv.classList.remove('show');
-                        bookSearchInput.setCustomValidity('');
-                        clearBtn.style.display = 'block';
-                    });
-                    bookSuggestionsDiv.appendChild(suggestionItem);
-                });
-                bookSuggestionsDiv.classList.add('show');
-            } else {
-                const noResult = document.createElement('div');
-                noResult.textContent = 'কোনো বই পাওয়া যায়নি।';
-                noResult.classList.add('text-gray-500', 'italic');
-                bookSuggestionsDiv.appendChild(noResult);
-                bookSuggestionsDiv.classList.add('show');
-                selectedBook = null;
-                selectedBookSerialInput.value = '';
-                bookSearchInput.setCustomValidity('নির্বাচিত বই পাওয়া যায়নি।');
-            }
-        };
-
-        fetch('books.json')
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error(`HTTP error! status: ${response.status} - Could not load books.json.`);
+            // Function to fetch book data from the books.json file
+            async function fetchBooks() {
+                try {
+                    const response = await fetch('books.json');
+                    if (!response.ok) {
+                        throw new Error(`HTTP error! status: ${response.status}`);
+                    }
+                    allBooksData = await response.json();
+                    console.log('Book data loaded successfully:', allBooksData);
+                    // Initial display of suggestions on load
+                    displaySuggestions(allBooksData);
+                } catch (error) {
+                    console.error('Failed to load books.json:', error);
+                    const errorStatus = document.getElementById('formStatus');
+                    errorStatus.textContent = 'বইয়ের ডেটা লোড করতে সমস্যা হয়েছে। নিশ্চিত করুন যে books.json ফাইলটি আছে এবং সার্ভার চলছে।';
+                    errorStatus.classList.add('text-red-600');
                 }
-                return response.json();
-            })
-            .then(data => {
-                allBooksData = data;
-                console.log('books.json loaded successfully:', allBooksData);
-                bookSearchInput.setCustomValidity('অনুগ্রহ করে একটি বই নির্বাচন করুন।');
-            })
-            .catch(error => {
-                console.error('Error loading books.json:', error);
-                bookSearchInput.placeholder = 'বই লোড করা যায়নি।';
-                bookSearchInput.disabled = true;
-                bookSearchInput.setCustomValidity('বই লোড করা যায়নি।');
+            }
+
+            // Call the function to fetch data when the script loads
+            fetchBooks();
+
+            const form = document.getElementById('bookBorrowForm');
+            const bookSearchInput = document.getElementById('bookSearch');
+            const bookSuggestionsDiv = document.getElementById('bookSuggestions');
+            const bookClearBtn = document.getElementById('bookClearBtn');
+            const selectedBookSerialInput = document.getElementById('selectedBookSerial');
+            const bookOwnerEmailInput = document.getElementById('bookOwnerEmail');
+            const submitButton = document.getElementById('submitButton');
+            const buttonText = document.getElementById('buttonText');
+            const loadingSpinner = document.getElementById('loadingSpinner');
+            const formStatus = document.getElementById('formStatus');
+
+            // Set the borrow date to today by default
+            const today = new Date();
+            const formattedDate = today.getFullYear() + '-' + String(today.getMonth() + 1).padStart(2, '0') + '-' + String(today.getDate()).padStart(2, '0');
+            document.getElementById('borrowDate').value = formattedDate;
+
+            // Function to display filtered book suggestions
+            function displaySuggestions(booksToDisplay) {
+                bookSuggestionsDiv.innerHTML = '';
+                if (booksToDisplay.length > 0) {
+                    booksToDisplay.forEach(book => {
+                        const suggestionItem = document.createElement('div');
+                        // Serial number has been removed from the dropdown list.
+                        suggestionItem.textContent = `${book.title}`;
+                        suggestionItem.dataset.book = JSON.stringify(book);
+
+                        suggestionItem.addEventListener('click', () => {
+                            const selectedBook = JSON.parse(suggestionItem.dataset.book);
+                            bookSearchInput.value = selectedBook.title;
+                            selectedBookSerialInput.value = selectedBook.serial;
+                            bookOwnerEmailInput.value = selectedBook.owner_email;
+                            bookSuggestionsDiv.classList.remove('show');
+                            bookSearchInput.setCustomValidity('');
+                            bookClearBtn.style.display = 'block';
+                        });
+                        bookSuggestionsDiv.appendChild(suggestionItem);
+                    });
+                    bookSuggestionsDiv.classList.add('show');
+                } else {
+                    const noResult = document.createElement('div');
+                    noResult.textContent = 'কোনো বই পাওয়া যায়নি।';
+                    noResult.classList.add('text-gray-500', 'text-center', 'py-2');
+                    bookSuggestionsDiv.appendChild(noResult);
+                    bookSuggestionsDiv.classList.add('show');
+                }
+            }
+
+            // Event listener for book search input
+            bookSearchInput.addEventListener('input', () => {
+                const searchTerm = bookSearchInput.value.toLowerCase().trim();
+                bookSearchInput.setCustomValidity('');
+
+                if (searchTerm.length === 0) {
+                    displaySuggestions(allBooksData);
+                    bookClearBtn.style.display = 'none';
+                    selectedBookSerialInput.value = '';
+                    bookOwnerEmailInput.value = '';
+                    bookSearchInput.setCustomValidity('অনুগ্রহ করে একটি বই নির্বাচন করুন।');
+                } else {
+                    bookClearBtn.style.display = 'block';
+                    const filteredBooks = allBooksData.filter(book =>
+                        book.title.toLowerCase().includes(searchTerm) ||
+                        book.serial.toString().includes(searchTerm)
+                    );
+                    displaySuggestions(filteredBooks);
+                }
             });
 
-        bookSearchInput.addEventListener('input', () => {
-            const searchTerm = bookSearchInput.value.toLowerCase().trim();
-            bookSearchInput.setCustomValidity('');
-
-            if (searchTerm.length === 0) {
+            // Event listener for focus on book search input
+            bookSearchInput.addEventListener('focus', () => {
                 displaySuggestions(allBooksData);
-                clearBtn.style.display = 'none';
-                selectedBook = null;
+            });
+
+            // Event listener for clear button
+            bookClearBtn.addEventListener('click', () => {
+                bookSearchInput.value = '';
+                bookSearchInput.focus();
+                bookSuggestionsDiv.classList.remove('show');
+                bookClearBtn.style.display = 'none';
                 selectedBookSerialInput.value = '';
                 bookOwnerEmailInput.value = '';
-                bookOwnerEmailDisplay.textContent = '';
-                bookOwnerEmailDisplay.classList.add('hidden');
                 bookSearchInput.setCustomValidity('অনুগ্রহ করে একটি বই নির্বাচন করুন।');
-            } else {
-                clearBtn.style.display = 'block';
-                const filteredBooks = allBooksData.filter(book =>
-                    book.title.toLowerCase().includes(searchTerm) ||
-                    book.serial.toString().includes(searchTerm)
-                );
-                displaySuggestions(filteredBooks);
-            }
-        });
+            });
 
-        bookSearchInput.addEventListener('focus', () => {
-            if (bookSearchInput.value.trim() === '' || !selectedBook) {
-                displaySuggestions(allBooksData);
-            }
-        });
-
-        document.addEventListener('click', (event) => {
-            if (!bookSearchInput.contains(event.target) && !bookSuggestionsDiv.contains(event.target)) {
-                bookSuggestionsDiv.classList.remove('show');
-                if (!selectedBook && bookSearchInput.value.trim() !== '') {
-                    bookSearchInput.setCustomValidity('তালিকা থেকে একটি বই নির্বাচন করুন।');
+            // Hide dropdown when clicking outside
+            document.addEventListener('click', (event) => {
+                if (!bookSearchInput.contains(event.target) && !bookSuggestionsDiv.contains(event.target) && !bookClearBtn.contains(event.target)) {
+                    bookSuggestionsDiv.classList.remove('show');
+                    if (bookSearchInput.value.trim() !== '' && selectedBookSerialInput.value === '') {
+                        bookSearchInput.setCustomValidity('তালিকা থেকে একটি বই নির্বাচন করুন।');
+                    }
                 }
-            }
-        });
+            });
 
-        document.getElementById('bookBorrowForm').addEventListener('submit', (event) => {
-            event.preventDefault();
+            // Form submission logic
+            form.addEventListener('submit', async (event) => {
+                event.preventDefault();
 
-            if (!selectedBook) {
-                bookSearchInput.setCustomValidity('অনুগ্রহ করে তালিকা থেকে একটি বই নির্বাচন করুন।');
-                bookSearchInput.reportValidity();
-                return;
-            }
+                if (selectedBookSerialInput.value === '') {
+                    bookSearchInput.setCustomValidity('অনুগ্রহ করে তালিকা থেকে একটি বই নির্বাচন করুন।');
+                    bookSearchInput.reportValidity();
+                    return;
+                }
 
-            const formData = {
-                userName: document.getElementById('userName').value,
-                userFaculty: document.getElementById('userFaculty').value,
-                userSession: document.getElementById('userSession').value,
-                userHall: document.getElementById('userHall').value,
-                userEmail: document.getElementById('userEmail').value,
-                userPhone: document.getElementById('userPhone').value,
-                selectedBookSerial: selectedBook.serial,
-                selectedBookTitle: selectedBook.title,
-                bookOwnerEmail: selectedBook.owner_email,
-            };
+                submitButton.disabled = true;
+                buttonText.textContent = 'জমা হচ্ছে...';
+                loadingSpinner.classList.remove('hidden');
+                formStatus.textContent = '';
+                formStatus.classList.remove('text-green-600', 'text-red-600');
 
-            const fd = new FormData();
-            for (const key in formData) {
-                fd.append(key, formData[key]);
-            }
+                const formData = {
+                    userName: document.getElementById('userName').value,
+                    userFaculty: document.getElementById('userFaculty').value,
+                    userSession: document.getElementById('userSession').value,
+                    userHall: document.getElementById('userHall').value,
+                    userEmail: document.getElementById('userEmail').value,
+                    userPhone: document.getElementById('userPhone').value,
+                    selectedBookTitle: bookSearchInput.value,
+                    selectedBookSerial: selectedBookSerialInput.value,
+                    bookOwnerEmail: bookOwnerEmailInput.value,
+                    borrowDate: document.getElementById('borrowDate').value,
+                };
+                
+                // Using a POST request to the Apps Script URL
+                try {
+                    const response = await fetch(`${appScriptURL}?action=borrowBook`, {
+                        method: 'POST',
+                        mode: 'no-cors',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify(formData),
+                    });
 
-            const submitButton = event.target.querySelector('button[type="submit"]');
-            submitButton.disabled = true;
-            submitButton.textContent = 'জমা হচ্ছে...';
-
-            fetch(appScriptURL, {
-                method: 'POST',
-                body: fd,
-                mode: 'no-cors'
-            })
-            .then(() => {
-                alert('আপনার অনুরোধ সফলভাবে পাঠানো হয়েছে!');
-                document.getElementById('bookBorrowForm').reset();
-                clearBookSearch();
-            })
-            .catch(error => {
-                console.error('Error submitting form:', error);
-                alert('ফর্ম জমা দিতে সমস্যা হয়েছে। অনুগ্রহ করে আবার চেষ্টা করুন।');
-            })
-            .finally(() => {
-                submitButton.disabled = false;
-                submitButton.textContent = 'ফর্ম জমা দিন';
+                    // We can't check response status with no-cors, so assume success
+                    formStatus.textContent = 'আপনার অনুরোধ সফলভাবে জমা হয়েছে!';
+                    formStatus.classList.add('text-green-600');
+                    form.reset();
+                    bookClearBtn.style.display = 'none';
+                    selectedBookSerialInput.value = '';
+                    bookOwnerEmailInput.value = '';
+                } catch (error) {
+                    console.error('Error submitting form:', error);
+                    formStatus.textContent = 'ফর্ম জমা দিতে সমস্যা হয়েছে। অনুগ্রহ করে আবার চেষ্টা করুন।';
+                    formStatus.classList.add('text-red-600');
+                } finally {
+                    submitButton.disabled = false;
+                    buttonText.textContent = 'ফর্ম জমা দিন';
+                    loadingSpinner.classList.add('hidden');
+                }
             });
         });
-    });
-</script>
-
+    </script>
 </body>
 </html>
